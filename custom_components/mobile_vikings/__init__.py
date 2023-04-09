@@ -31,7 +31,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     )
 
     dev_reg = dr.async_get(hass)
-    hass.data[DOMAIN][entry.entry_id] = coordinator = MobileVikingsDataUpdateCoordinator(
+    hass.data[DOMAIN][
+        entry.entry_id
+    ] = coordinator = MobileVikingsDataUpdateCoordinator(
         hass,
         config_entry_id=entry.entry_id,
         dev_reg=dev_reg,
@@ -85,7 +87,9 @@ class MobileVikingsDataUpdateCoordinator(DataUpdateCoordinator):
         except ConnectionError as exception:
             raise UpdateFailed(f"ConnectionError {exception}") from exception
         except MobileVikingsServiceException as exception:
-            raise UpdateFailed(f"MobileVikingsServiceException {exception}") from exception
+            raise UpdateFailed(
+                f"MobileVikingsServiceException {exception}"
+            ) from exception
         except MobileVikingsException as exception:
             raise UpdateFailed(f"MobileVikingsException {exception}") from exception
         except Exception as exception:

@@ -53,8 +53,8 @@ A Home Assistant integration allowing to monitor your EV charging and manage you
 
 This integration will set up the following platforms.
 
-| Platform    | Description                                     |
-| ----------- | ----------------------------------------------- |
+| Platform         | Description                                             |
+| ---------------- | ------------------------------------------------------- |
 | `mobile_vikings` | Home Assistant component for Mobile Vikings BE services |
 
 ## Contributions are welcome!
@@ -73,4 +73,3 @@ logger:
 ```
 
 ## Screenshots
-

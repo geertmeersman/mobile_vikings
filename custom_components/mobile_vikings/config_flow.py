@@ -73,9 +73,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
             if not test["errors"]:
                 self.new_title = user_input[CONF_USERNAME]
                 self.new_entry_data |= user_input
-                await self.async_set_unique_id(
-                    f"{DOMAIN}_" + user_input[CONF_USERNAME]
-                )
+                await self.async_set_unique_id(f"{DOMAIN}_" + user_input[CONF_USERNAME])
                 self._abort_if_unique_id_configured()
                 log_debug(f"New account {self.new_title} added")
                 return self.finish_flow()
@@ -91,7 +89,9 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
             ),
         }
         return self.async_show_form(
-            step_id="connection_init", data_schema=vol.Schema(fields),errors=errors,
+            step_id="connection_init",
+            data_schema=vol.Schema(fields),
+            errors=errors,
         )
 
     async def test_connection(self, user_input: dict | None = None) -> dict:

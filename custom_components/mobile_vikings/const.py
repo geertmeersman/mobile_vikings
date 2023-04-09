@@ -26,7 +26,7 @@ DEFAULT_MOBILEVIKINGS_ENVIRONMENT = MobileVikingsEnvironment(
 
 BASE_HEADERS = {
     "accept-language": "nl-BE,nl;q=0.9",
-    "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"",
+    "sec-ch-ua": '" Not A;Brand";v="99", "Chromium";v="100", "Google Chrome";v="100"',
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": "Windows",
     "sec-fetch-dest": "document",
@@ -34,13 +34,19 @@ BASE_HEADERS = {
     "sec-fetch-site": "none",
     "sec-fetch-user": "?1",
     "upgrade-insecure-requests": "1",
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36"
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36",
 }
 
-DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
+DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
 PRODUCT_DATA = ["product"]
 BUNDLES_DATA = ["bundles"]
-BALANCE_DATA = ["credit", "out_of_bundle_cost", "out_of_bundle_cost_threshold", "regionality", "data_throttled"]
+BALANCE_DATA = [
+    "credit",
+    "out_of_bundle_cost",
+    "out_of_bundle_cost_threshold",
+    "regionality",
+    "data_throttled",
+]
 SUBSCRIPTION_DATA = ["id", "type", "sim", "next_bill_run"]
 BUNDLE_DATA = ["valid_from", "valid_until", "total", "used"]
 
