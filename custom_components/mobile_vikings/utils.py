@@ -53,10 +53,12 @@ def format_entity_name(string: str) -> str:
     string = re.sub(r"\W+", "", string).lower()
     return string
 
+
 def sensor_name(string: str) -> str:
     """Format sensor name."""
     string = string.strip().replace("_", " ").title()
     return string
+
 
 def sizeof_fmt(num, suffix="b"):
     """Convert unit to human readable."""

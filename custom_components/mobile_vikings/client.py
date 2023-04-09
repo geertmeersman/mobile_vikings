@@ -1,16 +1,20 @@
 """MobileVikings API Client."""
 from __future__ import annotations
 
+import json
+import re
+from datetime import datetime
+from datetime import timezone
+
 from requests import (
     Session,
 )
-from datetime import datetime, timezone
+
 from .const import BASE_HEADERS
 from .const import CONNECTION_RETRY
+from .const import DATETIME_FORMAT
 from .const import DEFAULT_MOBILEVIKINGS_ENVIRONMENT
 from .const import REQUEST_TIMEOUT
-from .const import DATETIME_FORMAT
-
 from .exceptions import MobileVikingsServiceException
 from .models import MobileVikingsEnvironment
 from .models import MobileVikingsItem
@@ -18,10 +22,6 @@ from .utils import format_entity_name
 from .utils import log_debug
 from .utils import sizeof_fmt
 
-
-
-import re
-import json
 
 class MobileVikingsClient:
     """MobileVikings client."""
@@ -104,14 +104,16 @@ class MobileVikingsClient:
             {"username": self.username, "password": self.password},
             200,
         )
-        z = re.findall(r"{\"baseUrl\".*}",response.text)
+        z = re.findall(r"{\"baseUrl\".*}", response.text)
         if z:
             j = json.loads(z[0])
-            self.session.headers.update({
-                "authority": self.environment.authority,
-                "accept": "application/json",
-                "content-type": "application/x-www-form-urlencoded"
-            })
+            self.session.headers.update(
+                {
+                    "authority": self.environment.authority,
+                    "accept": "application/json",
+                    "content-type": "application/x-www-form-urlencoded",
+                }
+            )
             data = {
                 "username": self.username,
                 "password": self.password,
@@ -119,11 +121,13 @@ class MobileVikingsClient:
                 "client_id": j["uwa"]["oauthClientId"],
                 "client_secret": j["uwa"]["oauthClientSecret"],
             }
-            response = self.request(f"{self.environment.uwa_endpoint}/mv/oauth2/token/", "login", data, 200)
+            response = self.request(
+                f"{self.environment.uwa_endpoint}/mv/oauth2/token/", "login", data, 200
+            )
             j = response.json()
-            self.session.headers.update({
-                "authorization": "Bearer "+j.get("access_token")
-            })
+            self.session.headers.update(
+                {"authorization": "Bearer " + j.get("access_token")}
+            )
             return True
         return False
 
@@ -136,37 +140,66 @@ class MobileVikingsClient:
 
     def subscriptions(self):
         """Get subscriptions."""
-        response = self.request(f"{self.environment.uwa_endpoint}/20220211/mv/subscriptions", "subscriptions", None, 200)
+        response = self.request(
+            f"{self.environment.uwa_endpoint}/20220211/mv/subscriptions",
+            "subscriptions",
+            None,
+            200,
+        )
         return response.json()
 
     def me(self):
         """Get user info."""
-        response = self.request(f"{self.environment.uwa_endpoint}/20210211/mv/customers/me", "me", None, 200)
+        response = self.request(
+            f"{self.environment.uwa_endpoint}/20210211/mv/customers/me", "me", None, 200
+        )
         return response.json()
 
     def balance(self, subscription_id):
         """Get balance."""
-        response = self.request(f"https://uwa.mobilevikings.be/20200901/mv/subscriptions/{subscription_id}/balance", "balance", None, 200)
+        response = self.request(
+            f"https://uwa.mobilevikings.be/20200901/mv/subscriptions/{subscription_id}/balance",
+            "balance",
+            None,
+            200,
+        )
         return response.json()
 
     def invoice_address(self, subscription_id):
         """Get user info."""
-        response = self.request(f"{self.environment.uwa_endpoint}/mv/addresses?type=invoice&subscription_id={subscription_id}", "me", None, 200)
+        response = self.request(
+            f"{self.environment.uwa_endpoint}/mv/addresses?type=invoice&subscription_id={subscription_id}",
+            "me",
+            None,
+            200,
+        )
         return response.json()
 
     def products(self):
         """Get products."""
-        response = self.request(f"{self.environment.uwa_endpoint}/20220211/mv/products?", "products", None, 200)
+        response = self.request(
+            f"{self.environment.uwa_endpoint}/20220211/mv/products?",
+            "products",
+            None,
+            200,
+        )
         return response.json()
 
     def loyalty_points(self):
         """Get loyalty point."""
-        response = self.request(f"{self.environment.uwa_endpoint}/mv/loyalty-points/balance", "loyalty_points", None, 200)
+        response = self.request(
+            f"{self.environment.uwa_endpoint}/mv/loyalty-points/balance",
+            "loyalty_points",
+            None,
+            200,
+        )
         return response.json()
 
     def claims(self):
         """Get claims."""
-        response = self.request("https://vikingdeals.be/api/20210707/catalog/claims/", "claims", None, 200)
+        response = self.request(
+            "https://vikingdeals.be/api/20210707/catalog/claims/", "claims", None, 200
+        )
         return response.json()
 
     def fetch_data(self):
@@ -183,8 +216,8 @@ class MobileVikingsClient:
             self.login()
 
         me = self.me()
-        userid = me.get('id')
-        self.language = me.get('language')
+        userid = me.get("id")
+        self.language = me.get("language")
         loyalty_points = self.loyalty_points()
         claims = self.claims()
 
@@ -199,7 +232,7 @@ class MobileVikingsClient:
             device_key=device_key,
             device_name=device_name,
             device_model=device_model,
-            state=me.get('email'),
+            state=me.get("email"),
             extra_attributes=me,
         )
         key = format_entity_name(f"{userid} loyalty points")
@@ -210,22 +243,22 @@ class MobileVikingsClient:
             device_key=device_key,
             device_name=device_name,
             device_model=device_model,
-            state=loyalty_points.get('available'),
-            extra_attributes=loyalty_points|{'claims': claims},
+            state=loyalty_points.get("available"),
+            extra_attributes=loyalty_points | {"claims": claims},
         )
         subscriptions = self.subscriptions()
         for subscription in subscriptions:
-            if subscription.get('sim') and len(subscription.get('sim')):
-                subscription_id = subscription.get('id')
+            if subscription.get("sim") and len(subscription.get("sim")):
+                subscription_id = subscription.get("id")
                 balance = self.balance(subscription_id)
-                product = balance.get('product')
-                msisdn = subscription.get('sim').get('msisdn')
-                if msisdn[0:2] == '32':
+                product = balance.get("product")
+                msisdn = subscription.get("sim").get("msisdn")
+                if msisdn[0:2] == "32":
                     log_debug(f"32 GEVONDEN: {msisdn}")
                     msisdn = f"0{msisdn[2:]}"
                 device_key = format_entity_name(f"{product.get('type')} {msisdn}")
                 device_name = f"{msisdn} | {product.get('descriptions').get('title')}"
-                device_model = product.get('type').title()
+                device_model = product.get("type").title()
                 address = self.invoice_address(subscription_id)[0]
                 key = format_entity_name(f"{msisdn} invoice address")
                 data[key] = MobileVikingsItem(
@@ -235,18 +268,18 @@ class MobileVikingsClient:
                     device_key=device_key,
                     device_name=device_name,
                     device_model=device_model,
-                    state=address.get('address').get('city'),
+                    state=address.get("address").get("city"),
                     extra_attributes=address,
                 )
                 key = format_entity_name(f"{msisdn} product")
                 data[key] = MobileVikingsItem(
-                    name=product.get('descriptions').get('title'),
+                    name=product.get("descriptions").get("title"),
                     key=key,
                     type="euro",
                     device_key=device_key,
                     device_name=device_name,
                     device_model=device_model,
-                    state=product.get('price'),
+                    state=product.get("price"),
                     extra_attributes=product,
                 )
                 key = format_entity_name(f"{msisdn} out of bundle")
@@ -257,8 +290,13 @@ class MobileVikingsClient:
                     device_key=device_key,
                     device_name=device_name,
                     device_model=device_model,
-                    state=balance.get('out_of_bundle_cost'),
-                    extra_attributes={'Out of bundle cost threshold': balance.get('out_of_bundle_cost_threshold'), 'Credit': balance.get('credit')},
+                    state=balance.get("out_of_bundle_cost"),
+                    extra_attributes={
+                        "Out of bundle cost threshold": balance.get(
+                            "out_of_bundle_cost_threshold"
+                        ),
+                        "Credit": balance.get("credit"),
+                    },
                 )
                 key = format_entity_name(f"{msisdn} subscription")
                 data[key] = MobileVikingsItem(
@@ -268,47 +306,55 @@ class MobileVikingsClient:
                     device_key=device_key,
                     device_name=device_name,
                     device_model=device_model,
-                    state=subscription.get('sim').get('alias'),
+                    state=subscription.get("sim").get("alias"),
                     extra_attributes=subscription,
                 )
 
                 for bundle in balance.get("bundles"):
                     type = bundle.get("type")
-                    days_remaining = (datetime.strptime(bundle.get('valid_until'), DATETIME_FORMAT) - now).days
-                    period_length = (datetime.strptime(bundle.get('valid_until'), DATETIME_FORMAT) - datetime.strptime(bundle.get('valid_from'), DATETIME_FORMAT)).days
-                    period_percentage = round(100*(period_length-days_remaining)/period_length)
-                    total = bundle.get('total')
-                    used = bundle.get('used')
+                    days_remaining = (
+                        datetime.strptime(bundle.get("valid_until"), DATETIME_FORMAT)
+                        - now
+                    ).days
+                    period_length = (
+                        datetime.strptime(bundle.get("valid_until"), DATETIME_FORMAT)
+                        - datetime.strptime(bundle.get("valid_from"), DATETIME_FORMAT)
+                    ).days
+                    period_percentage = round(
+                        100 * (period_length - days_remaining) / period_length
+                    )
+                    total = bundle.get("total")
+                    used = bundle.get("used")
                     extra_attributes = {
                         "period_length": period_length,
                         "period_percentage": period_percentage,
                         "total": total,
-                        "used": used
+                        "used": used,
                     }
-                    if bundle.get('category') != 'default':
+                    if bundle.get("category") != "default":
                         suffix = f" {bundle.get('category')}"
                     else:
                         suffix = ""
                     if str(total) == "-1":
-                        state = '∞'
+                        state = "∞"
                     else:
-                        state = round(100*used/total)
+                        state = round(100 * used / total)
                     if type == "data":
-                        if state == '∞':
+                        if state == "∞":
                             used_human = sizeof_fmt(used)
                             extra_attributes |= {
-                                "total_human": '∞',
+                                "total_human": "∞",
                                 "used_human": used_human,
-                                "remaining_human": '∞',
-                                "usage_human": f"{used_human} verbruikt"
+                                "remaining_human": "∞",
+                                "usage_human": f"{used_human} verbruikt",
                             }
                         else:
                             total_human = sizeof_fmt(total)
                             extra_attributes |= {
                                 "total_human": total_human,
                                 "used_human": sizeof_fmt(used),
-                                "remaining_human": sizeof_fmt(total-used),
-                                "usage_human": f"van de {total_human} over"
+                                "remaining_human": sizeof_fmt(total - used),
+                                "usage_human": f"van de {total_human} over",
                             }
                         key = format_entity_name(f"{msisdn} data{suffix}")
                         data[key] = MobileVikingsItem(
@@ -323,12 +369,12 @@ class MobileVikingsClient:
                         )
                     elif type == "voice":
                         used_human = f"{str(round(used/60))} min"
-                        if state == '∞':
+                        if state == "∞":
                             extra_attributes |= {
-                                "total_human": '∞',
+                                "total_human": "∞",
                                 "used_human": used_human,
-                                "remaining_human": '∞',
-                                "usage_human": f"{used_human} verbruikt"
+                                "remaining_human": "∞",
+                                "usage_human": f"{used_human} verbruikt",
                             }
                         else:
                             total_human = f"{str(round(total/60))} min"
@@ -336,7 +382,7 @@ class MobileVikingsClient:
                                 "total_human": total_human,
                                 "used_human": used_human,
                                 "remaining_human": f"{str(round((total-used)/60))} min",
-                                "usage_human": f"van de {total_human} over"
+                                "usage_human": f"van de {total_human} over",
                             }
                         key = format_entity_name(f"{msisdn} voice{suffix}")
                         data[key] = MobileVikingsItem(
@@ -350,21 +396,21 @@ class MobileVikingsClient:
                             extra_attributes=extra_attributes,
                         )
                     elif type == "sms":
-                        used_human = str(round(used))+" sms'en"
-                        if state == '∞':
+                        used_human = str(round(used)) + " sms'en"
+                        if state == "∞":
                             extra_attributes |= {
-                                "total_human": '∞',
+                                "total_human": "∞",
                                 "used_human": used_human,
-                                "remaining_human": '∞',
-                                "usage_human": f"{used_human} verstuurd"
+                                "remaining_human": "∞",
+                                "usage_human": f"{used_human} verstuurd",
                             }
                         else:
-                            total_human = str(round(total))+" sms'en"
+                            total_human = str(round(total)) + " sms'en"
                             extra_attributes |= {
                                 "total_human": total_human,
                                 "used_human": used_human,
                                 "remaining_human": f"{str(round(total-used))} sms'en",
-                                "usage_human": f"van de {total_human} over"
+                                "usage_human": f"van de {total_human} over",
                             }
                         key = format_entity_name(f"{msisdn} sms{suffix}")
                         data[key] = MobileVikingsItem(
