@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.1.2](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.2) (2023-04-09)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.1...v0.1.2)
+
+**Implemented enhancements:**
+
+- Bump ruff from 0.0.260 to 0.0.261 [\#1](https://github.com/geertmeersman/mobile_vikings/pull/1) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v0.1.1](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.1) (2023-04-09)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.0...v0.1.1)
