@@ -7,6 +7,15 @@
 
 A Home Assistant integration allowing to monitor your EV charging and manage your charging points
 
+### Features
+
+- 📱 Mobile data sensors
+- 📞 Voice & sms sensors
+- 💲 Out of bundle usage
+- 💲 Vikings deals balance
+- 📈 Invoice sensors
+- 👱 User account information
+
 ---
 
 <!-- [START BADGES] -->
