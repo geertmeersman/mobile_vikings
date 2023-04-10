@@ -73,3 +73,9 @@ logger:
 ```
 
 ## Screenshots
+
+## Code origin
+
+The code of this Home Assistant integration has been written by analysing the calls made by the Mobile Vikings website. Goal is to automate as much as possible and to monitor usage.
+
+I have no link with Mobile Vikings
