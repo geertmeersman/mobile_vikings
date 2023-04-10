@@ -1,4 +1,4 @@
-<img src="https://github.com/geertmeersman/mobile_vikings/raw/main/images/brand/logo.png"
+<img src="https://github.com/geertmeersman/mobile_vikings/raw/main/images/brand/dark_logo.png"
      alt="Mobile Vikings"
      align="right"
      style="width: 200px;margin-right: 10px;" />
