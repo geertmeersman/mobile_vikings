@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.1.6](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.6) (2023-04-10)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.5...v0.1.6)
+
+**Implemented enhancements:**
+
+- Device name includes Nexxtmove [\#6](https://github.com/geertmeersman/mobile_vikings/pull/6) ([geertmeersman](https://github.com/geertmeersman))
+
+**Documentation:**
+
+- Update README.md [\#8](https://github.com/geertmeersman/mobile_vikings/pull/8) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.1.5](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.5) (2023-04-10)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.4...v0.1.5)
