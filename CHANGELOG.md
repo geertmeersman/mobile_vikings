@@ -1,5 +1,21 @@
 # Changelog
 
+## [v0.1.5](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.5) (2023-04-10)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.4...v0.1.5)
+
+**Documentation:**
+
+- Update README.md [\#7](https://github.com/geertmeersman/mobile_vikings/pull/7) ([geertmeersman](https://github.com/geertmeersman))
+
+## [v0.1.4](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.4) (2023-04-10)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.3...v0.1.4)
+
+**Implemented enhancements:**
+
+- CODEOWNERS file added [\#5](https://github.com/geertmeersman/mobile_vikings/pull/5) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.1.3](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.3) (2023-04-09)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.2...v0.1.3)

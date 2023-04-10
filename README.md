@@ -7,6 +7,15 @@
 
 A Home Assistant integration allowing to monitor your EV charging and manage your charging points
 
+### Features
+
+- 📱 Mobile data sensors
+- 📞 Voice & sms sensors
+- 💲 Out of bundle usage
+- 💲 Vikings deals balance
+- 📈 Invoice sensors
+- 👱 User account information
+
 ---
 
 <!-- [START BADGES] -->
@@ -73,3 +82,9 @@ logger:
 ```
 
 ## Screenshots
+
+## Code origin
+
+The code of this Home Assistant integration has been written by analysing the calls made by the Mobile Vikings website. Goal is to automate as much as possible and to monitor usage.
+
+I have no link with Mobile Vikings
