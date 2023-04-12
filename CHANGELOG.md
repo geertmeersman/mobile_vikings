@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.1.10](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.10) (2023-04-12)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.9...v0.1.10)
+
+**Implemented enhancements:**
+
+- labels & precommit [\#12](https://github.com/geertmeersman/mobile_vikings/pull/12) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.1.9](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.9) (2023-04-10)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.8...v0.1.9)
