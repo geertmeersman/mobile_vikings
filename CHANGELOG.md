@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.1.11](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.11) (2023-04-18)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.10...v0.1.11)
+
+**Merged pull requests:**
+
+- Update pip requirement from \<23.1,\>=8.0.3 to \>=8.0.3,\<23.2 [\#13](https://github.com/geertmeersman/mobile_vikings/pull/13) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v0.1.10](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.10) (2023-04-12)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.9...v0.1.10)
