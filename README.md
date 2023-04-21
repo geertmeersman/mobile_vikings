@@ -46,6 +46,14 @@ A Home Assistant integration allowing to monitor your EV charging and manage you
 
 ## Installation
 
+The Pull request is still pending merge for the hacs-default repository. So until that time, add my repository as a custom repository in hacs and the integration will show up.
+
+Explanation: https://hacs.xyz/docs/faq/custom_repositories/
+```
+Repository: geertmeersman/mobile_vikings
+Category: Integration
+```
+
 ### Using [HACS](https://hacs.xyz/) (recommended)
 
 1. Simply search for `Mobile Vikings` in HACS and install it easily.
