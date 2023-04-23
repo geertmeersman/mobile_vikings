@@ -218,7 +218,6 @@ class MobileVikingsClient:
     def fetch_data(self):
         """Fetch MobileVikings data."""
         data = {}
-        data = {}
 
         now = datetime.now(timezone.utc)
         if not self.login():
