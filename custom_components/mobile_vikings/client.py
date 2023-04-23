@@ -145,13 +145,18 @@ class MobileVikingsClient:
             "subscriptions",
             None,
             200,
+            True,
         )
         return response.json()
 
     def me(self):
         """Get user info."""
         response = self.request(
-            f"{self.environment.uwa_endpoint}/20210211/mv/customers/me", "me", None, 200
+            f"{self.environment.uwa_endpoint}/20210211/mv/customers/me",
+            "me",
+            None,
+            200,
+            True,
         )
         return response.json()
 
@@ -162,6 +167,7 @@ class MobileVikingsClient:
             "balance",
             None,
             200,
+            True,
         )
         return response.json()
 
@@ -169,9 +175,10 @@ class MobileVikingsClient:
         """Get user info."""
         response = self.request(
             f"{self.environment.uwa_endpoint}/mv/addresses?type=invoice&subscription_id={subscription_id}",
-            "me",
+            "invoice_address",
             None,
             200,
+            True,
         )
         return response.json()
 
@@ -182,6 +189,7 @@ class MobileVikingsClient:
             "products",
             None,
             200,
+            True,
         )
         return response.json()
 
@@ -192,13 +200,18 @@ class MobileVikingsClient:
             "loyalty_points",
             None,
             200,
+            True,
         )
         return response.json()
 
     def claims(self):
         """Get claims."""
         response = self.request(
-            "https://vikingdeals.be/api/20210707/catalog/claims/", "claims", None, 200
+            "https://vikingdeals.be/api/20210707/catalog/claims/",
+            "claims",
+            None,
+            200,
+            True,
         )
         return response.json()
 
