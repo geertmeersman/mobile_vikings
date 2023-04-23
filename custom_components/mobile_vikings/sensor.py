@@ -40,6 +40,18 @@ SENSOR_DESCRIPTIONS: list[SensorEntityDescription] = [
         native_unit_of_measurement=CURRENCY_EURO,
     ),
     MobileVikingsSensorDescription(
+        key="euro_blocked",
+        icon="mdi:currency-eur-off",
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement=CURRENCY_EURO,
+    ),
+    MobileVikingsSensorDescription(
+        key="euro_pending",
+        icon="mdi:timer-sand",
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement=CURRENCY_EURO,
+    ),
+    MobileVikingsSensorDescription(
         key="usage_percentage_mobile",
         value_fn=lambda state: round(state, 1),
         native_unit_of_measurement=PERCENTAGE,
