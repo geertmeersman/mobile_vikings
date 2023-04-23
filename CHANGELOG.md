@@ -1,5 +1,26 @@
 # Changelog
 
+## [v0.1.13](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.13) (2023-04-23)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.12...v0.1.13)
+
+**Implemented enhancements:**
+
+- Cleanup extra data line [\#18](https://github.com/geertmeersman/mobile_vikings/pull/18) ([geertmeersman](https://github.com/geertmeersman))
+- Extra debug added on api calls, refers \#16 [\#17](https://github.com/geertmeersman/mobile_vikings/pull/17) ([geertmeersman](https://github.com/geertmeersman))
+
+**Documentation:**
+
+- Update bug\_report.md [\#15](https://github.com/geertmeersman/mobile_vikings/pull/15) ([geertmeersman](https://github.com/geertmeersman))
+
+## [v0.1.12](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.12) (2023-04-21)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.11...v0.1.12)
+
+**Documentation:**
+
+- Update README.md [\#14](https://github.com/geertmeersman/mobile_vikings/pull/14) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.1.11](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.11) (2023-04-18)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.10...v0.1.11)
