@@ -272,17 +272,18 @@ class MobileVikingsClient:
                 device_name = f"{msisdn} | {product.get('descriptions').get('title')}"
                 device_model = product.get("type").title()
                 address = self.invoice_address(subscription_id)[0]
-                key = format_entity_name(f"{msisdn} invoice address")
-                data[key] = MobileVikingsItem(
-                    name="Invoice Address",
-                    key=key,
-                    type="address",
-                    device_key=device_key,
-                    device_name=device_name,
-                    device_model=device_model,
-                    state=address.get("address").get("city"),
-                    extra_attributes=address,
-                )
+                if len(address):
+                    key = format_entity_name(f"{msisdn} invoice address")
+                    data[key] = MobileVikingsItem(
+                        name="Invoice Address",
+                        key=key,
+                        type="address",
+                        device_key=device_key,
+                        device_name=device_name,
+                        device_model=device_model,
+                        state=address.get("address").get("city"),
+                        extra_attributes=address,
+                    )
                 key = format_entity_name(f"{msisdn} product")
                 data[key] = MobileVikingsItem(
                     name=product.get("descriptions").get("title"),
