@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.2.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.2.0) (2023-04-23)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.15...v0.2.0)
+
+**Implemented enhancements:**
+
+- Sensors added for blocked & pending Viking deals [\#21](https://github.com/geertmeersman/mobile_vikings/pull/21) ([geertmeersman](https://github.com/geertmeersman))
+
+**Closed issues:**
+
+- Retrying setup: Exception list index out of range [\#16](https://github.com/geertmeersman/mobile_vikings/issues/16)
+
 ## [v0.1.15](https://github.com/geertmeersman/mobile_vikings/tree/v0.1.15) (2023-04-23)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.1.14...v0.1.15)
