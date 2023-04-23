@@ -247,9 +247,9 @@ class MobileVikingsClient:
             state=me.get("email"),
             extra_attributes=me,
         )
-        key = format_entity_name(f"{userid} loyalty points")
+        key = format_entity_name(f"{userid} loyalty points available")
         data[key] = MobileVikingsItem(
-            name="Vikings deals balance",
+            name="Vikings deals available",
             key=key,
             type="euro",
             device_key=device_key,
@@ -257,6 +257,28 @@ class MobileVikingsClient:
             device_model=device_model,
             state=loyalty_points.get("available"),
             extra_attributes=loyalty_points | {"claims": claims},
+        )
+        key = format_entity_name(f"{userid} loyalty points pending")
+        data[key] = MobileVikingsItem(
+            name="Vikings deals pending",
+            key=key,
+            type="euro",
+            device_key=device_key,
+            device_name=device_name,
+            device_model=device_model,
+            state=loyalty_points.get("pending"),
+            extra_attributes=loyalty_points,
+        )
+        key = format_entity_name(f"{userid} loyalty points blocked")
+        data[key] = MobileVikingsItem(
+            name="Vikings deals blocked",
+            key=key,
+            type="euro",
+            device_key=device_key,
+            device_name=device_name,
+            device_model=device_model,
+            state=loyalty_points.get("blocked"),
+            extra_attributes=loyalty_points,
         )
         subscriptions = self.subscriptions()
         for subscription in subscriptions:
