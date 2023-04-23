@@ -271,8 +271,9 @@ class MobileVikingsClient:
                 device_key = format_entity_name(f"{product.get('type')} {msisdn}")
                 device_name = f"{msisdn} | {product.get('descriptions').get('title')}"
                 device_model = product.get("type").title()
-                address = self.invoice_address(subscription_id)[0]
+                address = self.invoice_address(subscription_id)
                 if len(address):
+                    address = address[0]
                     key = format_entity_name(f"{msisdn} invoice address")
                     data[key] = MobileVikingsItem(
                         name="Invoice Address",
