@@ -362,11 +362,23 @@ class MobileVikingsClient:
                     total = bundle.get("total")
                     used = bundle.get("used")
                     extra_attributes = {
+                        "days_remaining": days_remaining,
                         "period_length": period_length,
                         "period_percentage": period_percentage,
                         "total": total,
                         "used": used,
                     }
+                    key = format_entity_name(f"{msisdn} days remaining")
+                    data[key] = MobileVikingsItem(
+                        name="Remaining Days",
+                        key=key,
+                        type="remaining_days",
+                        device_key=device_key,
+                        device_name=device_name,
+                        device_model=device_model,
+                        state=days_remaining,
+                        extra_attributes=extra_attributes,
+                    )
                     if bundle.get("category") != "default":
                         suffix = f" {bundle.get('category')}"
                     else:
