@@ -57,6 +57,10 @@ SENSOR_DESCRIPTIONS: list[SensorEntityDescription] = [
         native_unit_of_measurement=PERCENTAGE,
         icon="mdi:signal-4g",
     ),
+    MobileVikingsSensorDescription(
+        key="remaining_days",
+        icon="mdi:calendar-end-outline",
+    ),
     MobileVikingsSensorDescription(key="address", icon="mdi:home"),
     MobileVikingsSensorDescription(key="voice", icon="mdi:phone"),
     MobileVikingsSensorDescription(key="sms", icon="mdi:message-processing"),
