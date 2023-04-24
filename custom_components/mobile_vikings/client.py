@@ -262,7 +262,7 @@ class MobileVikingsClient:
         data[key] = MobileVikingsItem(
             name="Vikings deals pending",
             key=key,
-            type="euro",
+            type="euro_pending",
             device_key=device_key,
             device_name=device_name,
             device_model=device_model,
@@ -273,7 +273,7 @@ class MobileVikingsClient:
         data[key] = MobileVikingsItem(
             name="Vikings deals blocked",
             key=key,
-            type="euro",
+            type="euro_blocked",
             device_key=device_key,
             device_name=device_name,
             device_model=device_model,
