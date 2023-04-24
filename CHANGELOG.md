@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.2.3](https://github.com/geertmeersman/mobile_vikings/tree/v0.2.3) (2023-04-24)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.2.2...v0.2.3)
+
+**Implemented enhancements:**
+
+- Start & end date of the invoice period added [\#24](https://github.com/geertmeersman/mobile_vikings/pull/24) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.2.2](https://github.com/geertmeersman/mobile_vikings/tree/v0.2.2) (2023-04-24)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.2.1...v0.2.2)
