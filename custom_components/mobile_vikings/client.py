@@ -362,6 +362,8 @@ class MobileVikingsClient:
                     total = bundle.get("total")
                     used = bundle.get("used")
                     extra_attributes = {
+                        "valid_from": bundle.get("valid_from"),
+                        "valid_until": bundle.get("valid_until"),
                         "days_remaining": days_remaining,
                         "period_length": period_length,
                         "period_percentage": period_percentage,
