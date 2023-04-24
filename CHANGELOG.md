@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.2.2](https://github.com/geertmeersman/mobile_vikings/tree/v0.2.2) (2023-04-24)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.2.1...v0.2.2)
+
+**Implemented enhancements:**
+
+- Remaining days sensor added [\#23](https://github.com/geertmeersman/mobile_vikings/pull/23) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.2.1](https://github.com/geertmeersman/mobile_vikings/tree/v0.2.1) (2023-04-24)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.2.0...v0.2.1)
