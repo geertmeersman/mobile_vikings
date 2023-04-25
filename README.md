@@ -5,7 +5,7 @@
 
 # Mobile Vikings for Home Assistant
 
-A Home Assistant integration allowing to monitor your EV charging and manage your charging points
+A Home Assistant integration to monitor Mobile Vikings BE services
 
 ### Features
 
