@@ -20,6 +20,7 @@ ATTRIBUTION: Final = "Data provided by MobileVikings"
 DEFAULT_MOBILEVIKINGS_ENVIRONMENT = MobileVikingsEnvironment(
     api_endpoint="https://mobilevikings.be/nl/my-viking",
     uwa_endpoint="https://uwa.mobilevikings.be",
+    deals_endpoint="https://vikingdeals.be",
     authority="uwa.mobilevikings.be",
     logincheck="https://budskap.mobilevikings.be/mv/notifications/?context=/my-viking/login",
 )
