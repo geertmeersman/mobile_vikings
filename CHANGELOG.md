@@ -1,5 +1,21 @@
 # Changelog
 
+## [v0.3.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.3.0) (2023-05-09)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.2.3...v0.3.0)
+
+**Implemented enhancements:**
+
+- Invoice sensors [\#30](https://github.com/geertmeersman/mobile_vikings/pull/30) ([geertmeersman](https://github.com/geertmeersman))
+- Manually launch version & release workflow [\#25](https://github.com/geertmeersman/mobile_vikings/pull/25) ([geertmeersman](https://github.com/geertmeersman))
+
+**Merged pull requests:**
+
+- Bump ruff from 0.0.263 to 0.0.265 [\#29](https://github.com/geertmeersman/mobile_vikings/pull/29) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ruff from 0.0.262 to 0.0.263 [\#28](https://github.com/geertmeersman/mobile_vikings/pull/28) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/setup-python from 4.5.0 to 4.6.0 [\#27](https://github.com/geertmeersman/mobile_vikings/pull/27) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ruff from 0.0.261 to 0.0.262 [\#26](https://github.com/geertmeersman/mobile_vikings/pull/26) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v0.2.3](https://github.com/geertmeersman/mobile_vikings/tree/v0.2.3) (2023-04-24)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.2.2...v0.2.3)
