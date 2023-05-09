@@ -8,6 +8,7 @@ from typing import Any
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.components.sensor import SensorEntityDescription
+from homeassistant.components.sensor import SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CURRENCY_EURO
 from homeassistant.const import PERCENTAGE
@@ -60,6 +61,16 @@ SENSOR_DESCRIPTIONS: list[SensorEntityDescription] = [
     MobileVikingsSensorDescription(
         key="remaining_days",
         icon="mdi:calendar-end-outline",
+    ),
+    MobileVikingsSensorDescription(
+        key="invoices",
+        icon="mdi:receipt-text-check",
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    MobileVikingsSensorDescription(
+        key="date",
+        icon="mdi:calendar-star",
+        device_class=SensorDeviceClass.DATE,
     ),
     MobileVikingsSensorDescription(key="address", icon="mdi:home"),
     MobileVikingsSensorDescription(key="voice", icon="mdi:phone"),

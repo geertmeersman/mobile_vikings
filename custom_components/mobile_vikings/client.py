@@ -163,7 +163,7 @@ class MobileVikingsClient:
     def balance(self, subscription_id):
         """Get balance."""
         response = self.request(
-            f"https://uwa.mobilevikings.be/20200901/mv/subscriptions/{subscription_id}/balance",
+            f"{self.environment.uwa_endpoint}/20200901/mv/subscriptions/{subscription_id}/balance",
             "balance",
             None,
             200,
@@ -207,8 +207,30 @@ class MobileVikingsClient:
     def claims(self):
         """Get claims."""
         response = self.request(
-            "https://vikingdeals.be/api/20210707/catalog/claims/",
+            f"{self.environment.deals_endpoint}/api/20210707/catalog/claims/",
             "claims",
+            None,
+            200,
+            True,
+        )
+        return response.json()
+
+    def open_invoices(self):
+        """Get open invoices."""
+        response = self.request(
+            f"{self.environment.uwa_endpoint}/20220211/mv/invoices?status=created%2Cissued%2Cpending_payment%2Cpartially_paid",
+            "open_invoices",
+            None,
+            200,
+            True,
+        )
+        return response.json()
+
+    def paid_invoices(self):
+        """Get paid invoices."""
+        response = self.request(
+            f"{self.environment.uwa_endpoint}/20220211/mv/invoices?status=paid",
+            "paid_invoices",
             None,
             200,
             True,
@@ -233,6 +255,66 @@ class MobileVikingsClient:
         loyalty_points = self.loyalty_points()
         claims = self.claims()
 
+        device_key = format_entity_name(f"{userid} invoices")
+        device_name = f"{me.get('first_name')} {me.get('last_name')} Invoices"
+        device_model = "Invoices"
+        open_invoices = self.open_invoices()
+        open_invoice_amount = 0
+        next_expiration_date = False
+        if open_invoices.get("total_items") > 0:
+            for invoice in open_invoices.get("results"):
+                open_invoice_amount += invoice.get("amount_due")
+                timestamp = datetime.strptime(
+                    invoice.get("expiration_date"), "%Y-%m-%dT%H:%M:%S%z"
+                ).timestamp()
+                if next_expiration_date:
+                    if timestamp < next_expiration_date:
+                        next_expiration_date = timestamp
+                else:
+                    next_expiration_date = timestamp
+        extra_attributes = {}
+        state = False
+        if next_expiration_date:
+            next_expiration_date = datetime.fromtimestamp(next_expiration_date)
+            state = next_expiration_date.strftime("%Y-%m-%d")
+            extra_attributes = {
+                "Remaining days": (next_expiration_date - datetime.now()).days
+            }
+        key = format_entity_name(f"{userid} upcoming expiration date")
+        data[key] = MobileVikingsItem(
+            name="Upcoming expiration date",
+            key=key,
+            type="date",
+            device_key=device_key,
+            device_name=device_name,
+            device_model=device_model,
+            state=state,
+            extra_attributes=extra_attributes,
+        )
+        key = format_entity_name(f"{userid} open invoices")
+        data[key] = MobileVikingsItem(
+            name="Open invoices",
+            key=key,
+            type="euro",
+            device_key=device_key,
+            device_name=device_name,
+            device_model=device_model,
+            state=open_invoice_amount,
+            extra_attributes={"Open invoices list": open_invoices.get("results")},
+        )
+        paid_invoices = self.paid_invoices()
+        key = format_entity_name(f"{userid} paid invoices")
+        data[key] = MobileVikingsItem(
+            name="Paid invoices",
+            key=key,
+            type="invoices",
+            device_key=device_key,
+            device_name=device_name,
+            device_model=device_model,
+            state=paid_invoices.get("total_items"),
+            extra_attributes={"Paid invoices list": paid_invoices.get("results")},
+        )
+
         device_key = format_entity_name(f"{userid} user")
         device_name = f"{me.get('first_name')} {me.get('last_name')}"
         device_model = "Useraccount"
@@ -247,9 +329,12 @@ class MobileVikingsClient:
             state=me.get("email"),
             extra_attributes=me,
         )
+        device_key = format_entity_name(f"{userid} loyalty")
+        device_name = f"{me.get('first_name')} {me.get('last_name')} Vikingpunten"
+        device_model = "Vikingpunten"
         key = format_entity_name(f"{userid} loyalty points available")
         data[key] = MobileVikingsItem(
-            name="Vikings deals available",
+            name="Vikingpunten available",
             key=key,
             type="euro",
             device_key=device_key,
@@ -260,7 +345,7 @@ class MobileVikingsClient:
         )
         key = format_entity_name(f"{userid} loyalty points pending")
         data[key] = MobileVikingsItem(
-            name="Vikings deals pending",
+            name="Vikingpunten pending",
             key=key,
             type="euro_pending",
             device_key=device_key,
@@ -271,7 +356,7 @@ class MobileVikingsClient:
         )
         key = format_entity_name(f"{userid} loyalty points blocked")
         data[key] = MobileVikingsItem(
-            name="Vikings deals blocked",
+            name="Vikingpunten blocked",
             key=key,
             type="euro_blocked",
             device_key=device_key,

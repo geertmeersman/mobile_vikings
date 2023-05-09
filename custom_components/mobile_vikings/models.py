@@ -19,6 +19,7 @@ class MobileVikingsEnvironment:
 
     api_endpoint: str
     uwa_endpoint: str
+    deals_endpoint: str
     authority: str
     logincheck: str
 
