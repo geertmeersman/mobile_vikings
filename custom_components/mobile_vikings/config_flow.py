@@ -168,6 +168,9 @@ class MobileVikingsOptionsFlow(MobileVikingsCommonFlow, OptionsFlow):
             data=new_data,
             title=self.new_title or UNDEFINED,
         )
+        self.hass.async_create_task(
+            self.hass.config_entries.async_reload(self.config_entry.entry_id)
+        )
         return self.async_create_entry(title="", data={})
 
     async def async_step_init(
