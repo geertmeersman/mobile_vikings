@@ -1,26 +1,22 @@
 """MobileVikings API Client."""
 from __future__ import annotations
 
+from datetime import datetime, timezone
 import json
 import re
-from datetime import datetime
-from datetime import timezone
 
-from requests import (
-    Session,
+from requests import Session
+
+from .const import (
+    BASE_HEADERS,
+    CONNECTION_RETRY,
+    DATETIME_FORMAT,
+    DEFAULT_MOBILEVIKINGS_ENVIRONMENT,
+    REQUEST_TIMEOUT,
 )
-
-from .const import BASE_HEADERS
-from .const import CONNECTION_RETRY
-from .const import DATETIME_FORMAT
-from .const import DEFAULT_MOBILEVIKINGS_ENVIRONMENT
-from .const import REQUEST_TIMEOUT
 from .exceptions import MobileVikingsServiceException
-from .models import MobileVikingsEnvironment
-from .models import MobileVikingsItem
-from .utils import format_entity_name
-from .utils import log_debug
-from .utils import sizeof_fmt
+from .models import MobileVikingsEnvironment, MobileVikingsItem
+from .utils import format_entity_name, log_debug, sizeof_fmt
 
 
 class MobileVikingsClient:
@@ -437,21 +433,30 @@ class MobileVikingsClient:
                         datetime.strptime(bundle.get("valid_until"), DATETIME_FORMAT)
                         - now
                     ).days
-                    period_length = (
+                    days_in_period = (
                         datetime.strptime(bundle.get("valid_until"), DATETIME_FORMAT)
                         - datetime.strptime(bundle.get("valid_from"), DATETIME_FORMAT)
                     ).days
-                    period_percentage = round(
-                        100 * (period_length - days_remaining) / period_length
+                    first_of_period = datetime.strptime(
+                        bundle.get("valid_from"), DATETIME_FORMAT
                     )
+
+                    seconds_in_month = days_in_period * 86400
+                    seconds_completed = (now - first_of_period).total_seconds()
+                    period_percentage_completed = round(
+                        100 * seconds_completed / seconds_in_month, 1
+                    )
+                    period_percentage_remaining = 100 - period_percentage_completed
+
                     total = bundle.get("total")
                     used = bundle.get("used")
                     extra_attributes = {
                         "valid_from": bundle.get("valid_from"),
                         "valid_until": bundle.get("valid_until"),
                         "days_remaining": days_remaining,
-                        "period_length": period_length,
-                        "period_percentage": period_percentage,
+                        "days_in_period": days_in_period,
+                        "period_percentage_completed": period_percentage_completed,
+                        "period_percentage_remaining": period_percentage_remaining,
                         "total": total,
                         "used": used,
                     }
