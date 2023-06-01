@@ -21,11 +21,14 @@ A Home Assistant integration to monitor Mobile Vikings BE services
 <!-- [START BADGES] -->
 <!-- Please keep comment here to allow auto update -->
 
-[![MIT License](https://img.shields.io/github/license/geertmeersman/mobile_vikings?style=for-the-badge)](https://github.com/geertmeersman/mobile_vikings/blob/master/LICENSE)
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 [![maintainer](https://img.shields.io/badge/maintainer-Geert%20Meersman-green?style=for-the-badge&logo=github)](https://github.com/geertmeersman)
 [![buyme_coffee](https://img.shields.io/badge/Buy%20me%20a%20Duvel-donate-yellow?style=for-the-badge&logo=buymeacoffee)](https://www.buymeacoffee.com/geertmeersman)
 [![discord](https://img.shields.io/discord/1094198226493636638?style=for-the-badge&logo=discord)](https://discord.gg/9w6UAsutdJ)
+
+[![MIT License](https://img.shields.io/github/license/geertmeersman/mobile_vikings?style=flat-square)](https://github.com/geertmeersman/mobile_vikings/blob/master/LICENSE)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=flat-square)](https://github.com/hacs/integration)
+
+[![Open your Home Assistant instance and open the repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg?style=flat-square)](https://my.home-assistant.io/redirect/hacs_repository/?owner=geertmeersman&repository=mobile_vikings&category=integration)
 
 [![GitHub issues](https://img.shields.io/github/issues/geertmeersman/mobile_vikings)](https://github.com/geertmeersman/mobile_vikings/issues)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/geertmeersman/mobile_vikings.svg)](http://isitmaintained.com/project/geertmeersman/mobile_vikings)
