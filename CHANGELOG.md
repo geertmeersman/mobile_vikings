@@ -1,5 +1,34 @@
 # Changelog
 
+## [v0.3.2](https://github.com/geertmeersman/mobile_vikings/tree/v0.3.2) (2023-09-22)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.3.1...v0.3.2)
+
+**Closed issues:**
+
+- Service unavailable [\#62](https://github.com/geertmeersman/mobile_vikings/issues/62)
+
+**Merged pull requests:**
+
+- fix: Bad credentials exception added, references \#62 [\#63](https://github.com/geertmeersman/mobile_vikings/pull/63) ([geertmeersman](https://github.com/geertmeersman))
+- Bump ruff from 0.0.288 to 0.0.290 [\#61](https://github.com/geertmeersman/mobile_vikings/pull/61) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ruff from 0.0.287 to 0.0.288 [\#60](https://github.com/geertmeersman/mobile_vikings/pull/60) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ruff from 0.0.286 to 0.0.287 [\#59](https://github.com/geertmeersman/mobile_vikings/pull/59) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 3 to 4 [\#58](https://github.com/geertmeersman/mobile_vikings/pull/58) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ruff from 0.0.285 to 0.0.286 [\#57](https://github.com/geertmeersman/mobile_vikings/pull/57) ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix: f-string for STARTUP [\#56](https://github.com/geertmeersman/mobile_vikings/pull/56) ([geertmeersman](https://github.com/geertmeersman))
+- Bump ruff from 0.0.278 to 0.0.285 [\#55](https://github.com/geertmeersman/mobile_vikings/pull/55) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/setup-python from 4.6.1 to 4.7.0 [\#50](https://github.com/geertmeersman/mobile_vikings/pull/50) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ruff from 0.0.277 to 0.0.278 [\#49](https://github.com/geertmeersman/mobile_vikings/pull/49) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update pip requirement from \<23.2,\>=8.0.3 to \>=8.0.3,\<23.3 [\#48](https://github.com/geertmeersman/mobile_vikings/pull/48) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ruff from 0.0.275 to 0.0.277 [\#47](https://github.com/geertmeersman/mobile_vikings/pull/47) ([dependabot[bot]](https://github.com/apps/dependabot))
+- docs: troubleshooting [\#45](https://github.com/geertmeersman/mobile_vikings/pull/45) ([geertmeersman](https://github.com/geertmeersman))
+- docs: repo finally added to HACS [\#44](https://github.com/geertmeersman/mobile_vikings/pull/44) ([geertmeersman](https://github.com/geertmeersman))
+- Bump ruff from 0.0.272 to 0.0.275 [\#43](https://github.com/geertmeersman/mobile_vikings/pull/43) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Create FUNDING.yml [\#42](https://github.com/geertmeersman/mobile_vikings/pull/42) ([geertmeersman](https://github.com/geertmeersman))
+- Bump ruff from 0.0.270 to 0.0.272 [\#41](https://github.com/geertmeersman/mobile_vikings/pull/41) ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix: beta release [\#40](https://github.com/geertmeersman/mobile_vikings/pull/40) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.3.1](https://github.com/geertmeersman/mobile_vikings/tree/v0.3.1) (2023-06-01)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.3.0...v0.3.1)
