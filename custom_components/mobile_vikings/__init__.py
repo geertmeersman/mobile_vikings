@@ -2,21 +2,19 @@
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_PASSWORD
-from homeassistant.const import CONF_USERNAME
+from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
-from homeassistant.helpers.update_coordinator import UpdateFailed
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from requests.exceptions import ConnectionError
 
 from .client import MobileVikingsClient
-from .const import _LOGGER
-from .const import COORDINATOR_UPDATE_INTERVAL
-from .const import DOMAIN
-from .const import PLATFORMS
-from .exceptions import MobileVikingsException
-from .exceptions import MobileVikingsServiceException
+from .const import _LOGGER, COORDINATOR_UPDATE_INTERVAL, DOMAIN, PLATFORMS
+from .exceptions import (
+    BadCredentialsException,
+    MobileVikingsException,
+    MobileVikingsServiceException,
+)
 from .models import MobileVikingsItem
 from .utils import log_debug
 
@@ -86,6 +84,8 @@ class MobileVikingsDataUpdateCoordinator(DataUpdateCoordinator):
             items = await self.hass.async_add_executor_job(self.client.fetch_data)
         except ConnectionError as exception:
             raise UpdateFailed(f"ConnectionError {exception}") from exception
+        except BadCredentialsException as exception:
+            raise UpdateFailed(f"BadCredentialsException {exception}") from exception
         except MobileVikingsServiceException as exception:
             raise UpdateFailed(
                 f"MobileVikingsServiceException {exception}"
