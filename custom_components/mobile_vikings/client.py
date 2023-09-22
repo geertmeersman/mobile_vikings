@@ -14,7 +14,7 @@ from .const import (
     DEFAULT_MOBILEVIKINGS_ENVIRONMENT,
     REQUEST_TIMEOUT,
 )
-from .exceptions import MobileVikingsServiceException
+from .exceptions import BadCredentialsException, MobileVikingsServiceException
 from .models import MobileVikingsEnvironment, MobileVikingsItem
 from .utils import format_entity_name, log_debug, sizeof_fmt
 
@@ -75,6 +75,10 @@ class MobileVikingsClient:
                 and connection_retry_left > 0
                 and not retrying
             ):
+                if str(response.status_code).startswith("4"):
+                    raise BadCredentialsException(
+                        f"[{caller}] Response HTTP {response.status_code}, Response: {response.text}, Url: {response.url}"
+                    )
                 raise MobileVikingsServiceException(
                     f"[{caller}] Expecting HTTP {expected} | Response HTTP {response.status_code}, Response: {response.text}, Url: {response.url}"
                 )
