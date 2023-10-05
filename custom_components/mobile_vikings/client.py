@@ -407,8 +407,17 @@ class MobileVikingsClient:
                         "Out of bundle cost threshold": balance.get(
                             "out_of_bundle_cost_threshold"
                         ),
-                        "Credit": balance.get("credit"),
                     },
+                )
+                key = format_entity_name(f"{msisdn} credit")
+                data[key] = MobileVikingsItem(
+                    name="Credit",
+                    key=key,
+                    type="euro",
+                    device_key=device_key,
+                    device_name=device_name,
+                    device_model=device_model,
+                    state=balance.get("credit"),
                 )
                 key = format_entity_name(f"{msisdn} subscription")
                 data[key] = MobileVikingsItem(
