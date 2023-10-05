@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.4.2](https://github.com/geertmeersman/mobile_vikings/tree/v0.4.2) (2023-10-05)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.4.1...v0.4.2)
+
+**Merged pull requests:**
+
+- fix: sensor increment for bundle [\#72](https://github.com/geertmeersman/mobile_vikings/pull/72) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.4.1](https://github.com/geertmeersman/mobile_vikings/tree/v0.4.1) (2023-10-05)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.4.0...v0.4.1)
