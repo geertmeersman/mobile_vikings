@@ -364,7 +364,6 @@ class MobileVikingsClient:
                 product = balance.get("product")
                 msisdn = subscription.get("sim").get("msisdn")
                 if msisdn[0:2] == "32":
-                    _LOGGER.debug(f"32 GEVONDEN: {msisdn}")
                     msisdn = f"0{msisdn[2:]}"
                 device_key = format_entity_name(f"{product.get('type')} {msisdn}")
                 device_name = f"{msisdn} | {product.get('descriptions').get('title')}"
@@ -430,6 +429,9 @@ class MobileVikingsClient:
                     state=subscription.get("sim").get("alias"),
                     extra_attributes=subscription,
                 )
+                bundle_data = 0
+                bundle_voice = 0
+                bundle_sms = 0
 
                 for bundle in balance.get("bundles"):
                     type = bundle.get("type")
@@ -484,6 +486,9 @@ class MobileVikingsClient:
                     else:
                         state = round(100 * used / total)
                     if type == "data":
+                        if suffix == "" and bundle_data > 0:
+                            suffix = f"{suffix} {bundle_data}"
+                            bundle_data += 1
                         if state == "∞":
                             used_human = sizeof_fmt(used)
                             extra_attributes |= {
@@ -512,6 +517,9 @@ class MobileVikingsClient:
                             extra_attributes=extra_attributes,
                         )
                     elif type == "voice":
+                        if suffix == "" and bundle_voice > 0:
+                            suffix = f"{suffix} {bundle_voice}"
+                            bundle_voice += 1
                         used_human = f"{str(round(used/60))} min"
                         if state == "∞":
                             extra_attributes |= {
@@ -540,6 +548,9 @@ class MobileVikingsClient:
                             extra_attributes=extra_attributes,
                         )
                     elif type == "sms":
+                        if suffix == "" and bundle_sms > 0:
+                            suffix = f"{suffix} {bundle_sms}"
+                            bundle_sms += 1
                         used_human = str(round(used)) + " sms'en"
                         if state == "∞":
                             extra_attributes |= {
