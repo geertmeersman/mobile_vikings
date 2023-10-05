@@ -5,18 +5,12 @@ from datetime import datetime
 
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceEntryType
-from homeassistant.helpers.entity import DeviceInfo
-from homeassistant.helpers.entity import EntityDescription
+from homeassistant.helpers.entity import DeviceInfo, EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from . import MobileVikingsDataUpdateCoordinator
-from .const import ATTRIBUTION
-from .const import DOMAIN
-from .const import NAME
-from .const import VERSION
-from .const import WEBSITE
+from .const import _LOGGER, ATTRIBUTION, DOMAIN, NAME, VERSION, WEBSITE
 from .models import MobileVikingsItem
-from .utils import log_debug
 from .utils import sensor_name
 
 
@@ -53,7 +47,7 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
         self.last_synced = datetime.now()
         self._attr_name = sensor_name(self.item.name)
         self._item = item
-        log_debug(f"[MobileVikingsEntity|init] {self._key}")
+        _LOGGER.debug(f"[MobileVikingsEntity|init] {self._key}")
 
     @callback
     def _handle_coordinator_update(self) -> None:
@@ -66,7 +60,7 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
                     self._item = item
                     self.async_write_ha_state()
                     return
-        log_debug(
+        _LOGGER.debug(
             f"[MobileVikingsEntity|_handle_coordinator_update] {self._attr_unique_id}: async_write_ha_state ignored since API fetch failed or not found",
             True,
         )

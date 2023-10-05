@@ -16,7 +16,7 @@ from .const import (
 )
 from .exceptions import BadCredentialsException, MobileVikingsServiceException
 from .models import MobileVikingsEnvironment, MobileVikingsItem
-from .utils import format_entity_name, log_debug, sizeof_fmt
+from .utils import _LOGGER, format_entity_name, sizeof_fmt
 
 
 class MobileVikingsClient:
@@ -54,16 +54,16 @@ class MobileVikingsClient:
     ) -> dict:
         """Send a request to MobileVikings."""
         if data is None:
-            log_debug(f"{caller} Calling GET {url}")
+            _LOGGER.debug(f"{caller} Calling GET {url}")
             response = self.session.get(url, timeout=REQUEST_TIMEOUT)
         else:
-            log_debug(f"{caller} Calling POST {url} with {data}")
+            _LOGGER.debug(f"{caller} Calling POST {url} with {data}")
             response = self.session.post(url, data, timeout=REQUEST_TIMEOUT)
-        log_debug(
+        _LOGGER.debug(
             f"{caller} http status code = {response.status_code} (expecting {expected})"
         )
-        if log:
-            log_debug(f"{caller} Response:\n{response.text}")
+        if "authenticate" not in caller:
+            _LOGGER.debug(f"{caller} Response:\n{response.text}")
         if expected is not None and response.status_code != expected:
             if response.status_code == 404:
                 self.request_error = response.json()
@@ -82,7 +82,7 @@ class MobileVikingsClient:
                 raise MobileVikingsServiceException(
                     f"[{caller}] Expecting HTTP {expected} | Response HTTP {response.status_code}, Response: {response.text}, Url: {response.url}"
                 )
-            log_debug(
+            _LOGGER.debug(
                 f"[MobileVikingsClient|request] Received a HTTP {response.status_code}, nothing to worry about! We give it another try :-)"
             )
             self.login()
@@ -94,7 +94,7 @@ class MobileVikingsClient:
     def login(self) -> dict:
         """Start a new MobileVikings session with a user & password."""
 
-        log_debug("[MobileVikingsClient|login|start]")
+        _LOGGER.debug("[MobileVikingsClient|login|start]")
         """Login process"""
         if self.username is None or self.password is None:
             return False
@@ -145,7 +145,6 @@ class MobileVikingsClient:
             "subscriptions",
             None,
             200,
-            True,
         )
         return response.json()
 
@@ -156,7 +155,6 @@ class MobileVikingsClient:
             "me",
             None,
             200,
-            True,
         )
         return response.json()
 
@@ -167,7 +165,6 @@ class MobileVikingsClient:
             "balance",
             None,
             200,
-            True,
         )
         return response.json()
 
@@ -178,7 +175,6 @@ class MobileVikingsClient:
             "invoice_address",
             None,
             200,
-            True,
         )
         return response.json()
 
@@ -189,7 +185,6 @@ class MobileVikingsClient:
             "products",
             None,
             200,
-            True,
         )
         return response.json()
 
@@ -200,7 +195,6 @@ class MobileVikingsClient:
             "loyalty_points",
             None,
             200,
-            True,
         )
         return response.json()
 
@@ -211,7 +205,6 @@ class MobileVikingsClient:
             "claims",
             None,
             200,
-            True,
         )
         return response.json()
 
@@ -222,7 +215,6 @@ class MobileVikingsClient:
             "open_invoices",
             None,
             200,
-            True,
         )
         return response.json()
 
@@ -233,7 +225,6 @@ class MobileVikingsClient:
             "paid_invoices",
             None,
             200,
-            True,
         )
         return response.json()
 
@@ -246,7 +237,7 @@ class MobileVikingsClient:
             return False
         logged_in = self.logged_in()
         if not logged_in:
-            log_debug("[MobileVikingsClient|fetch_data] Logged out, renewing token")
+            _LOGGER.debug("[MobileVikingsClient|fetch_data] Logged out, renewing token")
             self.login()
 
         me = self.me()
@@ -373,7 +364,7 @@ class MobileVikingsClient:
                 product = balance.get("product")
                 msisdn = subscription.get("sim").get("msisdn")
                 if msisdn[0:2] == "32":
-                    log_debug(f"32 GEVONDEN: {msisdn}")
+                    _LOGGER.debug(f"32 GEVONDEN: {msisdn}")
                     msisdn = f"0{msisdn[2:]}"
                 device_key = format_entity_name(f"{product.get('type')} {msisdn}")
                 device_name = f"{msisdn} | {product.get('descriptions').get('title')}"
