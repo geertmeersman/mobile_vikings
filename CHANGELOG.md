@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.4.1](https://github.com/geertmeersman/mobile_vikings/tree/v0.4.1) (2023-10-05)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.4.0...v0.4.1)
+
+**Closed issues:**
+
+- Remaining credit when monthly "bundle" has expired [\#66](https://github.com/geertmeersman/mobile_vikings/issues/66)
+
+**Merged pull requests:**
+
+- fix: add all different bundle sensors [\#71](https://github.com/geertmeersman/mobile_vikings/pull/71) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.4.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.4.0) (2023-10-05)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.3.3-beta.8...v0.4.0)
