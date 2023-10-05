@@ -1,5 +1,24 @@
 # Changelog
 
+## [v0.4.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.4.0) (2023-10-05)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.3.3-beta.8...v0.4.0)
+
+**Merged pull requests:**
+
+- feat: add credit as an individual sensor, references \#66 [\#70](https://github.com/geertmeersman/mobile_vikings/pull/70) ([geertmeersman](https://github.com/geertmeersman))
+- refactor: logging [\#69](https://github.com/geertmeersman/mobile_vikings/pull/69) ([geertmeersman](https://github.com/geertmeersman))
+
+## [v0.3.3-beta.8](https://github.com/geertmeersman/mobile_vikings/tree/v0.3.3-beta.8) (2023-10-05)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.3.2...v0.3.3-beta.8)
+
+**Merged pull requests:**
+
+- Bump ruff from 0.0.291 to 0.0.292 [\#68](https://github.com/geertmeersman/mobile_vikings/pull/68) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/setup-python from 4.7.0 to 4.7.1 [\#67](https://github.com/geertmeersman/mobile_vikings/pull/67) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ruff from 0.0.290 to 0.0.291 [\#64](https://github.com/geertmeersman/mobile_vikings/pull/64) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v0.3.2](https://github.com/geertmeersman/mobile_vikings/tree/v0.3.2) (2023-09-22)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.3.1...v0.3.2)
