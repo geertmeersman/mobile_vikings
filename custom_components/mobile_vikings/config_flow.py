@@ -1,30 +1,24 @@
 """Config flow to configure the MobileVikings integration."""
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import Any
 
-import homeassistant.helpers.config_validation as cv
-import voluptuous as vol
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.config_entries import ConfigFlow
-from homeassistant.config_entries import OptionsFlow
-from homeassistant.const import CONF_PASSWORD
-from homeassistant.const import CONF_USERNAME
+from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
+from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import callback
-from homeassistant.data_entry_flow import FlowHandler
-from homeassistant.data_entry_flow import FlowResult
-from homeassistant.helpers.selector import TextSelector
-from homeassistant.helpers.selector import TextSelectorConfig
-from homeassistant.helpers.selector import TextSelectorType
+from homeassistant.data_entry_flow import FlowHandler, FlowResult
+import homeassistant.helpers.config_validation as cv
+from homeassistant.helpers.selector import (
+    TextSelector,
+    TextSelectorConfig,
+    TextSelectorType,
+)
 from homeassistant.helpers.typing import UNDEFINED
+import voluptuous as vol
 
 from .client import MobileVikingsClient
-from .const import DOMAIN
-from .const import NAME
-from .exceptions import BadCredentialsException
-from .exceptions import MobileVikingsServiceException
+from .const import _LOGGER, DOMAIN, NAME
+from .exceptions import BadCredentialsException, MobileVikingsServiceException
 from .models import MobileVikingsConfigEntryData
-from .utils import log_debug
 
 DEFAULT_ENTRY_DATA = MobileVikingsConfigEntryData(
     username=None,
@@ -75,7 +69,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
                 self.new_entry_data |= user_input
                 await self.async_set_unique_id(f"{DOMAIN}_" + user_input[CONF_USERNAME])
                 self._abort_if_unique_id_configured()
-                log_debug(f"New account {self.new_title} added")
+                _LOGGER.debug(f"New account {self.new_title} added")
                 return self.finish_flow()
             errors = test["errors"]
         fields = {
@@ -105,7 +99,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
                 profile = await self.async_validate_input(user_input)
             except AssertionError as exception:
                 errors["base"] = "cannot_connect"
-                log_debug(f"[async_step_password|login] AssertionError {exception}")
+                _LOGGER.debug(f"[async_step_password|login] AssertionError {exception}")
             except ConnectionError:
                 errors["base"] = "cannot_connect"
             except MobileVikingsServiceException:
@@ -114,7 +108,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
                 errors["base"] = "invalid_auth"
             except Exception as exception:
                 errors["base"] = "unknown"
-                log_debug(exception)
+                _LOGGER.debug(exception)
         return {"profile": profile, "errors": errors}
 
     async def async_step_password(self, user_input: dict | None = None) -> FlowResult:
@@ -128,7 +122,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
                 self.new_entry_data |= MobileVikingsConfigEntryData(
                     password=user_input[CONF_PASSWORD],
                 )
-                log_debug(
+                _LOGGER.debug(
                     f"Password changed for {test['user_details'].get('customer_number')}"
                 )
                 return self.finish_flow()

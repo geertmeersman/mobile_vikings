@@ -9,8 +9,6 @@ from homeassistant.const import Platform
 
 from .models import MobileVikingsEnvironment
 
-SHOW_DEBUG_AS_WARNING = False
-
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS: Final = [Platform.SENSOR]

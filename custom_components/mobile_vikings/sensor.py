@@ -5,23 +5,23 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
-from homeassistant.components.sensor import SensorDeviceClass
-from homeassistant.components.sensor import SensorEntity
-from homeassistant.components.sensor import SensorEntityDescription
-from homeassistant.components.sensor import SensorStateClass
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntity,
+    SensorEntityDescription,
+    SensorStateClass,
+)
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CURRENCY_EURO
-from homeassistant.const import PERCENTAGE
+from homeassistant.const import CURRENCY_EURO, PERCENTAGE
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
 
 from . import MobileVikingsDataUpdateCoordinator
-from .const import DOMAIN
+from .const import _LOGGER, DOMAIN
 from .entity import MobileVikingsEntity
 from .models import MobileVikingsItem
-from .utils import log_debug
 
 
 @dataclass
@@ -84,7 +84,7 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the MobileVikings sensors."""
-    log_debug("[sensor|async_setup_entry|async_add_entities|start]")
+    _LOGGER.debug("[sensor|async_setup_entry|async_add_entities|start]")
     coordinator: MobileVikingsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
     entities: list[MobileVikingsSensor] = []
 
@@ -92,7 +92,7 @@ async def async_setup_entry(
         description.key: description for description in SENSOR_DESCRIPTIONS
     }
 
-    # log_debug(f"[sensor|async_setup_entry|async_add_entities|SUPPORTED_KEYS] {SUPPORTED_KEYS}")
+    # _LOGGER.debug(f"[sensor|async_setup_entry|async_add_entities|SUPPORTED_KEYS] {SUPPORTED_KEYS}")
 
     if coordinator.data is not None:
         for item in coordinator.data:
@@ -110,7 +110,7 @@ async def async_setup_entry(
                     icon=description.icon,
                 )
 
-                log_debug(f"[sensor|async_setup_entry|adding] {item.name}")
+                _LOGGER.debug(f"[sensor|async_setup_entry|adding] {item.name}")
                 entities.append(
                     MobileVikingsSensor(
                         coordinator=coordinator,
@@ -119,7 +119,7 @@ async def async_setup_entry(
                     )
                 )
             else:
-                log_debug(
+                _LOGGER.debug(
                     f"[sensor|async_setup_entry|no support type found] {item.name}, type: {item.type}, keys: {SUPPORTED_KEYS.get(item.type)}",
                     True,
                 )

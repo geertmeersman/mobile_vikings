@@ -16,7 +16,6 @@ from .exceptions import (
     MobileVikingsServiceException,
 )
 from .models import MobileVikingsItem
-from .utils import log_debug
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -106,7 +105,7 @@ class MobileVikingsDataUpdateCoordinator(DataUpdateCoordinator):
 
         if len(items) > 0:
             fetched_items = {str(items[item].device_key) for item in items}
-            log_debug(
+            _LOGGER.debug(
                 f"[init|MobileVikingsDataUpdateCoordinator|_async_update_data|fetched_items] {fetched_items}"
             )
             if stale_items := current_items - fetched_items:
@@ -114,7 +113,7 @@ class MobileVikingsDataUpdateCoordinator(DataUpdateCoordinator):
                     if device := self._device_registry.async_get_device(
                         {(DOMAIN, device_key)}
                     ):
-                        log_debug(
+                        _LOGGER.debug(
                             f"[init|MobileVikingsDataUpdateCoordinator|_async_update_data|async_remove_device] {device_key}",
                             True,
                         )
@@ -125,7 +124,7 @@ class MobileVikingsDataUpdateCoordinator(DataUpdateCoordinator):
             if self.data and fetched_items - {
                 str(self.data[item].device_key) for item in self.data
             }:
-                # log_debug(f"[init|MobileVikingsDataUpdateCoordinator|_async_update_data|async_reload] {product.product_name}")
+                # _LOGGER.debug(f"[init|MobileVikingsDataUpdateCoordinator|_async_update_data|async_reload] {product.product_name}")
                 self.hass.async_create_task(
                     self.hass.config_entries.async_reload(self._config_entry_id)
                 )
