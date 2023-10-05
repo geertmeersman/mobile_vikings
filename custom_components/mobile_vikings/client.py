@@ -488,6 +488,7 @@ class MobileVikingsClient:
                     if type == "data":
                         if suffix == "" and bundle_data > 0:
                             suffix = f"{suffix} {bundle_data}"
+                        if suffix == "":
                             bundle_data += 1
                         if state == "∞":
                             used_human = sizeof_fmt(used)
@@ -519,6 +520,7 @@ class MobileVikingsClient:
                     elif type == "voice":
                         if suffix == "" and bundle_voice > 0:
                             suffix = f"{suffix} {bundle_voice}"
+                        if suffix == "":
                             bundle_voice += 1
                         used_human = f"{str(round(used/60))} min"
                         if state == "∞":
@@ -550,6 +552,7 @@ class MobileVikingsClient:
                     elif type == "sms":
                         if suffix == "" and bundle_sms > 0:
                             suffix = f"{suffix} {bundle_sms}"
+                        if suffix == "":
                             bundle_sms += 1
                         used_human = str(round(used)) + " sms'en"
                         if state == "∞":
