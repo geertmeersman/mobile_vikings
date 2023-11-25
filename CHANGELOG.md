@@ -1,5 +1,27 @@
 # Changelog
 
+## [v0.5.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.5.0) (2023-11-25)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.4.2...v0.5.0)
+
+**Closed issues:**
+
+- Internet Sensors [\#65](https://github.com/geertmeersman/mobile_vikings/issues/65)
+
+**Merged pull requests:**
+
+- fix: config flow fix [\#84](https://github.com/geertmeersman/mobile_vikings/pull/84) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.1.5 to 0.1.6 [\#83](https://github.com/geertmeersman/mobile_vikings/pull/83) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/github-script from 6 to 7 [\#82](https://github.com/geertmeersman/mobile_vikings/pull/82) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/upload-artifact from 2 to 3 [\#81](https://github.com/geertmeersman/mobile_vikings/pull/81) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.1.4 to 0.1.5 [\#80](https://github.com/geertmeersman/mobile_vikings/pull/80) ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix: Release workflow - remove path from zip [\#79](https://github.com/geertmeersman/mobile_vikings/pull/79) ([geertmeersman](https://github.com/geertmeersman))
+- fix: Release workflow - add zip artifact [\#78](https://github.com/geertmeersman/mobile_vikings/pull/78) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.1.3 to 0.1.4 [\#77](https://github.com/geertmeersman/mobile_vikings/pull/77) ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix: Bump Python and HA [\#76](https://github.com/geertmeersman/mobile_vikings/pull/76) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.0.292 to 0.1.3 [\#75](https://github.com/geertmeersman/mobile_vikings/pull/75) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): update pip requirement from \<23.3,\>=8.0.3 to \>=8.0.3,\<23.4 [\#73](https://github.com/geertmeersman/mobile_vikings/pull/73) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v0.4.2](https://github.com/geertmeersman/mobile_vikings/tree/v0.4.2) (2023-10-05)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.4.1...v0.4.2)
