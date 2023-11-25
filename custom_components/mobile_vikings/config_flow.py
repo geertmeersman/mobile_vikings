@@ -172,7 +172,7 @@ class MobileVikingsOptionsFlow(MobileVikingsCommonFlow, OptionsFlow):
     ) -> FlowResult:
         """Manage MobileVikings options."""
         return self.async_show_menu(
-            step_id="options_init",
+            step_id="init",
             menu_options=[
                 "password",
             ],

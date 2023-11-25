@@ -22,13 +22,6 @@
   },
   "options": {
     "step": {
-      "init": {
-        "title": "Reconfigure Mobile Vikings",
-        "data": {
-          "username": "Username",
-          "password": "Password"
-        }
-      },
       "password": {
         "title": "Update your password",
         "description": "To do when you changed your password on 'Mobile Vikings'",
@@ -36,10 +29,9 @@
           "password": "Password"
         }
       },
-      "options_init": {
+      "init": {
         "title": "Change options",
         "menu_options": {
-          "language": "Sensor language",
           "password": "Password"
         }
       }
