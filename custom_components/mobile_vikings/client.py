@@ -17,7 +17,7 @@ from .const import (
 )
 from .exceptions import BadCredentialsException, MobileVikingsServiceException
 from .models import MobileVikingsEnvironment, MobileVikingsItem
-from .utils import _LOGGER, format_entity_name, sizeof_fmt
+from .utils import _LOGGER, format_entity_name, mask_fields, sizeof_fmt
 
 
 class MobileVikingsClient:
@@ -59,8 +59,7 @@ class MobileVikingsClient:
             response = self.session.get(url, timeout=REQUEST_TIMEOUT)
         else:
             data_copy = copy.deepcopy(data)
-            if "password" in data_copy:
-                data_copy["password"] = "***FILTERED***"
+            mask_fields(data_copy, ["password", "client_id", "client_secret"])
             _LOGGER.debug(f"{caller} Calling POST {url} with {data_copy}")
             response = self.session.post(url, data, timeout=REQUEST_TIMEOUT)
         _LOGGER.debug(
