@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.5.2](https://github.com/geertmeersman/mobile_vikings/tree/v0.5.2) (2023-11-28)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.5.1...v0.5.2)
+
+**Merged pull requests:**
+
+- fix: filter out sensitive fields in debug [\#87](https://github.com/geertmeersman/mobile_vikings/pull/87) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v0.5.1](https://github.com/geertmeersman/mobile_vikings/tree/v0.5.1) (2023-11-28)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.5.0...v0.5.1)
