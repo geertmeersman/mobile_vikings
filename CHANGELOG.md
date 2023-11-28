@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.5.1](https://github.com/geertmeersman/mobile_vikings/tree/v0.5.1) (2023-11-28)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.5.0...v0.5.1)
+
+**Merged pull requests:**
+
+- fix: filter out password when debugging [\#86](https://github.com/geertmeersman/mobile_vikings/pull/86) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump actions/upload-artifact from 2 to 3 [\#85](https://github.com/geertmeersman/mobile_vikings/pull/85) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v0.5.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.5.0) (2023-11-25)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.4.2...v0.5.0)
