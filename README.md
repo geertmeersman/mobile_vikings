@@ -15,6 +15,7 @@ A Home Assistant integration to monitor Mobile Vikings BE services
 - 💲 Vikings deals balance
 - 📈 Invoice sensors
 - 👱 User account information
+- 🌐 Fixed internet sensors
 
 ---
 
