@@ -1,5 +1,28 @@
 # Changelog
 
+## [v0.6.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.6.0) (2024-02-14)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.5.3...v0.6.0)
+
+**Closed issues:**
+
+- Add "Home internet" [\#100](https://github.com/geertmeersman/mobile_vikings/issues/100)
+
+**Merged pull requests:**
+
+- feat: fixed internet sensors [\#111](https://github.com/geertmeersman/mobile_vikings/pull/111) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.2.0 to 0.2.1 [\#110](https://github.com/geertmeersman/mobile_vikings/pull/110) ([dependabot[bot]](https://github.com/apps/dependabot))
+- refactor: lint [\#109](https://github.com/geertmeersman/mobile_vikings/pull/109) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump release-drafter/release-drafter from 5 to 6 [\#108](https://github.com/geertmeersman/mobile_vikings/pull/108) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.1.14 to 0.2.0 [\#107](https://github.com/geertmeersman/mobile_vikings/pull/107) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): update pip requirement from \<23.4,\>=8.0.3 to \>=8.0.3,\<24.1 [\#106](https://github.com/geertmeersman/mobile_vikings/pull/106) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump colorlog from 6.8.0 to 6.8.2 [\#105](https://github.com/geertmeersman/mobile_vikings/pull/105) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/dependency-review-action from 3 to 4 [\#104](https://github.com/geertmeersman/mobile_vikings/pull/104) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.1.13 to 0.1.14 [\#103](https://github.com/geertmeersman/mobile_vikings/pull/103) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.1.11 to 0.1.13 [\#102](https://github.com/geertmeersman/mobile_vikings/pull/102) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.1.9 to 0.1.11 [\#101](https://github.com/geertmeersman/mobile_vikings/pull/101) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.1.8 to 0.1.9 [\#98](https://github.com/geertmeersman/mobile_vikings/pull/98) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v0.5.3](https://github.com/geertmeersman/mobile_vikings/tree/v0.5.3) (2023-12-21)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.5.2...v0.5.3)
