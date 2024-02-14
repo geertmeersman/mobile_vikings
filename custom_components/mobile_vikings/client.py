@@ -1,4 +1,5 @@
 """MobileVikings API Client."""
+
 from __future__ import annotations
 
 import copy
@@ -151,6 +152,23 @@ class MobileVikingsClient:
         )
         return response.json()
 
+    def products(self):
+        """Get products."""
+        response = self.request(
+            f"{self.environment.uwa_endpoint}/20230905/mv/products",
+            "subscriptions",
+            None,
+            200,
+        )
+        return response.json()
+
+    def find_product(self, products, product_id):
+        """Find a product by it's id."""
+        for product in products:
+            if product["id"] == product_id:
+                return product
+        return None
+
     def me(self):
         """Get user info."""
         response = self.request(
@@ -181,10 +199,10 @@ class MobileVikingsClient:
         )
         return response.json()
 
-    def products(self):
-        """Get products."""
+    def modem_settings(self, subscription_id):
+        """Get product settings."""
         response = self.request(
-            f"{self.environment.uwa_endpoint}/20220211/mv/products?",
+            f"{self.environment.uwa_endpoint}/mv/subscriptions/{subscription_id}/modem/settings",
             "products",
             None,
             200,
@@ -306,7 +324,7 @@ class MobileVikingsClient:
             device_name=device_name,
             device_model=device_model,
             state=paid_invoices.get("total_items"),
-            extra_attributes={"Paid invoices list": paid_invoices.get("results")},
+            extra_attributes={"paid_invoices_list": paid_invoices.get("results")},
         )
 
         device_key = format_entity_name(f"{userid} user")
@@ -360,16 +378,17 @@ class MobileVikingsClient:
             extra_attributes=loyalty_points,
         )
         subscriptions = self.subscriptions()
+        products = self.products()
         for subscription in subscriptions:
+            subscription_id = subscription.get("id")
             if subscription.get("sim") and len(subscription.get("sim")):
-                subscription_id = subscription.get("id")
                 balance = self.balance(subscription_id)
                 product = balance.get("product")
                 msisdn = subscription.get("sim").get("msisdn")
                 if msisdn[0:2] == "32":
                     msisdn = f"0{msisdn[2:]}"
                 device_key = format_entity_name(f"{product.get('type')} {msisdn}")
-                device_name = f"{msisdn} | {product.get('descriptions').get('title')}"
+                device_name = f"{msisdn} | {subscription.get('sim').get('alias')}"
                 device_model = product.get("type").title()
                 address = self.invoice_address(subscription_id)
                 if len(address):
@@ -584,4 +603,38 @@ class MobileVikingsClient:
                             state=state,
                             extra_attributes=extra_attributes,
                         )
+            elif subscription.get("type", "") == "fixed-internet":
+                product_info = self.find_product(
+                    products, subscription.get("product_id")
+                )
+                device_key = format_entity_name(
+                    f"{product_info.get('type')} {subscription_id}"
+                )
+                device_name = product_info.get("descriptions").get("title")
+                device_model = product_info.get("type", "").title()
+
+                key = format_entity_name(f"{device_model} product")
+                data[key] = MobileVikingsItem(
+                    name=product_info.get("descriptions").get("title"),
+                    key=key,
+                    type="product_price",
+                    device_key=device_key,
+                    device_name=device_name,
+                    device_model=device_model,
+                    state=product_info.get("price"),
+                    extra_attributes=product_info,
+                )
+
+                modem = self.modem_settings(subscription_id)
+                key = format_entity_name(f"{device_model} modem")
+                data[key] = MobileVikingsItem(
+                    name="Internet Box",
+                    key=key,
+                    type="modem",
+                    device_key=device_key,
+                    device_name=device_name,
+                    device_model=device_model,
+                    state=modem.get("actual", "").get("gateway", "").get("mode", ""),
+                    extra_attributes=modem,
+                )
         return data
