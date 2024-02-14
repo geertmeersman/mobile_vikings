@@ -1,4 +1,5 @@
 """MobileVikings sensor platform."""
+
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -34,6 +35,13 @@ class MobileVikingsSensorDescription(SensorEntityDescription):
 SENSOR_DESCRIPTIONS: list[SensorEntityDescription] = [
     MobileVikingsSensorDescription(key="profile", icon="mdi:face-man"),
     MobileVikingsSensorDescription(key="subscription", icon="mdi:sim"),
+    MobileVikingsSensorDescription(key="modem", icon="mdi:router-network-wireless"),
+    MobileVikingsSensorDescription(
+        key="product_price",
+        icon="mdi:information-variant-circle-outline",
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement=CURRENCY_EURO,
+    ),
     MobileVikingsSensorDescription(
         key="euro",
         icon="mdi:currency-eur",

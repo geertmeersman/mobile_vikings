@@ -1,4 +1,5 @@
 """Base MobileVikings entity."""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -18,6 +19,16 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
     """Base MobileVikings entity."""
 
     _attr_attribution = ATTRIBUTION
+    _unrecorded_attributes = frozenset(
+        {
+            "requested",
+            "actual",
+            "metadata",
+            "product_definitions",
+            "paid_invoices_list",
+            "descriptions",
+        }
+    )
 
     def __init__(
         self,
