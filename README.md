@@ -26,6 +26,8 @@ A Home Assistant integration to monitor Mobile Vikings BE services
 [![buyme_coffee](https://img.shields.io/badge/Buy%20me%20an%20Omer-donate-yellow?style=for-the-badge&logo=buymeacoffee)](https://www.buymeacoffee.com/geertmeersman)
 [![discord](https://img.shields.io/discord/1094198226493636638?style=for-the-badge&logo=discord)](https://discord.gg/9w6UAsutdJ)
 
+[![discord](http://invidget.switchblade.xyz/9w6UAsutdJ)](https://discord.gg/9w6UAsutdJ)
+
 [![MIT License](https://img.shields.io/github/license/geertmeersman/mobile_vikings?style=flat-square)](https://github.com/geertmeersman/mobile_vikings/blob/master/LICENSE)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=flat-square)](https://github.com/hacs/integration)
 
@@ -96,6 +98,8 @@ This integration will set up the following platforms.
 If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
 
 ## Troubleshooting
+
+[![discord](http://invidget.switchblade.xyz/9w6UAsutdJ)](https://discord.gg/9w6UAsutdJ)
 
 ### Enable debug logging
 
