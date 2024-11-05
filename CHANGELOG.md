@@ -1,5 +1,57 @@
 # Changelog
 
+## [v0.7.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.7.0) (2024-11-05)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.7.0-beta.69...v0.7.0)
+
+**Merged pull requests:**
+
+- fix: make modem settings optional [\#155](https://github.com/geertmeersman/mobile_vikings/pull/155) ([geertmeersman](https://github.com/geertmeersman))
+
+## [v0.7.0-beta.69](https://github.com/geertmeersman/mobile_vikings/tree/v0.7.0-beta.69) (2024-11-05)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.6.0...v0.7.0-beta.69)
+
+**Closed issues:**
+
+- Suggestions from MV dev team [\#125](https://github.com/geertmeersman/mobile_vikings/issues/125)
+- Support for mobilevikings.pl accounts [\#99](https://github.com/geertmeersman/mobile_vikings/issues/99)
+
+**Merged pull requests:**
+
+- docs: release template [\#154](https://github.com/geertmeersman/mobile_vikings/pull/154) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.7.1 to 0.7.2 [\#153](https://github.com/geertmeersman/mobile_vikings/pull/153) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump colorlog from 6.8.2 to 6.9.0 [\#152](https://github.com/geertmeersman/mobile_vikings/pull/152) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): update pip requirement from \<24.3,\>=8.0.3 to \>=8.0.3,\<24.4 [\#150](https://github.com/geertmeersman/mobile_vikings/pull/150) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.7.0 to 0.7.1 [\#149](https://github.com/geertmeersman/mobile_vikings/pull/149) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.6.9 to 0.7.0 [\#148](https://github.com/geertmeersman/mobile_vikings/pull/148) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.6.7 to 0.6.9 [\#147](https://github.com/geertmeersman/mobile_vikings/pull/147) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.6.5 to 0.6.7 [\#145](https://github.com/geertmeersman/mobile_vikings/pull/145) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.6.3 to 0.6.5 [\#144](https://github.com/geertmeersman/mobile_vikings/pull/144) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.6.1 to 0.6.3 [\#142](https://github.com/geertmeersman/mobile_vikings/pull/142) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.5.1 to 0.6.1 [\#140](https://github.com/geertmeersman/mobile_vikings/pull/140) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): update pip requirement from \<24.2,\>=8.0.3 to \>=8.0.3,\<24.3 [\#137](https://github.com/geertmeersman/mobile_vikings/pull/137) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.5.0 to 0.5.1 [\#133](https://github.com/geertmeersman/mobile_vikings/pull/133) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.4.9 to 0.5.0 [\#132](https://github.com/geertmeersman/mobile_vikings/pull/132) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): update pip requirement from \<24.1,\>=8.0.3 to \>=8.0.3,\<24.2 [\#131](https://github.com/geertmeersman/mobile_vikings/pull/131) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.4.8 to 0.4.9 [\#129](https://github.com/geertmeersman/mobile_vikings/pull/129) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.4.7 to 0.4.8 [\#128](https://github.com/geertmeersman/mobile_vikings/pull/128) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.4.5 to 0.4.7 [\#127](https://github.com/geertmeersman/mobile_vikings/pull/127) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.4.4 to 0.4.5 [\#126](https://github.com/geertmeersman/mobile_vikings/pull/126) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.4.3 to 0.4.4 [\#124](https://github.com/geertmeersman/mobile_vikings/pull/124) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.4.2 to 0.4.3 [\#123](https://github.com/geertmeersman/mobile_vikings/pull/123) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.4.1 to 0.4.2 [\#122](https://github.com/geertmeersman/mobile_vikings/pull/122) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.3.7 to 0.4.1 [\#121](https://github.com/geertmeersman/mobile_vikings/pull/121) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.3.5 to 0.3.7 [\#120](https://github.com/geertmeersman/mobile_vikings/pull/120) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.3.4 to 0.3.5 [\#119](https://github.com/geertmeersman/mobile_vikings/pull/119) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.3.3 to 0.3.4 [\#118](https://github.com/geertmeersman/mobile_vikings/pull/118) ([dependabot[bot]](https://github.com/apps/dependabot))
+- refactor: improve github workflows [\#117](https://github.com/geertmeersman/mobile_vikings/pull/117) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.3.2 to 0.3.3 [\#116](https://github.com/geertmeersman/mobile_vikings/pull/116) ([dependabot[bot]](https://github.com/apps/dependabot))
+- docs: bug\_report markdown [\#115](https://github.com/geertmeersman/mobile_vikings/pull/115) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.3.0 to 0.3.2 [\#114](https://github.com/geertmeersman/mobile_vikings/pull/114) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.2.2 to 0.3.0 [\#113](https://github.com/geertmeersman/mobile_vikings/pull/113) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.2.1 to 0.2.2 [\#112](https://github.com/geertmeersman/mobile_vikings/pull/112) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v0.6.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.6.0) (2024-02-14)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.5.3...v0.6.0)
