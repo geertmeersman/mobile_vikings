@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+import logging
 
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceEntryType
@@ -10,9 +11,11 @@ from homeassistant.helpers.entity import DeviceInfo, EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from . import MobileVikingsDataUpdateCoordinator
-from .const import _LOGGER, ATTRIBUTION, DOMAIN, NAME, VERSION, WEBSITE
+from .const import ATTRIBUTION, DOMAIN, NAME, VERSION, WEBSITE
 from .models import MobileVikingsItem
 from .utils import sensor_name
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator]):

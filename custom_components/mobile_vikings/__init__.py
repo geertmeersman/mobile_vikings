@@ -1,6 +1,8 @@
 """MobileVikings integration."""
 from __future__ import annotations
 
+import logging
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import HomeAssistant
@@ -9,13 +11,15 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 from requests.exceptions import ConnectionError
 
 from .client import MobileVikingsClient
-from .const import _LOGGER, COORDINATOR_UPDATE_INTERVAL, DOMAIN, PLATFORMS
+from .const import COORDINATOR_UPDATE_INTERVAL, DOMAIN, PLATFORMS
 from .exceptions import (
     BadCredentialsException,
     MobileVikingsException,
     MobileVikingsServiceException,
 )
 from .models import MobileVikingsItem
+
+_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
