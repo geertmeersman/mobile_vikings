@@ -1,5 +1,6 @@
 """Config flow to configure the MobileVikings integration."""
 from abc import ABC, abstractmethod
+import logging
 from typing import Any
 
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
@@ -16,9 +17,11 @@ from homeassistant.helpers.typing import UNDEFINED
 import voluptuous as vol
 
 from .client import MobileVikingsClient
-from .const import _LOGGER, DOMAIN, NAME
+from .const import DOMAIN, NAME
 from .exceptions import BadCredentialsException, MobileVikingsServiceException
 from .models import MobileVikingsConfigEntryData
+
+_LOGGER = logging.getLogger(__name__)
 
 DEFAULT_ENTRY_DATA = MobileVikingsConfigEntryData(
     username=None,

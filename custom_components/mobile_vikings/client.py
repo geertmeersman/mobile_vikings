@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 from datetime import datetime, timezone
 import json
+import logging
 import re
 
 from requests import Session
@@ -18,7 +19,9 @@ from .const import (
 )
 from .exceptions import BadCredentialsException, MobileVikingsServiceException
 from .models import MobileVikingsEnvironment, MobileVikingsItem
-from .utils import _LOGGER, format_entity_name, mask_fields, sizeof_fmt
+from .utils import format_entity_name, mask_fields, sizeof_fmt
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class MobileVikingsClient:
@@ -205,8 +208,10 @@ class MobileVikingsClient:
             f"{self.environment.uwa_endpoint}/mv/subscriptions/{subscription_id}/modem/settings",
             "products",
             None,
-            200,
+            None,
         )
+        if str(response.status_code).startswith("4"):
+            return False
         return response.json()
 
     def loyalty_points(self):
@@ -626,15 +631,18 @@ class MobileVikingsClient:
                 )
 
                 modem = self.modem_settings(subscription_id)
-                key = format_entity_name(f"{device_model} modem")
-                data[key] = MobileVikingsItem(
-                    name="Internet Box",
-                    key=key,
-                    type="modem",
-                    device_key=device_key,
-                    device_name=device_name,
-                    device_model=device_model,
-                    state=modem.get("actual", "").get("gateway", "").get("mode", ""),
-                    extra_attributes=modem,
-                )
+                if modem:
+                    key = format_entity_name(f"{device_model} modem")
+                    data[key] = MobileVikingsItem(
+                        name="Internet Box",
+                        key=key,
+                        type="modem",
+                        device_key=device_key,
+                        device_name=device_name,
+                        device_model=device_model,
+                        state=modem.get("actual", "")
+                        .get("gateway", "")
+                        .get("mode", ""),
+                        extra_attributes=modem,
+                    )
         return data

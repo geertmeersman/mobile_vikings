@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+import logging
 from typing import Any
 
 from homeassistant.components.sensor import (
@@ -20,9 +21,11 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
 
 from . import MobileVikingsDataUpdateCoordinator
-from .const import _LOGGER, DOMAIN
+from .const import DOMAIN
 from .entity import MobileVikingsEntity
 from .models import MobileVikingsItem
+
+_LOGGER = logging.getLogger(__name__)
 
 
 @dataclass

@@ -1,10 +1,7 @@
 """MobileVikings utils."""
 from __future__ import annotations
 
-import logging
 import re
-
-_LOGGER = logging.getLogger(__name__)
 
 
 def str_to_float(input) -> float:
