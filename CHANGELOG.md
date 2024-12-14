@@ -1,16 +1,35 @@
 # Changelog
 
-## [v0.7.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.7.0) (2024-11-05)
+## [v1.0.0](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.0) (2024-12-14)
 
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.7.0-beta.69...v0.7.0)
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.8.0-beta.20...v1.0.0)
 
 **Merged pull requests:**
 
-- fix: make modem settings optional [\#155](https://github.com/geertmeersman/mobile_vikings/pull/155) ([geertmeersman](https://github.com/geertmeersman))
+- feat: MV Official API [\#164](https://github.com/geertmeersman/mobile_vikings/pull/164) ([geertmeersman](https://github.com/geertmeersman))
 
-## [v0.7.0-beta.69](https://github.com/geertmeersman/mobile_vikings/tree/v0.7.0-beta.69) (2024-11-05)
+## [v0.8.0-beta.20](https://github.com/geertmeersman/mobile_vikings/tree/v0.8.0-beta.20) (2024-12-14)
 
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.6.0...v0.7.0-beta.69)
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.7.0...v0.8.0-beta.20)
+
+**Closed issues:**
+
+- Make modem settings optional  [\#151](https://github.com/geertmeersman/mobile_vikings/issues/151)
+
+**Merged pull requests:**
+
+- build\(deps\): bump ruff from 0.8.1 to 0.8.2 [\#163](https://github.com/geertmeersman/mobile_vikings/pull/163) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.8.0 to 0.8.1 [\#162](https://github.com/geertmeersman/mobile_vikings/pull/162) ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix: github workflow delete pre-releases on release [\#161](https://github.com/geertmeersman/mobile_vikings/pull/161) ([geertmeersman](https://github.com/geertmeersman))
+- fix: beta release zip file [\#160](https://github.com/geertmeersman/mobile_vikings/pull/160) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.7.4 to 0.8.0 [\#159](https://github.com/geertmeersman/mobile_vikings/pull/159) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.7.3 to 0.7.4 [\#158](https://github.com/geertmeersman/mobile_vikings/pull/158) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.7.2 to 0.7.3 [\#157](https://github.com/geertmeersman/mobile_vikings/pull/157) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore: zip\_release for hacs [\#156](https://github.com/geertmeersman/mobile_vikings/pull/156) ([geertmeersman](https://github.com/geertmeersman))
+
+## [v0.7.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.7.0) (2024-11-05)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.6.0...v0.7.0)
 
 **Closed issues:**
 
@@ -19,6 +38,7 @@
 
 **Merged pull requests:**
 
+- fix: make modem settings optional [\#155](https://github.com/geertmeersman/mobile_vikings/pull/155) ([geertmeersman](https://github.com/geertmeersman))
 - docs: release template [\#154](https://github.com/geertmeersman/mobile_vikings/pull/154) ([geertmeersman](https://github.com/geertmeersman))
 - build\(deps\): bump ruff from 0.7.1 to 0.7.2 [\#153](https://github.com/geertmeersman/mobile_vikings/pull/153) ([dependabot[bot]](https://github.com/apps/dependabot))
 - build\(deps\): bump colorlog from 6.8.2 to 6.9.0 [\#152](https://github.com/geertmeersman/mobile_vikings/pull/152) ([dependabot[bot]](https://github.com/apps/dependabot))
@@ -153,19 +173,12 @@
 
 ## [v0.4.0](https://github.com/geertmeersman/mobile_vikings/tree/v0.4.0) (2023-10-05)
 
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.3.3-beta.8...v0.4.0)
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.3.2...v0.4.0)
 
 **Merged pull requests:**
 
 - feat: add credit as an individual sensor, references \#66 [\#70](https://github.com/geertmeersman/mobile_vikings/pull/70) ([geertmeersman](https://github.com/geertmeersman))
 - refactor: logging [\#69](https://github.com/geertmeersman/mobile_vikings/pull/69) ([geertmeersman](https://github.com/geertmeersman))
-
-## [v0.3.3-beta.8](https://github.com/geertmeersman/mobile_vikings/tree/v0.3.3-beta.8) (2023-10-05)
-
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.3.2...v0.3.3-beta.8)
-
-**Merged pull requests:**
-
 - Bump ruff from 0.0.291 to 0.0.292 [\#68](https://github.com/geertmeersman/mobile_vikings/pull/68) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump actions/setup-python from 4.7.0 to 4.7.1 [\#67](https://github.com/geertmeersman/mobile_vikings/pull/67) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump ruff from 0.0.290 to 0.0.291 [\#64](https://github.com/geertmeersman/mobile_vikings/pull/64) ([dependabot[bot]](https://github.com/apps/dependabot))
