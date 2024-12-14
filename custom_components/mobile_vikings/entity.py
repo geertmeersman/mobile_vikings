@@ -64,7 +64,7 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
             self.last_synced = datetime.now()
             self.async_write_ha_state()
             return
-        _LOGGER.critical(
+        _LOGGER.debug(
             f"[MobileVikingsEntity|_handle_coordinator_update] {self._attr_unique_id}: async_write_ha_state ignored since API fetch failed or not found",
             True,
         )
@@ -72,9 +72,13 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
     @property
     def item(self) -> dict:
         """Return the data for this entity."""
-        if self.idx is not None:
-            return self.coordinator.data[self.entity_description.key][self.idx]
-        return self.coordinator.data[self.entity_description.key]
+        try:
+            if self.idx is not None:
+                return self.coordinator.data[self.entity_description.key][self.idx]
+            return self.coordinator.data[self.entity_description.key]
+        except (KeyError, IndexError):
+            _LOGGER.error("Data not available for entity %s", self._attr_unique_id)
+            return {}
 
     @property
     def available(self) -> bool:

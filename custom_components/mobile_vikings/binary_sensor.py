@@ -173,15 +173,14 @@ class MobileVikingsBinarySensor(MobileVikingsEntity, BinarySensorEntity):
         else:
             entity_id_prefix = entry.title
         self.idx = idx
-        self.entity_id = f"sensor.{DOMAIN}_{slugify(entity_id_prefix)}_{description.unique_id_fn(self.item)}"
+        self.entity_id = f"binary_sensor.{DOMAIN}_{slugify(entity_id_prefix)}_{description.unique_id_fn(self.item)}"
         self._value: StateType = None
 
     @property
     def is_on(self) -> bool | None:
         """Return true if the binary sensor is on."""
         if self.entity_description.value_fn:
-            return self.entity_description.value_fn(self.item)
-
+            return bool(self.entity_description.value_fn(self.item))
         return self._attr_is_on
 
     @property
