@@ -70,3 +70,36 @@ def mask_fields(json_data, fields_to_mask):
             mask_fields(
                 item, fields_to_mask
             )  # Recursively traverse each item in the list
+
+
+def safe_get(data, keys, default=None):
+    """Safely retrieves nested data from a dictionary.
+
+    Args:
+    ----
+        data (dict): The dictionary to retrieve data from.
+        keys (list): A list of keys representing the path to the nested value.
+        default: The value to return if the path does not exist or an error occurs.
+
+    Returns:
+    -------
+        The retrieved value or the default value if the path is invalid.
+
+    """
+    for key in keys:
+        if not isinstance(data, dict) or key not in data:
+            return default
+        data = data[key]
+    return data
+
+
+def json_safe(obj):
+    """Convert all non-JSON-serializable types to strings."""
+    if isinstance(obj, dict):
+        return {k: json_safe(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [json_safe(v) for v in obj]
+    elif isinstance(obj, str | int | float | bool) or obj is None:
+        return obj
+    else:
+        return str(obj)  # Convert unsupported types to strings

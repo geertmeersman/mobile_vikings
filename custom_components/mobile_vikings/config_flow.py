@@ -50,11 +50,12 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
         """Validate user credentials."""
 
         client = MobileVikingsClient(
+            hass=self.hass,
             username=user_input[CONF_USERNAME],
             password=user_input[CONF_PASSWORD],
         )
 
-        profile = await self.hass.async_add_executor_job(client.login)
+        profile = await client.get_customer_info()
 
         return profile
 

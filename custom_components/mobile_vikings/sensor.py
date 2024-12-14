@@ -4,89 +4,401 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import datetime, timezone
 import logging
-from typing import Any
 
 from homeassistant.components.sensor import (
+    RestoreSensor,
     SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
-    SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CURRENCY_EURO, PERCENTAGE
+from homeassistant.const import CURRENCY_EURO, PERCENTAGE, UnitOfInformation, UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
+from homeassistant.util import slugify
 
 from . import MobileVikingsDataUpdateCoordinator
 from .const import DOMAIN
 from .entity import MobileVikingsEntity
-from .models import MobileVikingsItem
+from .utils import safe_get
 
 _LOGGER = logging.getLogger(__name__)
 
 
 @dataclass
 class MobileVikingsSensorDescription(SensorEntityDescription):
-    """Class to describe a MobileVikings sensor."""
+    """Sensor entity description for MobileVikings."""
 
-    value_fn: Callable[[Any], StateType] | None = None
+    available_fn: Callable | None = None
+    value_fn: Callable | None = None
+    attributes_fn: Callable | None = None
+    unique_id_fn: Callable | None = None
+    device_name_fn: Callable | None = None
+    entity_id_prefix_fn: Callable | None = None
+    model_fn: Callable | None = None
+    translation_key: str | None = None
 
 
-SENSOR_DESCRIPTIONS: list[SensorEntityDescription] = [
-    MobileVikingsSensorDescription(key="profile", icon="mdi:face-man"),
-    MobileVikingsSensorDescription(key="subscription", icon="mdi:sim"),
-    MobileVikingsSensorDescription(key="modem", icon="mdi:router-network-wireless"),
+SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     MobileVikingsSensorDescription(
-        key="product_price",
-        icon="mdi:information-variant-circle-outline",
-        device_class=SensorDeviceClass.MONETARY,
-        native_unit_of_measurement=CURRENCY_EURO,
+        key="customer_info",
+        translation_key="customer_info",
+        unique_id_fn=lambda data: "customer_info",
+        icon="mdi:face-man",
+        available_fn=lambda data: data.get("first_name") is not None,
+        value_fn=lambda data: data.get("first_name"),
+        device_name_fn=lambda data: "Customer",
+        model_fn=lambda data: "Customer Info",
+        attributes_fn=lambda data: data,
     ),
     MobileVikingsSensorDescription(
-        key="euro",
+        key="loyalty_points_balance",
+        translation_key="loyalty_points_available",
+        unique_id_fn=lambda data: "loyalty_points_available",
         icon="mdi:currency-eur",
+        available_fn=lambda data: data.get("available") is not None,
+        value_fn=lambda data: data.get("available"),
+        device_name_fn=lambda data: "Loyalty Points",
+        model_fn=lambda data: "Loyalty Points",
         device_class=SensorDeviceClass.MONETARY,
         native_unit_of_measurement=CURRENCY_EURO,
     ),
     MobileVikingsSensorDescription(
-        key="euro_blocked",
+        key="loyalty_points_balance",
+        translation_key="loyalty_points_blocked",
+        unique_id_fn=lambda data: "loyalty_points_blocked",
         icon="mdi:currency-eur-off",
+        available_fn=lambda data: data.get("blocked") is not None,
+        value_fn=lambda data: data.get("blocked"),
+        device_name_fn=lambda data: "Loyalty Points",
+        model_fn=lambda data: "Loyalty Points",
         device_class=SensorDeviceClass.MONETARY,
         native_unit_of_measurement=CURRENCY_EURO,
     ),
     MobileVikingsSensorDescription(
-        key="euro_pending",
+        key="loyalty_points_balance",
+        translation_key="loyalty_points_pending",
+        unique_id_fn=lambda data: "loyalty_points_pending",
         icon="mdi:timer-sand",
+        available_fn=lambda data: data.get("pending") is not None,
+        value_fn=lambda data: data.get("pending"),
+        device_name_fn=lambda data: "Loyalty Points",
+        model_fn=lambda data: "Loyalty Points",
         device_class=SensorDeviceClass.MONETARY,
         native_unit_of_measurement=CURRENCY_EURO,
     ),
     MobileVikingsSensorDescription(
-        key="usage_percentage_mobile",
-        value_fn=lambda state: round(state, 1),
+        key="paid_invoices",
+        translation_key="paid_invoices",
+        unique_id_fn=lambda data: "paid_invoices",
+        icon="mdi:receipt-text-check",
+        available_fn=lambda data: data.get("results") is not None,
+        value_fn=lambda data: data.get("total_items"),
+        device_name_fn=lambda data: "Invoices",
+        model_fn=lambda data: "Invoices",
+        attributes_fn=lambda data: {
+            "invoices": safe_get(data, ["results"], default=[])
+        },
+    ),
+    MobileVikingsSensorDescription(
+        key="unpaid_invoices",
+        translation_key="unpaid_invoices",
+        unique_id_fn=lambda data: "unpaid_invoices",
+        icon="mdi:currency-eur",
+        available_fn=lambda data: data.get("results") is not None,
+        value_fn=lambda data: sum(
+            item.get("amount_due", 0) for item in data.get("results", [])
+        ),
+        device_name_fn=lambda data: "Invoices",
+        model_fn=lambda data: "Invoices",
+        attributes_fn=lambda data: {
+            "invoices": safe_get(data, ["results"], default=[])
+        },
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement=CURRENCY_EURO,
+    ),
+    MobileVikingsSensorDescription(
+        key="unpaid_invoices",
+        translation_key="next_invoice_expiration",
+        unique_id_fn=lambda data: "next_invoice_expiration",
+        icon="mdi:calendar-star",
+        available_fn=lambda data: data.get("results") is not None,
+        value_fn=lambda data: min(
+            (
+                datetime.fromisoformat(item["expiration_date"].replace("Z", "+00:00"))
+                for item in data.get("results", [])
+                if "expiration_date" in item
+            ),
+            default=None,
+        ),
+        device_name_fn=lambda data: "Invoices",
+        model_fn=lambda data: "Invoices",
+        attributes_fn=lambda data: {
+            "days_until_next_expiration_date": (
+                (
+                    min(
+                        (
+                            datetime.fromisoformat(
+                                item["expiration_date"].replace("Z", "+00:00")
+                            )
+                            for item in data.get("results", [])
+                            if "expiration_date" in item
+                        ),
+                        default=None,
+                    )
+                    - datetime.now(timezone.utc)
+                ).days
+                if data.get("results")
+                else None
+            ),
+            "results": safe_get(data, ["results"], default={}),
+        },
+        device_class=SensorDeviceClass.TIMESTAMP,
+    ),
+)
+
+SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
+    # Data balance
+    MobileVikingsSensorDescription(
+        key="subscriptions",
+        translation_key="data_balance",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_data_balance"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("balance_aggregated", {})
+        .get("data", {})
+        .get("used_percentage")
+        is not None,
+        value_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "data", "used_percentage"], default=0
+        ),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        attributes_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "data"], default={}
+        ),
         native_unit_of_measurement=PERCENTAGE,
+        suggested_display_precision=0,
         icon="mdi:signal-4g",
     ),
     MobileVikingsSensorDescription(
-        key="remaining_days",
+        key="subscriptions",
+        translation_key="data_remaining",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_data_remaining"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("balance_aggregated", {})
+        .get("data", {})
+        .get("remaining_gb")
+        is not None,
+        value_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "data", "remaining_gb"], default=0
+        ),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        attributes_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "data"], default={}
+        ),
+        native_unit_of_measurement=UnitOfInformation.GIGABYTES,
+        icon="mdi:signal-4g",
+    ),
+    MobileVikingsSensorDescription(
+        key="subscriptions",
+        translation_key="remaining_days",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_remaining_days"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("balance_aggregated", {})
+        .get("data", {})
+        .get("remaining_days")
+        is not None,
+        value_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "data", "remaining_days"], default=0
+        ),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        native_unit_of_measurement=UnitOfTime.DAYS,
         icon="mdi:calendar-end-outline",
     ),
     MobileVikingsSensorDescription(
-        key="invoices",
-        icon="mdi:receipt-text-check",
-        state_class=SensorStateClass.MEASUREMENT,
+        key="subscriptions",
+        translation_key="period_percentage",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_period_pct"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("balance_aggregated", {})
+        .get("data", {})
+        .get("period_percentage")
+        is not None,
+        value_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "data", "period_percentage"], default=0
+        ),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        native_unit_of_measurement=PERCENTAGE,
+        suggested_display_precision=0,
+        icon="mdi:calendar-clock",
+    ),
+    # Voice balance
+    MobileVikingsSensorDescription(
+        key="subscriptions",
+        translation_key="voice_balance",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_voice_balance"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("balance_aggregated", {})
+        .get("voice", {})
+        .get("used_percentage")
+        is not None,
+        value_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "voice", "used_percentage"], default=0
+        ),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        attributes_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "voice"], default={}
+        ),
+        native_unit_of_measurement=PERCENTAGE,
+        suggested_display_precision=0,
+        icon="mdi:phone",
+    ),
+    # SMS balance
+    MobileVikingsSensorDescription(
+        key="subscriptions",
+        translation_key="sms_balance",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_sms_balance"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("balance_aggregated", {})
+        .get("sms", {})
+        .get("used_percentage")
+        is not None,
+        value_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "sms", "used_percentage"], default=0
+        ),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        attributes_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "sms"], default={}
+        ),
+        native_unit_of_measurement=PERCENTAGE,
+        suggested_display_precision=0,
+        icon="mdi:message",
     ),
     MobileVikingsSensorDescription(
-        key="date",
-        icon="mdi:calendar-star",
-        device_class=SensorDeviceClass.DATE,
+        key="subscriptions",
+        translation_key="out_of_bundle_cost",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_out_of_bundle_cost"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("balance", {}).get("out_of_bundle_cost")
+        is not None,
+        value_fn=lambda data: safe_get(
+            data, ["balance", "out_of_bundle_cost"], default=0
+        ),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement=CURRENCY_EURO,
+        icon="mdi:currency-eur",
     ),
-    MobileVikingsSensorDescription(key="address", icon="mdi:home"),
-    MobileVikingsSensorDescription(key="voice", icon="mdi:phone"),
-    MobileVikingsSensorDescription(key="sms", icon="mdi:message-processing"),
-]
+    MobileVikingsSensorDescription(
+        key="subscriptions",
+        translation_key="credit",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_credit"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("balance", {}).get("credit") is not None,
+        value_fn=lambda data: safe_get(data, ["balance", "credit"], default=0),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement=CURRENCY_EURO,
+        icon="mdi:currency-eur",
+    ),
+    MobileVikingsSensorDescription(
+        key="subscriptions",
+        translation_key="product_info",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_product_info"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("product", {}).get("price") is not None,
+        value_fn=lambda data: safe_get(data, ["product", "price"], default=0.0),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        attributes_fn=lambda data: safe_get(data, ["product"], default={}),
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement=CURRENCY_EURO,
+        icon="mdi:package-variant",
+    ),
+    MobileVikingsSensorDescription(
+        key="subscriptions",
+        translation_key="sim_alias",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_sim_alias"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("product", {}).get("price") is not None,
+        value_fn=lambda data: safe_get(data, ["sim", "alias"], default=""),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        attributes_fn=lambda data: safe_get(data, ["sim"], default={}),
+        icon="mdi:sim",
+    ),
+)
 
 
 async def async_setup_entry(
@@ -96,72 +408,84 @@ async def async_setup_entry(
 ) -> None:
     """Set up the MobileVikings sensors."""
     _LOGGER.debug("[sensor|async_setup_entry|async_add_entities|start]")
-    coordinator: MobileVikingsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator: MobileVikingsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id][
+        "coordinator"
+    ]
+
     entities: list[MobileVikingsSensor] = []
 
-    SUPPORTED_KEYS = {
-        description.key: description for description in SENSOR_DESCRIPTIONS
-    }
+    # Add static sensors from SENSOR_TYPES
+    for sensor_type in SENSOR_TYPES:
+        _LOGGER.debug(f"Searching for {sensor_type.key}-{sensor_type.translation_key}")
+        if sensor_type.key in coordinator.data:
+            entities.append(MobileVikingsSensor(coordinator, sensor_type, entry, None))
 
-    # _LOGGER.debug(f"[sensor|async_setup_entry|async_add_entities|SUPPORTED_KEYS] {SUPPORTED_KEYS}")
-
-    if coordinator.data is not None:
-        for item in coordinator.data:
-            item = coordinator.data[item]
-            if description := SUPPORTED_KEYS.get(item.type):
-                if item.native_unit_of_measurement is not None:
-                    native_unit_of_measurement = item.native_unit_of_measurement
-                else:
-                    native_unit_of_measurement = description.native_unit_of_measurement
-                sensor_description = MobileVikingsSensorDescription(
-                    key=str(item.key),
-                    name=item.name,
-                    value_fn=description.value_fn,
-                    native_unit_of_measurement=native_unit_of_measurement,
-                    icon=description.icon,
-                )
-
-                _LOGGER.debug(f"[sensor|async_setup_entry|adding] {item.name}")
+    for subscription_id, _ in coordinator.data.get("subscriptions", []).items():
+        # Add static sensors from SENSOR_BALANCE_TYPES
+        for sensor_type in SENSOR_BALANCE_TYPES:
+            _LOGGER.debug(
+                f"Searching for {sensor_type.key}-{sensor_type.translation_key}"
+            )
+            if sensor_type.key in coordinator.data:
                 entities.append(
                     MobileVikingsSensor(
-                        coordinator=coordinator,
-                        description=sensor_description,
-                        item=item,
+                        coordinator, sensor_type, entry, subscription_id
                     )
                 )
-            else:
-                _LOGGER.debug(
-                    f"[sensor|async_setup_entry|no support type found] {item.name}, type: {item.type}, keys: {SUPPORTED_KEYS.get(item.type)}",
-                    True,
-                )
 
-        async_add_entities(entities)
+    async_add_entities(entities)
+    return
 
 
-class MobileVikingsSensor(MobileVikingsEntity, SensorEntity):
-    """Representation of a MobileVikings sensor."""
+class MobileVikingsSensor(MobileVikingsEntity, RestoreSensor, SensorEntity):
+    """Representation of an MobileVikings sensor."""
 
     entity_description: MobileVikingsSensorDescription
+    _attr_has_entity_name = True
 
     def __init__(
         self,
         coordinator: MobileVikingsDataUpdateCoordinator,
         description: EntityDescription,
-        item: MobileVikingsItem,
+        entry: ConfigEntry,
+        idx: int,
     ) -> None:
         """Set entity ID."""
-        super().__init__(coordinator, description, item)
-        self.entity_id = f"sensor.{DOMAIN}_{self.item.key}"
+        super().__init__(coordinator, description, idx)
+        # Use the prefix from the description if provided, otherwise use the configuration title
+        if hasattr(description, "entity_id_prefix_fn") and callable(
+            description.entity_id_prefix_fn
+        ):
+            entity_id_prefix = description.entity_id_prefix_fn(self.item)
+        else:
+            entity_id_prefix = entry.title
+        self.idx = idx
+        self.entity_id = f"sensor.{DOMAIN}_{slugify(entity_id_prefix)}_{description.unique_id_fn(self.item)}"
+        self._value: StateType = None
 
     @property
-    def native_value(self) -> str:
-        """Return the status of the sensor."""
-        state = self.item.state
+    def native_value(self) -> StateType:
+        """Return the value reported by the sensor."""
+        if self.coordinator.data is not None:
+            return self.entity_description.value_fn(self.item)
+        return self._value
 
-        if self.entity_description.value_fn:
-            return self.entity_description.value_fn(state)
+    async def async_added_to_hass(self) -> None:
+        """Handle entity which will be added."""
 
-        return state
+        await super().async_added_to_hass()
+        if self.coordinator.data is None:
+            sensor_data = await self.async_get_last_sensor_data()
+            if sensor_data is not None:
+                _LOGGER.debug(f"Restoring latest data for {self.entity_id}")
+                self._value = sensor_data.native_value
+            else:
+                _LOGGER.debug(
+                    f"Restoring latest - waiting for coordinator refresh {self.entity_id}"
+                )
+                await self.coordinator.async_request_refresh()
+        else:
+            self._value = self.entity_description.value_fn(self.item)
 
     @property
     def extra_state_attributes(self):
@@ -171,7 +495,9 @@ class MobileVikingsSensor(MobileVikingsEntity, SensorEntity):
         attributes = {
             "last_synced": self.last_synced,
         }
-        if len(self.item.extra_attributes) > 0:
-            for attr in self.item.extra_attributes:
-                attributes[attr] = self.item.extra_attributes[attr]
+        if (
+            self.entity_description.attributes_fn
+            and self.entity_description.attributes_fn(self.item) is not None
+        ):
+            return attributes | self.entity_description.attributes_fn(self.item)
         return attributes

@@ -1,0 +1,126 @@
+{
+  "config": {
+    "step": {
+      "connection_init": {
+        "title": "Nouveau compte Mobile Vikings",
+        "description": "Configurez votre compte utilisateur Mobile Vikings",
+        "data": {
+          "username": "Nom d'utilisateur",
+          "password": "Mot de passe"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Le compte est déjà configuré"
+    },
+    "error": {
+      "cannot_connect": "Échec de la connexion",
+      "invalid_auth": "Authentification invalide",
+      "unknown": "Erreur inattendue",
+      "service_error": "Service indisponible"
+    }
+  },
+  "options": {
+    "step": {
+      "password": {
+        "title": "Mettre à jour votre mot de passe",
+        "description": "À faire lorsque vous avez modifié votre mot de passe sur 'Mobile Vikings'",
+        "data": {
+          "password": "Mot de passe"
+        }
+      },
+      "init": {
+        "title": "Modifier les options",
+        "menu_options": {
+          "password": "Mot de passe"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Échec de la connexion",
+      "invalid_auth": "Authentification invalide",
+      "unknown": "Erreur inattendue",
+      "service_error": "Service indisponible"
+    },
+    "abort": {
+      "already_configured": "Le compte est déjà configuré"
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "data_usage_alert": {
+        "name": "Alerte d'utilisation des données"
+      },
+      "voice_usage_alert": {
+        "name": "Alerte d'utilisation de voix"
+      },
+      "sms_usage_alert": {
+        "name": "Alerte d'utilisation de SMS"
+      }
+    },
+    "sensor": {
+      "customer_info": {
+        "name": "Infos"
+      },
+      "paid_invoices": {
+        "name": "Factures payées"
+      },
+      "unpaid_invoices": {
+        "name": "Factures impayées"
+      },
+      "next_invoice_expiration": {
+        "name": "Prochaine date d'expiration"
+      },
+      "sim_alias": {
+        "name": "Alias SIM"
+      },
+      "credit": {
+        "name": "Crédit"
+      },
+      "data_balance": {
+        "name": "Solde de données"
+      },
+      "data_remaining": {
+        "name": "Données restantes"
+      },
+      "period_percentage": {
+        "name": "Pourcentage de période"
+      },
+      "remaining_days": {
+        "name": "Jours restants"
+      },
+      "voice_balance": {
+        "name": "Solde de voix"
+      },
+      "sms_balance": {
+        "name": "Solde de SMS"
+      },
+      "product_info": {
+        "name": "Infos produit"
+      },
+      "out_of_bundle_cost": {
+        "name": "Coût hors forfait"
+      },
+      "loyalty_points_pending": {
+        "name": "En attente"
+      },
+      "loyalty_points_blocked": {
+        "name": "Bloqué"
+      },
+      "loyalty_points_available": {
+        "name": "Disponible"
+      }
+    }
+  },
+  "device": {
+    "customer": {
+      "name": "Client"
+    },
+    "subscription": {
+      "name": "Abonnement"
+    },
+    "loyalty_points": {
+      "name": "Points Viking"
+    }
+  }
+}
