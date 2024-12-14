@@ -2,10 +2,10 @@
   "config": {
     "step": {
       "connection_init": {
-        "title": "Nieuwe Mobile Vikings account",
-        "description": "Configureer je Mobile Vikings gebruikers account",
+        "title": "Nieuw Mobile Vikings-account",
+        "description": "Stel uw Mobile Vikings-gebruikersaccount in",
         "data": {
-          "username": "Gebruiker",
+          "username": "Gebruikersnaam",
           "password": "Wachtwoord"
         }
       }
@@ -14,17 +14,17 @@
       "already_configured": "Account is al geconfigureerd"
     },
     "error": {
-      "cannot_connect": "Kan geen verbinding maken",
+      "cannot_connect": "Verbinding mislukt",
       "invalid_auth": "Ongeldige authenticatie",
       "unknown": "Onverwachte fout",
-      "service_error": "Service niet beschikbaar"
+      "service_error": "Dienst niet beschikbaar"
     }
   },
   "options": {
     "step": {
       "password": {
-        "title": "Pas je wachtwoord aan",
-        "description": "Te doen wanneer je je account wachtwoord gewijzigd hebt op 'Mobile Vikings'",
+        "title": "Werk uw wachtwoord bij",
+        "description": "Te doen wanneer u uw wachtwoord op 'Mobile Vikings' heeft gewijzigd",
         "data": {
           "password": "Wachtwoord"
         }
@@ -36,14 +36,91 @@
         }
       }
     },
-    "abort": {
-      "already_configured": "Account is al geconfigureerd"
-    },
     "error": {
-      "cannot_connect": "Kan geen verbinding maken",
+      "cannot_connect": "Verbinding mislukt",
       "invalid_auth": "Ongeldige authenticatie",
       "unknown": "Onverwachte fout",
-      "service_error": "Service niet beschikbaar"
+      "service_error": "Dienst niet beschikbaar"
+    },
+    "abort": {
+      "already_configured": "Account is al geconfigureerd"
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "data_usage_alert": {
+        "name": "Data-verbruiksalarm"
+      },
+      "voice_usage_alert": {
+        "name": "Bel-verbruiksalarm"
+      },
+      "sms_usage_alert": {
+        "name": "SMS-verbruiksalarm"
+      }
+    },
+    "sensor": {
+      "customer_info": {
+        "name": "Info"
+      },
+      "paid_invoices": {
+        "name": "Betaalde facturen"
+      },
+      "unpaid_invoices": {
+        "name": "Onbetaalde facturen"
+      },
+      "next_invoice_expiration": {
+        "name": "Volgende vervaldatum"
+      },
+      "sim_alias": {
+        "name": "SIM-alias"
+      },
+      "credit": {
+        "name": "Krediet"
+      },
+      "data_balance": {
+        "name": "Data-tegoed"
+      },
+      "data_remaining": {
+        "name": "Data resterend"
+      },
+      "period_percentage": {
+        "name": "Periodepercentage"
+      },
+      "remaining_days": {
+        "name": "Resterende dagen"
+      },
+      "voice_balance": {
+        "name": "Beltegoed"
+      },
+      "sms_balance": {
+        "name": "SMS-tegoed"
+      },
+      "product_info": {
+        "name": "Productinformatie"
+      },
+      "out_of_bundle_cost": {
+        "name": "Buitengrabalen kosten"
+      },
+      "loyalty_points_pending": {
+        "name": "In behandeling"
+      },
+      "loyalty_points_blocked": {
+        "name": "Geblokkeerd"
+      },
+      "loyalty_points_available": {
+        "name": "Beschikbaar"
+      }
+    }
+  },
+  "device": {
+    "customer": {
+      "name": "Klant"
+    },
+    "subscription": {
+      "name": "Abonnement"
+    },
+    "loyalty_points": {
+      "name": "Vikingpunten"
     }
   }
 }

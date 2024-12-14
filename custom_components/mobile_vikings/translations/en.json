@@ -45,5 +45,85 @@
     "abort": {
       "already_configured": "Account is already configured"
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "data_usage_alert": {
+        "name": "Data usage alert"
+      },
+      "voice_usage_alert": {
+        "name": "Voice usage alert"
+      },
+      "sms_usage_alert": {
+        "name": "SMS usage alert"
+      }
+    },
+    "sensor": {
+      "customer_info": {
+        "name": "Info"
+      },
+      "paid_invoices": {
+        "name": "Paid invoices"
+      },
+      "unpaid_invoices": {
+        "name": "Unpaid invoices"
+      },
+      "next_invoice_expiration": {
+        "name": "Upcoming expiration date"
+      },
+      "sim_alias": {
+        "name": "SIM alias"
+      },
+      "credit": {
+        "name": "Credit"
+      },
+      "data_balance": {
+        "name": "Data balance"
+      },
+      "data_remaining": {
+        "name": "Data remaining"
+      },
+      "period_percentage": {
+        "name": "Period percentage"
+      },
+      "remaining_days": {
+        "name": "Remaining days"
+      },
+      "voice_balance": {
+        "name": "Voice balance"
+      },
+      "sms_balance": {
+        "name": "SMS balance"
+      },
+      "product_info": {
+        "name": "Product info"
+      },
+      "out_of_bundle_cost": {
+        "name": "Out of bundle cost"
+      },
+      "loyalty_points_pending": {
+        "name": "Pending"
+      },
+      "loyalty_points_blocked": {
+        "name": "Blocked"
+      },
+      "loyalty_points_available": {
+        "name": "Available"
+      }
+    }
+  },
+  "device": {
+    "customer": {
+      "name": "Customer"
+    },
+    "invoices": {
+      "name": "Invoices"
+    },
+    "subscription": {
+      "name": "Subscription"
+    },
+    "loyalty_points": {
+      "name": "Viking Points"
+    }
   }
 }
