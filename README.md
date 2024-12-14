@@ -163,6 +163,6 @@ Once you enable debug logging, you ideally need to make the error happen. Run yo
 
 The code of this Home Assistant integration has been written initially by analysing the calls made by the Mobile Vikings website. 
 
-The current version uses the MV Api as documented here: ![https://docs.api.unleashed.be/](https://docs.api.unleashed.be/)
+The current version uses the MV Api as documented here: [https://docs.api.unleashed.be/](https://docs.api.unleashed.be/)
 
 I have no link with Mobile Vikings
