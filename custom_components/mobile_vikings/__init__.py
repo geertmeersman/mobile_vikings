@@ -136,7 +136,6 @@ class MobileVikingsDataUpdateCoordinator(DataUpdateCoordinator):
             self._init = False
         for key, value in data.items():
             self.data[key] = value
-        _LOGGER.critical(self.data)
         await self.store.async_save(self.data)
 
     async def _async_update_data(self) -> dict | None:
@@ -167,7 +166,7 @@ class MobileVikingsDataUpdateCoordinator(DataUpdateCoordinator):
             entity_state = self.hass.states.get(entry.entity_id)
             if entity_state is not None:
                 continue
-            _LOGGER.critical("Removing entity: %s", entry.entity_id)
+            _LOGGER.info("Removing entity: %s", entry.entity_id)
             entity_reg.async_remove(entry.entity_id)
         self._async_remove_empty_devices(entity_reg)
 
