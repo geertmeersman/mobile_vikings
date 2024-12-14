@@ -7,15 +7,19 @@
 
 A Home Assistant integration to monitor Mobile Vikings BE services
 
-### Features
+## Features
 
-- 📱 Mobile data sensors
-- 📞 Voice & sms sensors
-- 💲 Out of bundle usage
-- 💲 Vikings deals balance
-- 📈 Invoice sensors
-- 👱 User account information
-- 🌐 Fixed internet sensors
+- View **Customer Info** such as name and account details.
+- Track **Loyalty Points**: Available, blocked, and pending points.
+- Monitor **Invoices**: Paid invoices, unpaid invoices, and the next expiration date.
+- Access subscription details, including:
+  - **Data Usage**: Remaining data and percentage used.
+  - **Voice Balance**: Minutes usage details.
+  - **SMS Balance**: SMS usage details.
+  - **Out of Bundle Costs**.
+  - **Credit Balance**.
+  - **Subscription Product Information**.
+  - **SIM Alias**.
 
 ---
 
@@ -58,6 +62,10 @@ A Home Assistant integration to monitor Mobile Vikings BE services
   - [Installation](#installation)
     - [Using HACS (recommended)](#using-hacs-recommended)
     - [Manual](#manual)
+  - [Available Sensors](#available-sensors)
+    - [Account Details](#account-details)
+    - [Invoices](#invoices)
+    - [Subscription Details](#subscription-details)
   - [Contributions are welcome!](#contributions-are-welcome)
   - [Troubleshooting](#troubleshooting)
     - [Enable debug logging](#enable-debug-logging)
@@ -92,6 +100,42 @@ This integration will set up the following platforms.
 | Platform         | Description                                             |
 | ---------------- | ------------------------------------------------------- |
 | `mobile_vikings` | Home Assistant component for Mobile Vikings BE services |
+
+## Available Sensors
+
+### Account Details
+
+| Sensor Key                 | Description              | Unit     |
+| -------------------------- | ------------------------ | -------- |
+| `customer_info`            | Customer's first name    | Text     |
+| `loyalty_points_available` | Available loyalty points | € (Euro) |
+| `loyalty_points_blocked`   | Blocked loyalty points   | € (Euro) |
+| `loyalty_points_pending`   | Pending loyalty points   | € (Euro) |
+
+### Invoices
+
+| Sensor Key                | Description                  | Unit      |
+| ------------------------- | ---------------------------- | --------- |
+| `paid_invoices`           | Total paid invoices          | Count     |
+| `unpaid_invoices`         | Unpaid invoices total amount | € (Euro)  |
+| `next_invoice_expiration` | Next invoice expiration date | Timestamp |
+
+### Subscription Details
+
+| Sensor Key           | Description                    | Unit       |
+| -------------------- | ------------------------------ | ---------- |
+| `data_balance`       | Data usage percentage          | %          |
+| `data_remaining`     | Data remaining                 | GB         |
+| `remaining_days`     | Days left in billing cycle     | Days       |
+| `period_percentage`  | Billing cycle usage percentage | %          |
+| `voice_balance`      | Voice usage percentage         | %          |
+| `sms_balance`        | SMS usage percentage           | %          |
+| `out_of_bundle_cost` | Out-of-bundle cost             | € (Euro)   |
+| `credit`             | Available credit balance       | € (Euro)   |
+| `product_info`       | Subscription product details   | Text/Price |
+| `sim_alias`          | SIM alias                      | Text       |
+
+---
 
 ## Contributions are welcome!
 
