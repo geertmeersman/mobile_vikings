@@ -137,6 +137,10 @@ class MobileVikingsDataUpdateCoordinator(DataUpdateCoordinator):
         for key, value in data.items():
             # Check if the value is a dictionary and contains an "error" key
             if isinstance(value, dict) and value.get("error"):
+                if self._debug:
+                    _LOGGER.debug(
+                        "Skipping key %s due to error: %s", key, value.get("error")
+                    )
                 continue  # Skip this key if "error" is present
             self.data[key] = value
         await self.store.async_save(self.data)
