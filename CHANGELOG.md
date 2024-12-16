@@ -1,16 +1,16 @@
 # Changelog
 
-## [v1.0.0](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.0) (2024-12-14)
+## [v1.0.1](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.1) (2024-12-16)
 
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.8.0-beta.20...v1.0.0)
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.0...v1.0.1)
 
 **Merged pull requests:**
 
-- feat: MV Official API [\#164](https://github.com/geertmeersman/mobile_vikings/pull/164) ([geertmeersman](https://github.com/geertmeersman))
+- fix: Enhanced data integrity by filtering out erroneous entries during data processing [\#165](https://github.com/geertmeersman/mobile_vikings/pull/165) ([geertmeersman](https://github.com/geertmeersman))
 
-## [v0.8.0-beta.20](https://github.com/geertmeersman/mobile_vikings/tree/v0.8.0-beta.20) (2024-12-14)
+## [v1.0.0](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.0) (2024-12-14)
 
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.7.0...v0.8.0-beta.20)
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v0.7.0...v1.0.0)
 
 **Closed issues:**
 
@@ -18,6 +18,7 @@
 
 **Merged pull requests:**
 
+- feat: MV Official API [\#164](https://github.com/geertmeersman/mobile_vikings/pull/164) ([geertmeersman](https://github.com/geertmeersman))
 - build\(deps\): bump ruff from 0.8.1 to 0.8.2 [\#163](https://github.com/geertmeersman/mobile_vikings/pull/163) ([dependabot[bot]](https://github.com/apps/dependabot))
 - build\(deps\): bump ruff from 0.8.0 to 0.8.1 [\#162](https://github.com/geertmeersman/mobile_vikings/pull/162) ([dependabot[bot]](https://github.com/apps/dependabot))
 - fix: github workflow delete pre-releases on release [\#161](https://github.com/geertmeersman/mobile_vikings/pull/161) ([geertmeersman](https://github.com/geertmeersman))
