@@ -286,6 +286,29 @@ class MobileVikingsClient:
                     "remaining": 0,
                     "unlimited": False,  # Default to False
                 }
+            else:
+                # Update valid_from and valid_until if the current bundle's values are later
+                aggregated_valid_from = datetime.strptime(
+                    aggregated_bundles[bundle_type]["valid_from"], "%Y-%m-%dT%H:%M:%S%z"
+                )
+                aggregated_valid_until = datetime.strptime(
+                    aggregated_bundles[bundle_type]["valid_until"],
+                    "%Y-%m-%dT%H:%M:%S%z",
+                )
+                bundle_valid_from = datetime.strptime(
+                    bundle["valid_from"], "%Y-%m-%dT%H:%M:%S%z"
+                )
+                bundle_valid_until = datetime.strptime(
+                    bundle["valid_until"], "%Y-%m-%dT%H:%M:%S%z"
+                )
+
+                if bundle_valid_from > aggregated_valid_from:
+                    aggregated_bundles[bundle_type]["valid_from"] = bundle["valid_from"]
+
+                if bundle_valid_until > aggregated_valid_until:
+                    aggregated_bundles[bundle_type]["valid_until"] = bundle[
+                        "valid_until"
+                    ]
 
             # Check if the bundle is not "unlimited" and set the values accordingly
             if not aggregated_bundles[bundle_type]["unlimited"]:
