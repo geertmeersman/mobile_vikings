@@ -1,117 +1,22 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "Account is already configured"
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_auth": "Invalid authentication",
+      "service_error": "Service unavailable",
+      "unknown": "Unexpected error"
+    },
     "step": {
       "connection_init": {
-        "title": "New Mobile Vikings account",
+        "data": {
+          "password": "Password",
+          "username": "Username"
+        },
         "description": "Set up your Mobile Vikings user account",
-        "data": {
-          "username": "Username",
-          "password": "Password"
-        }
-      }
-    },
-    "abort": {
-      "already_configured": "Account is already configured"
-    },
-    "error": {
-      "cannot_connect": "Failed to connect",
-      "invalid_auth": "Invalid authentication",
-      "unknown": "Unexpected error",
-      "service_error": "Service unavailable"
-    }
-  },
-  "options": {
-    "step": {
-      "password": {
-        "title": "Update your password",
-        "description": "To do when you changed your password on 'Mobile Vikings'",
-        "data": {
-          "password": "Password"
-        }
-      },
-      "init": {
-        "title": "Change options",
-        "menu_options": {
-          "password": "Password"
-        }
-      }
-    },
-    "error": {
-      "cannot_connect": "Failed to connect",
-      "invalid_auth": "Invalid authentication",
-      "unknown": "Unexpected error",
-      "service_error": "Service unavailable"
-    },
-    "abort": {
-      "already_configured": "Account is already configured"
-    }
-  },
-  "entity": {
-    "binary_sensor": {
-      "data_usage_alert": {
-        "name": "Data usage alert"
-      },
-      "voice_usage_alert": {
-        "name": "Voice usage alert"
-      },
-      "sms_usage_alert": {
-        "name": "SMS usage alert"
-      }
-    },
-    "sensor": {
-      "modem": {
-        "name": "Modem"
-      },
-      "customer_info": {
-        "name": "Info"
-      },
-      "paid_invoices": {
-        "name": "Paid invoices"
-      },
-      "unpaid_invoices": {
-        "name": "Unpaid invoices"
-      },
-      "next_invoice_expiration": {
-        "name": "Upcoming expiration date"
-      },
-      "sim_alias": {
-        "name": "SIM alias"
-      },
-      "credit": {
-        "name": "Credit"
-      },
-      "data_balance": {
-        "name": "Data balance"
-      },
-      "data_remaining": {
-        "name": "Data remaining"
-      },
-      "period_percentage": {
-        "name": "Period percentage"
-      },
-      "remaining_days": {
-        "name": "Remaining days"
-      },
-      "voice_balance": {
-        "name": "Voice balance"
-      },
-      "sms_balance": {
-        "name": "SMS balance"
-      },
-      "product_info": {
-        "name": "Product info"
-      },
-      "out_of_bundle_cost": {
-        "name": "Out of bundle cost"
-      },
-      "loyalty_points_pending": {
-        "name": "Pending"
-      },
-      "loyalty_points_blocked": {
-        "name": "Blocked"
-      },
-      "loyalty_points_available": {
-        "name": "Available"
+        "title": "New Mobile Vikings account"
       }
     }
   },
@@ -122,11 +27,106 @@
     "invoices": {
       "name": "Invoices"
     },
-    "subscription": {
-      "name": "Subscription"
-    },
     "loyalty_points": {
       "name": "Viking Points"
+    },
+    "subscription": {
+      "name": "Subscription"
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "data_usage_alert": {
+        "name": "Data usage alert"
+      },
+      "sms_usage_alert": {
+        "name": "SMS usage alert"
+      },
+      "voice_usage_alert": {
+        "name": "Voice usage alert"
+      }
+    },
+    "sensor": {
+      "credit": {
+        "name": "Credit"
+      },
+      "customer_info": {
+        "name": "Info"
+      },
+      "data_balance": {
+        "name": "Data balance"
+      },
+      "data_remaining": {
+        "name": "Data remaining"
+      },
+      "loyalty_points_available": {
+        "name": "Available"
+      },
+      "loyalty_points_blocked": {
+        "name": "Blocked"
+      },
+      "loyalty_points_pending": {
+        "name": "Pending"
+      },
+      "modem": {
+        "name": "Modem"
+      },
+      "next_invoice_expiration": {
+        "name": "Upcoming expiration date"
+      },
+      "out_of_bundle_cost": {
+        "name": "Out of bundle cost"
+      },
+      "paid_invoices": {
+        "name": "Paid invoices"
+      },
+      "period_percentage": {
+        "name": "Period percentage"
+      },
+      "product_info": {
+        "name": "Product info"
+      },
+      "remaining_days": {
+        "name": "Remaining days"
+      },
+      "sim_alias": {
+        "name": "SIM alias"
+      },
+      "sms_balance": {
+        "name": "SMS balance"
+      },
+      "unpaid_invoices": {
+        "name": "Unpaid invoices"
+      },
+      "voice_balance": {
+        "name": "Voice balance"
+      }
+    }
+  },
+  "options": {
+    "abort": {
+      "already_configured": "Account is already configured"
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_auth": "Invalid authentication",
+      "service_error": "Service unavailable",
+      "unknown": "Unexpected error"
+    },
+    "step": {
+      "init": {
+        "menu_options": {
+          "password": "Password"
+        },
+        "title": "Change options"
+      },
+      "password": {
+        "data": {
+          "password": "Password"
+        },
+        "description": "To do when you changed your password on 'Mobile Vikings'",
+        "title": "Update your password"
+      }
     }
   }
 }

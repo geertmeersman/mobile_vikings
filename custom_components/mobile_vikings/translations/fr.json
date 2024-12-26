@@ -1,117 +1,22 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "Le compte est d\u00e9j\u00e0 configur\u00e9"
+    },
+    "error": {
+      "cannot_connect": "\u00c9chec de la connexion",
+      "invalid_auth": "Authentification invalide",
+      "service_error": "Service indisponible",
+      "unknown": "Erreur inattendue"
+    },
     "step": {
       "connection_init": {
-        "title": "Nouveau compte Mobile Vikings",
+        "data": {
+          "password": "Mot de passe",
+          "username": "Nom d'utilisateur"
+        },
         "description": "Configurez votre compte utilisateur Mobile Vikings",
-        "data": {
-          "username": "Nom d'utilisateur",
-          "password": "Mot de passe"
-        }
-      }
-    },
-    "abort": {
-      "already_configured": "Le compte est déjà configuré"
-    },
-    "error": {
-      "cannot_connect": "Échec de la connexion",
-      "invalid_auth": "Authentification invalide",
-      "unknown": "Erreur inattendue",
-      "service_error": "Service indisponible"
-    }
-  },
-  "options": {
-    "step": {
-      "password": {
-        "title": "Mettre à jour votre mot de passe",
-        "description": "À faire lorsque vous avez modifié votre mot de passe sur 'Mobile Vikings'",
-        "data": {
-          "password": "Mot de passe"
-        }
-      },
-      "init": {
-        "title": "Modifier les options",
-        "menu_options": {
-          "password": "Mot de passe"
-        }
-      }
-    },
-    "error": {
-      "cannot_connect": "Échec de la connexion",
-      "invalid_auth": "Authentification invalide",
-      "unknown": "Erreur inattendue",
-      "service_error": "Service indisponible"
-    },
-    "abort": {
-      "already_configured": "Le compte est déjà configuré"
-    }
-  },
-  "entity": {
-    "binary_sensor": {
-      "data_usage_alert": {
-        "name": "Alerte d'utilisation des données"
-      },
-      "voice_usage_alert": {
-        "name": "Alerte d'utilisation de voix"
-      },
-      "sms_usage_alert": {
-        "name": "Alerte d'utilisation de SMS"
-      }
-    },
-    "sensor": {
-      "modem": {
-        "name": "Modem"
-      },
-      "customer_info": {
-        "name": "Infos"
-      },
-      "paid_invoices": {
-        "name": "Factures payées"
-      },
-      "unpaid_invoices": {
-        "name": "Factures impayées"
-      },
-      "next_invoice_expiration": {
-        "name": "Prochaine date d'expiration"
-      },
-      "sim_alias": {
-        "name": "Alias SIM"
-      },
-      "credit": {
-        "name": "Crédit"
-      },
-      "data_balance": {
-        "name": "Solde de données"
-      },
-      "data_remaining": {
-        "name": "Données restantes"
-      },
-      "period_percentage": {
-        "name": "Pourcentage de période"
-      },
-      "remaining_days": {
-        "name": "Jours restants"
-      },
-      "voice_balance": {
-        "name": "Solde de voix"
-      },
-      "sms_balance": {
-        "name": "Solde de SMS"
-      },
-      "product_info": {
-        "name": "Infos produit"
-      },
-      "out_of_bundle_cost": {
-        "name": "Coût hors forfait"
-      },
-      "loyalty_points_pending": {
-        "name": "En attente"
-      },
-      "loyalty_points_blocked": {
-        "name": "Bloqué"
-      },
-      "loyalty_points_available": {
-        "name": "Disponible"
+        "title": "Nouveau compte Mobile Vikings"
       }
     }
   },
@@ -119,11 +24,106 @@
     "customer": {
       "name": "Client"
     },
-    "subscription": {
-      "name": "Abonnement"
-    },
     "loyalty_points": {
       "name": "Points Viking"
+    },
+    "subscription": {
+      "name": "Abonnement"
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "data_usage_alert": {
+        "name": "Alerte d'utilisation des donn\u00e9es"
+      },
+      "sms_usage_alert": {
+        "name": "Alerte d'utilisation de SMS"
+      },
+      "voice_usage_alert": {
+        "name": "Alerte d'utilisation de voix"
+      }
+    },
+    "sensor": {
+      "credit": {
+        "name": "Cr\u00e9dit"
+      },
+      "customer_info": {
+        "name": "Infos"
+      },
+      "data_balance": {
+        "name": "Solde de donn\u00e9es"
+      },
+      "data_remaining": {
+        "name": "Donn\u00e9es restantes"
+      },
+      "loyalty_points_available": {
+        "name": "Disponible"
+      },
+      "loyalty_points_blocked": {
+        "name": "Bloqu\u00e9"
+      },
+      "loyalty_points_pending": {
+        "name": "En attente"
+      },
+      "modem": {
+        "name": "Modem"
+      },
+      "next_invoice_expiration": {
+        "name": "Prochaine date d'expiration"
+      },
+      "out_of_bundle_cost": {
+        "name": "Co\u00fbt hors forfait"
+      },
+      "paid_invoices": {
+        "name": "Factures pay\u00e9es"
+      },
+      "period_percentage": {
+        "name": "Pourcentage de p\u00e9riode"
+      },
+      "product_info": {
+        "name": "Infos produit"
+      },
+      "remaining_days": {
+        "name": "Jours restants"
+      },
+      "sim_alias": {
+        "name": "Alias SIM"
+      },
+      "sms_balance": {
+        "name": "Solde de SMS"
+      },
+      "unpaid_invoices": {
+        "name": "Factures impay\u00e9es"
+      },
+      "voice_balance": {
+        "name": "Solde de voix"
+      }
+    }
+  },
+  "options": {
+    "abort": {
+      "already_configured": "Le compte est d\u00e9j\u00e0 configur\u00e9"
+    },
+    "error": {
+      "cannot_connect": "\u00c9chec de la connexion",
+      "invalid_auth": "Authentification invalide",
+      "service_error": "Service indisponible",
+      "unknown": "Erreur inattendue"
+    },
+    "step": {
+      "init": {
+        "menu_options": {
+          "password": "Mot de passe"
+        },
+        "title": "Modifier les options"
+      },
+      "password": {
+        "data": {
+          "password": "Mot de passe"
+        },
+        "description": "\u00c0 faire lorsque vous avez modifi\u00e9 votre mot de passe sur 'Mobile Vikings'",
+        "title": "Mettre \u00e0 jour votre mot de passe"
+      }
     }
   }
 }

@@ -1,117 +1,22 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "Account is al geconfigureerd"
+    },
+    "error": {
+      "cannot_connect": "Verbinding mislukt",
+      "invalid_auth": "Ongeldige authenticatie",
+      "service_error": "Dienst niet beschikbaar",
+      "unknown": "Onverwachte fout"
+    },
     "step": {
       "connection_init": {
-        "title": "Nieuw Mobile Vikings-account",
+        "data": {
+          "password": "Wachtwoord",
+          "username": "Gebruikersnaam"
+        },
         "description": "Stel uw Mobile Vikings-gebruikersaccount in",
-        "data": {
-          "username": "Gebruikersnaam",
-          "password": "Wachtwoord"
-        }
-      }
-    },
-    "abort": {
-      "already_configured": "Account is al geconfigureerd"
-    },
-    "error": {
-      "cannot_connect": "Verbinding mislukt",
-      "invalid_auth": "Ongeldige authenticatie",
-      "unknown": "Onverwachte fout",
-      "service_error": "Dienst niet beschikbaar"
-    }
-  },
-  "options": {
-    "step": {
-      "password": {
-        "title": "Werk uw wachtwoord bij",
-        "description": "Te doen wanneer u uw wachtwoord op 'Mobile Vikings' heeft gewijzigd",
-        "data": {
-          "password": "Wachtwoord"
-        }
-      },
-      "init": {
-        "title": "Opties wijzigen",
-        "menu_options": {
-          "password": "Wachtwoord"
-        }
-      }
-    },
-    "error": {
-      "cannot_connect": "Verbinding mislukt",
-      "invalid_auth": "Ongeldige authenticatie",
-      "unknown": "Onverwachte fout",
-      "service_error": "Dienst niet beschikbaar"
-    },
-    "abort": {
-      "already_configured": "Account is al geconfigureerd"
-    }
-  },
-  "entity": {
-    "binary_sensor": {
-      "data_usage_alert": {
-        "name": "Data-verbruiksalarm"
-      },
-      "voice_usage_alert": {
-        "name": "Bel-verbruiksalarm"
-      },
-      "sms_usage_alert": {
-        "name": "SMS-verbruiksalarm"
-      }
-    },
-    "sensor": {
-      "modem": {
-        "name": "Modem"
-      },
-      "customer_info": {
-        "name": "Info"
-      },
-      "paid_invoices": {
-        "name": "Betaalde facturen"
-      },
-      "unpaid_invoices": {
-        "name": "Onbetaalde facturen"
-      },
-      "next_invoice_expiration": {
-        "name": "Volgende vervaldatum"
-      },
-      "sim_alias": {
-        "name": "SIM-alias"
-      },
-      "credit": {
-        "name": "Krediet"
-      },
-      "data_balance": {
-        "name": "Data-tegoed"
-      },
-      "data_remaining": {
-        "name": "Data resterend"
-      },
-      "period_percentage": {
-        "name": "Periodepercentage"
-      },
-      "remaining_days": {
-        "name": "Resterende dagen"
-      },
-      "voice_balance": {
-        "name": "Beltegoed"
-      },
-      "sms_balance": {
-        "name": "SMS-tegoed"
-      },
-      "product_info": {
-        "name": "Productinformatie"
-      },
-      "out_of_bundle_cost": {
-        "name": "Buitenbundel kosten"
-      },
-      "loyalty_points_pending": {
-        "name": "In behandeling"
-      },
-      "loyalty_points_blocked": {
-        "name": "Geblokkeerd"
-      },
-      "loyalty_points_available": {
-        "name": "Beschikbaar"
+        "title": "Nieuw Mobile Vikings-account"
       }
     }
   },
@@ -119,11 +24,106 @@
     "customer": {
       "name": "Klant"
     },
-    "subscription": {
-      "name": "Abonnement"
-    },
     "loyalty_points": {
       "name": "Vikingpunten"
+    },
+    "subscription": {
+      "name": "Abonnement"
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "data_usage_alert": {
+        "name": "Data-verbruiksalarm"
+      },
+      "sms_usage_alert": {
+        "name": "SMS-verbruiksalarm"
+      },
+      "voice_usage_alert": {
+        "name": "Bel-verbruiksalarm"
+      }
+    },
+    "sensor": {
+      "credit": {
+        "name": "Krediet"
+      },
+      "customer_info": {
+        "name": "Info"
+      },
+      "data_balance": {
+        "name": "Data-tegoed"
+      },
+      "data_remaining": {
+        "name": "Data resterend"
+      },
+      "loyalty_points_available": {
+        "name": "Beschikbaar"
+      },
+      "loyalty_points_blocked": {
+        "name": "Geblokkeerd"
+      },
+      "loyalty_points_pending": {
+        "name": "In behandeling"
+      },
+      "modem": {
+        "name": "Modem"
+      },
+      "next_invoice_expiration": {
+        "name": "Volgende vervaldatum"
+      },
+      "out_of_bundle_cost": {
+        "name": "Buitenbundel kosten"
+      },
+      "paid_invoices": {
+        "name": "Betaalde facturen"
+      },
+      "period_percentage": {
+        "name": "Periodepercentage"
+      },
+      "product_info": {
+        "name": "Productinformatie"
+      },
+      "remaining_days": {
+        "name": "Resterende dagen"
+      },
+      "sim_alias": {
+        "name": "SIM-alias"
+      },
+      "sms_balance": {
+        "name": "SMS-tegoed"
+      },
+      "unpaid_invoices": {
+        "name": "Onbetaalde facturen"
+      },
+      "voice_balance": {
+        "name": "Beltegoed"
+      }
+    }
+  },
+  "options": {
+    "abort": {
+      "already_configured": "Account is al geconfigureerd"
+    },
+    "error": {
+      "cannot_connect": "Verbinding mislukt",
+      "invalid_auth": "Ongeldige authenticatie",
+      "service_error": "Dienst niet beschikbaar",
+      "unknown": "Onverwachte fout"
+    },
+    "step": {
+      "init": {
+        "menu_options": {
+          "password": "Wachtwoord"
+        },
+        "title": "Opties wijzigen"
+      },
+      "password": {
+        "data": {
+          "password": "Wachtwoord"
+        },
+        "description": "Te doen wanneer u uw wachtwoord op 'Mobile Vikings' heeft gewijzigd",
+        "title": "Werk uw wachtwoord bij"
+      }
     }
   }
 }
