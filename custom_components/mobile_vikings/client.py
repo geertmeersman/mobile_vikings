@@ -235,27 +235,7 @@ class MobileVikingsClient:
         return return_sub
 
     def aggregate_bundles_by_type(self, balance):
-        """Aggregate bundles by their type, summing up total, used, and remaining values.
-
-        For each unique bundle type (data, voice, sms), a single structure is created.
-
-        Args:
-            balance (dict): A dictionary containing the balance information with a key `bundles`,
-                            which is a list of dictionaries. Each bundle dictionary must have the following keys:
-                            - `type` (str): The type of the bundle (e.g., 'data', 'sms', 'voice').
-                            - `total` (float): The total amount of the bundle (in GB for data bundles).
-                            - `used` (float): The amount of the bundle that has been used (in GB for data bundles).
-                            - `remaining` (float): The amount remaining in the bundle (in GB for data bundles).
-                            - `valid_from` (str): The start date of the bundle validity (ISO 8601 format).
-                            - `valid_until` (str): The end date of the bundle validity (ISO 8601 format).
-
-        Returns:
-            dict: A dictionary with keys 'data', 'voice', 'sms', each containing the aggregated bundle for that type.
-
-        Raises:
-            KeyError: If required keys are missing in the input bundles.
-
-        """
+        """Aggregate bundles by their type, including usage, validity, and period details in days and GB."""
         # Parse the current time and make it timezone-aware
         current_time = datetime.now(timezone.utc)
 
@@ -285,32 +265,64 @@ class MobileVikingsClient:
                     "used": 0,
                     "remaining": 0,
                     "unlimited": False,  # Default to False
+                    "periods": [],  # Store individual periods for weighted calculations
                 }
-            else:
-                # Update valid_from and valid_until if the current bundle's values are later
-                aggregated_valid_from = datetime.strptime(
-                    aggregated_bundles[bundle_type]["valid_from"], "%Y-%m-%dT%H:%M:%S%z"
-                )
-                aggregated_valid_until = datetime.strptime(
-                    aggregated_bundles[bundle_type]["valid_until"],
-                    "%Y-%m-%dT%H:%M:%S%z",
-                )
-                bundle_valid_from = datetime.strptime(
-                    bundle["valid_from"], "%Y-%m-%dT%H:%M:%S%z"
-                )
-                bundle_valid_until = datetime.strptime(
-                    bundle["valid_until"], "%Y-%m-%dT%H:%M:%S%z"
-                )
 
-                if bundle_valid_from > aggregated_valid_from:
-                    aggregated_bundles[bundle_type]["valid_from"] = bundle["valid_from"]
+            # Parse bundle validity dates
+            bundle_valid_from = datetime.strptime(
+                bundle["valid_from"], "%Y-%m-%dT%H:%M:%S%z"
+            )
+            bundle_valid_until = datetime.strptime(
+                bundle["valid_until"], "%Y-%m-%dT%H:%M:%S%z"
+            )
 
-                if bundle_valid_until > aggregated_valid_until:
-                    aggregated_bundles[bundle_type]["valid_until"] = bundle[
-                        "valid_until"
-                    ]
+            # Update valid_from and valid_until to reflect the overall range
+            aggregated_valid_from = datetime.strptime(
+                aggregated_bundles[bundle_type]["valid_from"], "%Y-%m-%dT%H:%M:%S%z"
+            )
+            aggregated_valid_until = datetime.strptime(
+                aggregated_bundles[bundle_type]["valid_until"], "%Y-%m-%dT%H:%M:%S%z"
+            )
 
-            # Check if the bundle is not "unlimited" and set the values accordingly
+            if bundle_valid_from < aggregated_valid_from:
+                aggregated_bundles[bundle_type]["valid_from"] = bundle["valid_from"]
+
+            if bundle_valid_until > aggregated_valid_until:
+                aggregated_bundles[bundle_type]["valid_until"] = bundle["valid_until"]
+
+            # Calculate validity period in days
+            validity_period_seconds = (
+                bundle_valid_until - bundle_valid_from
+            ).total_seconds()
+            validity_period_days = validity_period_seconds / 86400  # Convert to days
+
+            # Calculate elapsed time and period percentage
+            elapsed_time_seconds = (current_time - bundle_valid_from).total_seconds()
+            period_percentage = max(
+                0, min((elapsed_time_seconds / validity_period_seconds) * 100, 100)
+            )
+
+            # Calculate usage percentage for this period
+            usage_percentage = (
+                (bundle["used"] / bundle["total"]) * 100 if bundle["total"] > 0 else 0
+            )
+
+            # Add this period's details to the list
+            aggregated_bundles[bundle_type]["periods"].append(
+                {
+                    "validity_period_days": round(
+                        validity_period_days, 2
+                    ),  # Validity period in days
+                    "period_percentage": round(period_percentage, 2),
+                    "usage_percentage": round(usage_percentage, 2),
+                    "remaining_gb": round(
+                        (bundle["total"] - bundle["used"]) / (1024**3), 2
+                    ),  # Remaining in GB
+                    "weight": validity_period_seconds,  # Weight by period duration
+                }
+            )
+
+            # Aggregate totals, used, and remaining
             if not aggregated_bundles[bundle_type]["unlimited"]:
                 if bundle["total"] == 0:
                     # Mark as unlimited only if not already set
@@ -322,7 +334,9 @@ class MobileVikingsClient:
                     # Sum up values for this type
                     aggregated_bundles[bundle_type]["total"] += bundle["total"]
                     aggregated_bundles[bundle_type]["used"] += bundle["used"]
-                    aggregated_bundles[bundle_type]["remaining"] += bundle["remaining"]
+                    aggregated_bundles[bundle_type]["remaining"] += (
+                        bundle["total"] - bundle["used"]
+                    )
 
         # Calculate additional values for each aggregated bundle
         for bundle in aggregated_bundles.values():
@@ -333,41 +347,29 @@ class MobileVikingsClient:
 
                 # Calculate used percentage
                 bundle["used_percentage"] = (used / total) * 100 if total > 0 else 0
-                bundle["used_percentage"] = round(
-                    bundle["used_percentage"], 2
-                )  # Round to two decimal places
+                bundle["used_percentage"] = round(bundle["used_percentage"], 2)
 
-                # Only add total_gb, used_gb, and remaining_gb if the bundle type is 'data'
-                if bundle["type"] == "data":
-                    bundle["total_gb"] = round(
-                        total / (1024**3), 2
-                    )  # Convert from bytes to GB
-                    bundle["used_gb"] = round(used / (1024**3), 2)
-                    bundle["remaining_gb"] = round(remaining / (1024**3), 2)
+                # Convert totals and remaining to GB
+                bundle["total_gb"] = round(
+                    total / (1024**3), 2
+                )  # Convert from bytes to GB
+                bundle["used_gb"] = round(used / (1024**3), 2)
+                bundle["remaining_gb"] = round(remaining / (1024**3), 2)
 
-                try:
-                    valid_from = datetime.strptime(
-                        bundle["valid_from"], "%Y-%m-%dT%H:%M:%S%z"
-                    )
-                    valid_until = datetime.strptime(
-                        bundle["valid_until"], "%Y-%m-%dT%H:%M:%S%z"
-                    )
-                except ValueError as e:
-                    raise ValueError(f"Invalid date format in bundle: {e}")
+                # Calculate weighted period progress percentage
+                total_weight = sum(period["weight"] for period in bundle["periods"])
+                combined_period_percentage = sum(
+                    (period["period_percentage"] * period["weight"]) / total_weight
+                    for period in bundle["periods"]
+                )
+                bundle["period_percentage"] = round(combined_period_percentage, 2)
 
-                # Calculate validity percentage (period_percentage)
-                validity_period = (valid_until - valid_from).total_seconds()
-                elapsed_time = (current_time - valid_from).total_seconds()
-                period_percentage = max(
-                    0, min((elapsed_time / validity_period) * 100, 100)
-                )  # Clamp between 0 and 100
-
-                # Add period percentage to the bundle
-                bundle["period_percentage"] = round(period_percentage, 2)
-
-                # Calculate remaining days in the period
+                # Calculate remaining days
+                valid_until = datetime.strptime(
+                    bundle["valid_until"], "%Y-%m-%dT%H:%M:%S%z"
+                )
                 remaining_days = (valid_until - current_time).days
-                bundle["remaining_days"] = max(remaining_days, 0)  # Avoid negative days
+                bundle["remaining_days"] = max(remaining_days, 0)
 
                 # Compare used_percentage with period_percentage and add usage_alert
                 bundle["usage_alert"] = (
