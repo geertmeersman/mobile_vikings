@@ -1,5 +1,26 @@
 # Changelog
 
+## [v1.0.2](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.2) (2024-12-26)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.2-beta.7...v1.0.2)
+
+**Merged pull requests:**
+
+- fix: Improved logic for updating validity dates of aggregated bundles to ensure accuracy [\#169](https://github.com/geertmeersman/mobile_vikings/pull/169) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.8.2 to 0.8.4 [\#168](https://github.com/geertmeersman/mobile_vikings/pull/168) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v1.0.2-beta.7](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.2-beta.7) (2024-12-26)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.2-beta.4...v1.0.2-beta.7)
+
+## [v1.0.2-beta.4](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.2-beta.4) (2024-12-26)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.1...v1.0.2-beta.4)
+
+**Merged pull requests:**
+
+- fix: Add debug when API is in error [\#166](https://github.com/geertmeersman/mobile_vikings/pull/166) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v1.0.1](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.1) (2024-12-16)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.0...v1.0.1)
