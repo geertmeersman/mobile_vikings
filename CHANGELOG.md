@@ -1,12 +1,16 @@
 # Changelog
 
+## [v1.0.4](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.4) (2024-12-26)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.3...v1.0.4)
+
+**Merged pull requests:**
+
+- fix: add modem sensor again after API update [\#170](https://github.com/geertmeersman/mobile_vikings/pull/170) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v1.0.3](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.3) (2024-12-26)
 
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.3-beta.2...v1.0.3)
-
-## [v1.0.3-beta.2](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.3-beta.2) (2024-12-26)
-
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.2...v1.0.3-beta.2)
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.2...v1.0.3)
 
 ## [v1.0.2](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.2) (2024-12-26)
 
