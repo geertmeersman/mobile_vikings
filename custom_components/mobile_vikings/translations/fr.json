@@ -59,6 +59,9 @@
       }
     },
     "sensor": {
+      "modem": {
+        "name": "Modem"
+      },
       "customer_info": {
         "name": "Infos"
       },

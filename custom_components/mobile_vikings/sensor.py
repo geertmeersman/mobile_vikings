@@ -398,6 +398,26 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         attributes_fn=lambda data: safe_get(data, ["sim"], default={}),
         icon="mdi:sim",
     ),
+    MobileVikingsSensorDescription(
+        key="subscriptions",
+        translation_key="modem",
+        unique_id_fn=lambda data: (
+            (data.get("sim") or {}).get("msisdn", "") + "_modem_settings"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data: data.get("modem_settings") is not None,
+        value_fn=lambda data: safe_get(
+            data, ["modem_settings", "actual", "gateway", "mode"], default=""
+        ),
+        device_name_fn=lambda data: "Subscription",
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        attributes_fn=lambda data: safe_get(data, ["modem_settings"], default={}),
+        icon="mdi:router-network-wireless",
+    ),
 )
 
 
