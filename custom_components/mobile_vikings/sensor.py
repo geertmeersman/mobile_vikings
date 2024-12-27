@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import logging
-from typing import Callable, Optional, Tuple
 
 from homeassistant.components.sensor import (
     RestoreSensor,
@@ -42,7 +42,7 @@ class MobileVikingsSensorDescription(SensorEntityDescription):
     entity_id_prefix_fn: Callable | None = None
     model_fn: Callable | None = None
     translation_key: str | None = None
-    subscription_types: Optional[Tuple[str, ...]] = (
+    subscription_types: tuple[str, ...] | None = (
         None  # Optional list of subscription types
     )
 

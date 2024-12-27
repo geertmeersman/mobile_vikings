@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 import logging
-from typing import Callable, Optional, Tuple
 
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
@@ -39,7 +39,7 @@ class MobileVikingsBinarySensorDescription(SensorEntityDescription):
     entity_id_prefix_fn: Callable | None = None
     model_fn: Callable | None = None
     translation_key: str | None = None
-    subscription_types: Optional[Tuple[str, ...]] = (
+    subscription_types: tuple[str, ...] | None = (
         None  # Optional list of subscription types
     )
 
