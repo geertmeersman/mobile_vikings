@@ -1,9 +1,10 @@
 """Binary sensor platform for MobileVikings."""
+
 from __future__ import annotations
 
-from collections.abc import Callable
 from dataclasses import dataclass
 import logging
+from typing import Callable, Optional, Tuple
 
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
@@ -34,14 +35,19 @@ class MobileVikingsBinarySensorDescription(SensorEntityDescription):
     attributes_fn: Callable | None = None
     unique_id_fn: Callable | None = None
     device_name_fn: Callable | None = None
+    device_identifier_fn: Callable | None = None
     entity_id_prefix_fn: Callable | None = None
     model_fn: Callable | None = None
     translation_key: str | None = None
+    subscription_types: Optional[Tuple[str, ...]] = (
+        None  # Optional list of subscription types
+    )
 
 
-SENSOR_BALANCE_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
+SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
     MobileVikingsBinarySensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid", "data-only"),
         translation_key="data_usage_alert",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_data_usage_alert"
@@ -55,6 +61,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             data, ["balance_aggregated", "data", "usage_alert"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -68,6 +75,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
     ),
     MobileVikingsBinarySensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid"),
         translation_key="voice_usage_alert",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_voice_usage_alert"
@@ -81,6 +89,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             data, ["balance_aggregated", "voice", "usage_alert"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -94,6 +103,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
     ),
     MobileVikingsBinarySensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid"),
         translation_key="sms_usage_alert",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_sms_usage_alert"
@@ -107,6 +117,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             data, ["balance_aggregated", "sms", "usage_alert"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -133,18 +144,25 @@ async def async_setup_entry(
     ]
     entities: list[MobileVikingsBinarySensor] = []
 
-    for subscription_id, _ in coordinator.data.get("subscriptions", []).items():
-        # Add static sensors from SENSOR_BALANCE_TYPES
-        for sensor_type in SENSOR_BALANCE_TYPES:
+    for subscription_id, subscription_data in coordinator.data.get(
+        "subscriptions", []
+    ).items():
+        # Add static sensors from SUBSCRIPTION_SENSOR_TYPES
+        for sensor_type in SUBSCRIPTION_SENSOR_TYPES:
             _LOGGER.debug(
                 f"Searching for {sensor_type.key}-{sensor_type.translation_key}"
             )
-            if sensor_type.key in coordinator.data:
-                entities.append(
-                    MobileVikingsBinarySensor(
-                        coordinator, sensor_type, entry, subscription_id
+            # Check if the sensor applies to this subscription type
+            if (
+                sensor_type.subscription_types is None
+                or subscription_data["type"] in sensor_type.subscription_types
+            ):
+                if sensor_type.key in coordinator.data:
+                    entities.append(
+                        MobileVikingsBinarySensor(
+                            coordinator, sensor_type, entry, subscription_id
+                        )
                     )
-                )
 
     async_add_entities(entities)
     return

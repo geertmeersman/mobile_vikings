@@ -24,6 +24,9 @@
     "customer": {
       "name": "Customer"
     },
+    "fixed_internet": {
+      "name": "Fixed Internet"
+    },
     "invoices": {
       "name": "Invoices"
     },

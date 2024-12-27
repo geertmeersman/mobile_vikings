@@ -206,6 +206,16 @@ class MobileVikingsClient:
         """
         return await self.handle_request("/loyalty-points/balance")
 
+    async def get_product_details(self, product_id):
+        """Fetch product details from the Mobile Vikings API.
+
+        Returns
+        -------
+        dict or None: A dictionary containing product details, or None if request fails.
+
+        """
+        return await self.handle_request(f"/products/{product_id}")
+
     async def get_subscriptions(self):
         """Fetch subscriptions from the Mobile Vikings API.
 
@@ -215,7 +225,7 @@ class MobileVikingsClient:
             A dictionary containing subscription information.
 
         """
-        subscriptions = await self.handle_request("/subscriptions?state=enabled")
+        subscriptions = await self.handle_request("/subscriptions")
         return_sub = {}
         for subscription in subscriptions:
             subscription_id = subscription.get("id")
@@ -231,6 +241,9 @@ class MobileVikingsClient:
                 subscription["balance_aggregated"] = self.aggregate_bundles_by_type(
                     balance
                 )
+            subscription["product"] = await self.get_product_details(
+                subscription.get("product_id")
+            )
             return_sub[subscription_id] = subscription
         return return_sub
 

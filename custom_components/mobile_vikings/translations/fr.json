@@ -24,6 +24,9 @@
     "customer": {
       "name": "Client"
     },
+    "fixed_internet": {
+      "name": "Internet Fixe"
+    },
     "loyalty_points": {
       "name": "Points Viking"
     },

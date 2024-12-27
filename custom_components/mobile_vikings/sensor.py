@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import logging
+from typing import Callable, Optional, Tuple
 
 from homeassistant.components.sensor import (
     RestoreSensor,
@@ -24,7 +24,7 @@ from homeassistant.util import slugify
 from . import MobileVikingsDataUpdateCoordinator
 from .const import DOMAIN
 from .entity import MobileVikingsEntity
-from .utils import safe_get
+from .utils import safe_get, to_title_case_with_spaces
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -38,9 +38,13 @@ class MobileVikingsSensorDescription(SensorEntityDescription):
     attributes_fn: Callable | None = None
     unique_id_fn: Callable | None = None
     device_name_fn: Callable | None = None
+    device_identifier_fn: Callable | None = None
     entity_id_prefix_fn: Callable | None = None
     model_fn: Callable | None = None
     translation_key: str | None = None
+    subscription_types: Optional[Tuple[str, ...]] = (
+        None  # Optional list of subscription types
+    )
 
 
 SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
@@ -52,6 +56,7 @@ SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         available_fn=lambda data: data.get("first_name") is not None,
         value_fn=lambda data: data.get("first_name"),
         device_name_fn=lambda data: "Customer",
+        device_identifier_fn=lambda data: "Customer",
         model_fn=lambda data: "Customer Info",
         attributes_fn=lambda data: data,
     ),
@@ -63,6 +68,7 @@ SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         available_fn=lambda data: data.get("available") is not None,
         value_fn=lambda data: data.get("available"),
         device_name_fn=lambda data: "Loyalty Points",
+        device_identifier_fn=lambda data: "Loyalty Points",
         model_fn=lambda data: "Loyalty Points",
         device_class=SensorDeviceClass.MONETARY,
         native_unit_of_measurement=CURRENCY_EURO,
@@ -75,6 +81,7 @@ SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         available_fn=lambda data: data.get("blocked") is not None,
         value_fn=lambda data: data.get("blocked"),
         device_name_fn=lambda data: "Loyalty Points",
+        device_identifier_fn=lambda data: "Loyalty Points",
         model_fn=lambda data: "Loyalty Points",
         device_class=SensorDeviceClass.MONETARY,
         native_unit_of_measurement=CURRENCY_EURO,
@@ -87,6 +94,7 @@ SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         available_fn=lambda data: data.get("pending") is not None,
         value_fn=lambda data: data.get("pending"),
         device_name_fn=lambda data: "Loyalty Points",
+        device_identifier_fn=lambda data: "Loyalty Points",
         model_fn=lambda data: "Loyalty Points",
         device_class=SensorDeviceClass.MONETARY,
         native_unit_of_measurement=CURRENCY_EURO,
@@ -99,6 +107,7 @@ SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         available_fn=lambda data: data.get("results") is not None,
         value_fn=lambda data: data.get("total_items"),
         device_name_fn=lambda data: "Invoices",
+        device_identifier_fn=lambda data: "Invoices",
         model_fn=lambda data: "Invoices",
         attributes_fn=lambda data: {
             "invoices": safe_get(data, ["results"], default=[])
@@ -114,6 +123,7 @@ SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             item.get("amount_due", 0) for item in data.get("results", [])
         ),
         device_name_fn=lambda data: "Invoices",
+        device_identifier_fn=lambda data: "Invoices",
         model_fn=lambda data: "Invoices",
         attributes_fn=lambda data: {
             "invoices": safe_get(data, ["results"], default=[])
@@ -136,6 +146,7 @@ SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             default=None,
         ),
         device_name_fn=lambda data: "Invoices",
+        device_identifier_fn=lambda data: "Invoices",
         model_fn=lambda data: "Invoices",
         attributes_fn=lambda data: {
             "days_until_next_expiration_date": (
@@ -161,11 +172,12 @@ SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     ),
 )
 
-SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
+SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     # Data balance
     MobileVikingsSensorDescription(
         key="subscriptions",
         translation_key="data_balance",
+        subscription_types=("postpaid", "prepaid", "data-only"),
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_data_balance"
         ),
@@ -178,6 +190,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             data, ["balance_aggregated", "data", "used_percentage"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -192,6 +205,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     ),
     MobileVikingsSensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid", "data-only"),
         translation_key="data_remaining",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_data_remaining"
@@ -205,6 +219,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             data, ["balance_aggregated", "data", "remaining_gb"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -218,6 +233,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     ),
     MobileVikingsSensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid", "data-only"),
         translation_key="remaining_days",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_remaining_days"
@@ -231,6 +247,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             data, ["balance_aggregated", "data", "remaining_days"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -241,6 +258,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     ),
     MobileVikingsSensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid", "data-only"),
         translation_key="period_percentage",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_period_pct"
@@ -254,6 +272,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             data, ["balance_aggregated", "data", "period_percentage"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -266,6 +285,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     # Voice balance
     MobileVikingsSensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid"),
         translation_key="voice_balance",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_voice_balance"
@@ -279,6 +299,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             data, ["balance_aggregated", "voice", "used_percentage"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -294,6 +315,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     # SMS balance
     MobileVikingsSensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid"),
         translation_key="sms_balance",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_sms_balance"
@@ -307,6 +329,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             data, ["balance_aggregated", "sms", "used_percentage"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -322,6 +345,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     MobileVikingsSensorDescription(
         key="subscriptions",
         translation_key="out_of_bundle_cost",
+        subscription_types=("postpaid", "prepaid", "data-only"),
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_out_of_bundle_cost"
         ),
@@ -332,6 +356,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             data, ["balance", "out_of_bundle_cost"], default=0
         ),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -343,6 +368,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     ),
     MobileVikingsSensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid", "data-only"),
         translation_key="credit",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_credit"
@@ -351,6 +377,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         available_fn=lambda data: data.get("balance", {}).get("credit") is not None,
         value_fn=lambda data: safe_get(data, ["balance", "credit"], default=0),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -362,6 +389,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     ),
     MobileVikingsSensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid", "fixed-internet", "data-only"),
         translation_key="product_info",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_product_info"
@@ -370,6 +398,7 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         available_fn=lambda data: data.get("product", {}).get("price") is not None,
         value_fn=lambda data: safe_get(data, ["product", "price"], default=0.0),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -382,14 +411,16 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     ),
     MobileVikingsSensorDescription(
         key="subscriptions",
+        subscription_types=("postpaid", "prepaid", "data-only"),
         translation_key="sim_alias",
         unique_id_fn=lambda data: (
             (data.get("sim") or {}).get("msisdn", "") + "_sim_alias"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: data.get("product", {}).get("price") is not None,
+        available_fn=lambda data: data.get("sim", {}).get("alias") is not None,
         value_fn=lambda data: safe_get(data, ["sim", "alias"], default=""),
         device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
         model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
         + " - "
         + safe_get(
@@ -401,16 +432,20 @@ SENSOR_BALANCE_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     MobileVikingsSensorDescription(
         key="subscriptions",
         translation_key="modem",
-        unique_id_fn=lambda data: (
-            (data.get("sim") or {}).get("msisdn", "") + "_modem_settings"
-        ),
+        subscription_types=("fixed-internet"),
+        unique_id_fn=lambda data: (data.get("id", "") + "_modem_settings"),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: data.get("modem_settings") is not None,
         value_fn=lambda data: safe_get(
             data, ["modem_settings", "actual", "gateway", "mode"], default=""
         ),
-        device_name_fn=lambda data: "Subscription",
-        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        device_name_fn=lambda data: "Fixed Internet",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
+        model_fn=lambda data: to_title_case_with_spaces(
+            safe_get(
+                data, ["installation", "modem", "modem_type"], default="Unknown Product"
+            )
+        )
         + " - "
         + safe_get(
             data, ["product", "descriptions", "title"], default="Unknown Product"
@@ -440,18 +475,25 @@ async def async_setup_entry(
         if sensor_type.key in coordinator.data:
             entities.append(MobileVikingsSensor(coordinator, sensor_type, entry, None))
 
-    for subscription_id, _ in coordinator.data.get("subscriptions", []).items():
-        # Add static sensors from SENSOR_BALANCE_TYPES
-        for sensor_type in SENSOR_BALANCE_TYPES:
+    for subscription_id, subscription_data in coordinator.data.get(
+        "subscriptions", []
+    ).items():
+        # Add static sensors from SUBSCRIPTION_SENSOR_TYPES
+        for sensor_type in SUBSCRIPTION_SENSOR_TYPES:
             _LOGGER.debug(
                 f"Searching for {sensor_type.key}-{sensor_type.translation_key}"
             )
-            if sensor_type.key in coordinator.data:
-                entities.append(
-                    MobileVikingsSensor(
-                        coordinator, sensor_type, entry, subscription_id
+            # Check if the sensor applies to this subscription type
+            if (
+                sensor_type.subscription_types is None
+                or subscription_data["type"] in sensor_type.subscription_types
+            ):
+                if sensor_type.key in coordinator.data:
+                    entities.append(
+                        MobileVikingsSensor(
+                            coordinator, sensor_type, entry, subscription_id
+                        )
                     )
-                )
 
     async_add_entities(entities)
     return
