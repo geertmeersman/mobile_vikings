@@ -1,4 +1,5 @@
 """MobileVikings utils."""
+
 from __future__ import annotations
 
 import re
@@ -7,6 +8,15 @@ import re
 def str_to_float(input) -> float:
     """Transform float to string."""
     return float(input.replace(",", "."))
+
+
+def to_title_case_with_spaces(input_string: str) -> str:
+    """Convert a string to title case (each word starts with a capital letter) and replace underscores with spaces."""
+    # Replace underscores with spaces
+    spaced_string = input_string.replace("_", " ")
+    # Convert to title case
+    title_case = spaced_string.title()
+    return title_case
 
 
 def float_to_timestring(float_time, unit_type) -> str:

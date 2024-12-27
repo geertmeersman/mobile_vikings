@@ -1,4 +1,5 @@
 """Base MobileVikings entity."""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -42,7 +43,7 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
             identifiers={
                 (
                     DOMAIN,
-                    f"{coordinator.config_entry.entry_id}-{self.entity_description.device_name_fn(self.item)}",
+                    f"{coordinator.config_entry.entry_id}-{self.entity_description.device_identifier_fn(self.item)}",
                 )
             },
             name=self.entity_description.device_name_fn(self.item),
@@ -55,7 +56,7 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
         )
         self._attr_unique_id = f"{coordinator.config_entry.entry_id}_{self.entity_description.unique_id_fn(self.item)}"
         self.last_synced = datetime.now()
-        _LOGGER.debug(f"[MobileVikingsEntity|init] {self._identifier}")
+        _LOGGER.debug(f"[MobileVikingsEntity|init] {self._attr_unique_id}")
 
     @callback
     def _handle_coordinator_update(self) -> None:

@@ -1,4 +1,5 @@
 """Constants used by MobileVikings."""
+
 from datetime import timedelta
 import json
 import logging
@@ -23,7 +24,7 @@ CLIENT_ID = "orIbwDyPep4Cju3CksWC4AXiIezY6JVHDix8I9pL"
 CLIENT_SECRET = "QquFECtjqYev6DgApjrBsOzTPFwCEv8DTBQOBMSNs77YtwIzxPGagNhDpwwt8wxOwP8B4nd4gCTvVZfuWccTfKCPSh1xVruqHjrFBs1fH4Y8lSSRcw7PPL1QlcZwAY24"
 
 # Base URL for the Mobile Vikings API
-BASE_URL = "https://uwa.mobilevikings.be/mv"
+BASE_URL = "https://uwa.mobilevikings.be/latest/mv"
 
 COORDINATOR_UPDATE_INTERVAL = timedelta(minutes=15)
 CONNECTION_RETRY = 5

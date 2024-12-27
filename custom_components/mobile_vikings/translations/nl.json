@@ -24,6 +24,12 @@
     "customer": {
       "name": "Klant"
     },
+    "fixed_internet": {
+      "name": "Vast Internet"
+    },
+    "invoices": {
+      "name": "Facturen"
+    },
     "loyalty_points": {
       "name": "Vikingpunten"
     },
