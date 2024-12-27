@@ -1,16 +1,21 @@
 # Changelog
 
+## [v1.0.5](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.5) (2024-12-27)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.4...v1.0.5)
+
+**Merged pull requests:**
+
+- fix: split subscriptions and add fixed internet, use latest MV API endpoint [\#172](https://github.com/geertmeersman/mobile_vikings/pull/172) ([geertmeersman](https://github.com/geertmeersman))
+- fix: pretty-format-json [\#171](https://github.com/geertmeersman/mobile_vikings/pull/171) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v1.0.4](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.4) (2024-12-26)
 
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.3...v1.0.4)
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.2...v1.0.4)
 
 **Merged pull requests:**
 
 - fix: add modem sensor again after API update [\#170](https://github.com/geertmeersman/mobile_vikings/pull/170) ([geertmeersman](https://github.com/geertmeersman))
-
-## [v1.0.3](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.3) (2024-12-26)
-
-[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.2...v1.0.3)
 
 ## [v1.0.2](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.2) (2024-12-26)
 
