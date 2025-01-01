@@ -1,4 +1,4 @@
-"""MobileVikings sensor platform."""
+"""Mobile Vikings sensor platform."""
 
 from __future__ import annotations
 
