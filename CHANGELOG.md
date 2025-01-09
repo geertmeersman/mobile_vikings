@@ -1,5 +1,31 @@
 # Changelog
 
+## [v1.0.6](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.6) (2025-01-09)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.6-beta.9...v1.0.6)
+
+**Merged pull requests:**
+
+- fix: catch 4xx errors when fetching balance and continue if it appears [\#176](https://github.com/geertmeersman/mobile_vikings/pull/176) ([geertmeersman](https://github.com/geertmeersman))
+- fix: only get balance data when msisdn is known [\#175](https://github.com/geertmeersman/mobile_vikings/pull/175) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.8.4 to 0.8.6 [\#174](https://github.com/geertmeersman/mobile_vikings/pull/174) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v1.0.6-beta.9](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.6-beta.9) (2025-01-09)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.6-beta.7...v1.0.6-beta.9)
+
+## [v1.0.6-beta.7](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.6-beta.7) (2025-01-09)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.6-beta.5...v1.0.6-beta.7)
+
+## [v1.0.6-beta.5](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.6-beta.5) (2025-01-09)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.5...v1.0.6-beta.5)
+
+**Merged pull requests:**
+
+- chore: improved precommit [\#173](https://github.com/geertmeersman/mobile_vikings/pull/173) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v1.0.5](https://github.com/geertmeersman/mobile_vikings/tree/v1.0.5) (2024-12-27)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.4...v1.0.5)
