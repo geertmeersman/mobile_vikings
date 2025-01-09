@@ -234,13 +234,16 @@ class MobileVikingsClient:
                     f"/subscriptions/{subscription_id}/modem/settings"
                 )
             else:
-                balance = await self.handle_request(
-                    f"/subscriptions/{subscription_id}/balance"
-                )
-                subscription["balance"] = balance
-                subscription["balance_aggregated"] = self.aggregate_bundles_by_type(
-                    balance
-                )
+               # Check if the 'sim' field exists and 'msisdn' is not empty
+               sim_info = subscription.get("sim", {})
+               if sim_info.get("msisdn"):
+                   balance = await self.handle_request(
+                       f"/subscriptions/{subscription_id}/balance"
+                   )
+                   subscription["balance"] = balance
+                   subscription["balance_aggregated"] = self.aggregate_bundles_by_type(
+                       balance
+                   )
             subscription["product"] = await self.get_product_details(
                 subscription.get("product_id")
             )
