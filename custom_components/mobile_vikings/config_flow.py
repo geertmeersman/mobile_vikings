@@ -151,12 +151,9 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
 class MobileVikingsOptionsFlow(MobileVikingsCommonFlow, OptionsFlow):
     """Handle MobileVikings options."""
 
-    general_settings: dict
-
     def __init__(self, config_entry: ConfigEntry) -> None:
         """Initialize MobileVikings options flow."""
         self.config_entry = config_entry
-        self.general_settings = {}
         super().__init__(initial_data=config_entry.data)  # type: ignore[arg-type]
 
     @callback
