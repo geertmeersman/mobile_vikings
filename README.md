@@ -90,7 +90,7 @@ A Home Assistant integration to monitor Mobile Vikings BE services
 
 ### Manual
 
-1. Copy the `custom_components/mobile_vikings` directory of this repository as `config/custom_components/mobile_vikings` in your Home Assistant instalation.
+1. Copy the `custom_components/mobile_vikings` directory of this repository as `config/custom_components/mobile_vikings` in your Home Assistant installation.
 2. Restart Home Assistant
 3. Add the 'Mobile Vikings' integration via HA Settings > 'Devices and Services' > 'Integrations'
 4. Provide your Mobile Vikings username and password
@@ -161,7 +161,7 @@ Once you enable debug logging, you ideally need to make the error happen. Run yo
 
 ## Code origin
 
-The code of this Home Assistant integration has been written initially by analysing the calls made by the Mobile Vikings website. 
+The code of this Home Assistant integration has been written initially by analysing the calls made by the Mobile Vikings website.
 
 The current version uses the MV Api as documented here: [https://docs.api.unleashed.be/](https://docs.api.unleashed.be/)
 
