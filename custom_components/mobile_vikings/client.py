@@ -242,8 +242,8 @@ class MobileVikingsClient:
                             f"/subscriptions/{subscription_id}/balance"
                         )
                         subscription["balance"] = balance
-                        subscription["balance_aggregated"] = self.aggregate_bundles_by_type(
-                            balance
+                        subscription["balance_aggregated"] = (
+                            self.aggregate_bundles_by_type(balance)
                         )
                     except Exception as e:
                         _LOGGER.debug(

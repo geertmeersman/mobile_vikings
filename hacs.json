@@ -1,7 +1,6 @@
 {
+  "filename": "mobile_vikings.zip",
   "name": "Mobile Vikings",
   "render_readme": true,
-  "country": ["BE"],
-  "zip_release": true,
-  "filename": "mobile_vikings.zip"
+  "zip_release": true
 }

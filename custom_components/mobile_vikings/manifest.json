@@ -1,7 +1,9 @@
 {
   "domain": "mobile_vikings",
   "name": "Mobile Vikings",
-  "codeowners": ["@geertmeersman"],
+  "codeowners": [
+    "@geertmeersman"
+  ],
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/geertmeersman/mobile_vikings",
