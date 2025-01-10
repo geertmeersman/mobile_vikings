@@ -26,12 +26,12 @@ jobs:
 
     - name: Sync dev-current with main
       run: |
-        #!/bin/bash
+#!/bin/bash
+set -euo pipefail
 
-        # Fetch the latest updates
-        echo "INFO: Pulling the latest changes..."
-        git pull
-
+# Fetch the latest updates
+echo "INFO: Pulling the latest changes..."
+git pull
         # Ensure we are on the main branch and update it
         echo "INFO: Switching to the main branch..."
         git switch main
