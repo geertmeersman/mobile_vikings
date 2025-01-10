@@ -48,7 +48,7 @@ jobs:
 
         # Check if dev-current is ahead of main
         echo "INFO: Checking if dev-current has unmerged commits..."
-        ahead=$(git log main..dev-current --oneline | wc -l || echo 0)
+        ahead=$(git rev-list --count main..dev-current 2>/dev/null || echo 0)
 
         if [[ $ahead -gt 0 ]]; then
             echo "----------------------------------------------------"
