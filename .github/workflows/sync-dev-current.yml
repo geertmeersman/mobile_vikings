@@ -29,13 +29,27 @@ jobs:
         #!/bin/bash
         set -euo pipefail
 
+        handle_error() {
+          echo "ERROR: Command failed: $1"
+          exit 1
+        }
+        cleanup() {
+          echo "INFO: Cleaning up..."
+          # Return to original branch if possible
+          git switch - 2>/dev/null || true
+        }
+
+        trap cleanup EXIT INT TERM
+
         # Fetch the latest updates
         echo "INFO: Pulling the latest changes..."
-        git pull
+        git pull || handle_error "git pull failed"
+
         # Ensure we are on the main branch and update it
         echo "INFO: Switching to the main branch..."
-        git switch main
-        git pull
+        git switch main || handle_error "Failed to switch to main branch"
+        git pull || handle_error "Failed to update main branch"
+
 
         # Ensure dev-current branch is up-to-date
         echo "INFO: Switching to the dev-current branch..."
