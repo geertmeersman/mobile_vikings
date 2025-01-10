@@ -104,7 +104,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
                 profile = await self.async_validate_input(user_input)
             except AssertionError as exception:
                 errors["base"] = "cannot_connect"
-                _LOGGER.debug(f"[async_step_password|login] AssertionError {exception}")
+                _LOGGER.debug(f"[test_connection|login] AssertionError {exception}")
             except ConnectionError:
                 errors["base"] = "cannot_connect"
             except MobileVikingsServiceException:
@@ -128,7 +128,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
                     password=user_input[CONF_PASSWORD],
                 )
                 _LOGGER.debug(
-                    f"Password changed for {test['user_details'].get('customer_number')}"
+                    f"Password changed for {test['profile'].get('customer_number')}"
                 )
                 return self.finish_flow()
 
@@ -150,8 +150,6 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
 
 class MobileVikingsOptionsFlow(MobileVikingsCommonFlow, OptionsFlow):
     """Handle MobileVikings options."""
-
-    general_settings: dict
 
     def __init__(self, config_entry: ConfigEntry) -> None:
         """Initialize MobileVikings options flow."""
