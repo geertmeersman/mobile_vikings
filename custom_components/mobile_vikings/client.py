@@ -5,7 +5,18 @@ import logging
 
 from homeassistant.helpers.httpx_client import get_async_client
 
-from .const import BASE_URL, CLIENT_ID, CLIENT_SECRET
+from .const import (
+    BASE_URL, 
+    BASE_URL_JIMMOBILE, 
+    CLIENT_ID, 
+    CLIENT_ID_JIMMOBILE, 
+    CLIENT_SECRET, 
+    CLIENT_SECRET_TAG, 
+    CLIENT_SECRET_TAG_JIMMOBILE, 
+    CLIENT_SECRET_VALUE_JIMMOBILE, 
+    MOBILE_VIKINGS, 
+    JIM_MOBILE
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -19,7 +30,7 @@ class AuthenticationError(Exception):
 class MobileVikingsClient:
     """Asynchronous client for interacting with the Mobile Vikings API."""
 
-    def __init__(self, hass, username, password, tokens=None):
+    def __init__(self, hass, username, password, mobilePlatform, tokens=None):
         """Initialize the MobileVikingsClient.
 
         Parameters
@@ -30,6 +41,8 @@ class MobileVikingsClient:
             The username for authenticating with the Mobile Vikings API.
         password : str
             The password for authenticating with the Mobile Vikings API.
+        mobilePlatform : str
+            The name of the mobile platform to connect to (Mobile Vikings or Jim Mobile).
         tokens : dict, optional
             A dictionary containing token information (refresh_token, access_token, expiry).
 
@@ -37,6 +50,7 @@ class MobileVikingsClient:
         self.hass = hass
         self.username = username
         self.password = password
+        self.mobilePlatform = mobilePlatform
         self.refresh_token = None
         self.access_token = None
         self.expires_in = None
@@ -55,7 +69,10 @@ class MobileVikingsClient:
         self.client = None
 
     async def authenticate(self):
-        """Authenticate with the Mobile Vikings API."""
+        """Authenticate with the Mobile Vikings / JimMobile API."""
+        actualClientId = CLIENT_ID_JIMMOBILE if self.mobilePlatform == JIM_MOBILE else CLIENT_ID
+        actualClientSecretTag = CLIENT_SECRET_TAG_JIMMOBILE if self.mobilePlatform == JIM_MOBILE else CLIENT_SECRET_TAG
+        actualClientSecretValue = CLIENT_SECRET_VALUE_JIMMOBILE if self.mobilePlatform == JIM_MOBILE else CLIENT_SECRET
         if self._is_token_valid():
             self.client.headers["Authorization"] = f"Bearer {self.access_token}"
         else:
@@ -65,8 +82,8 @@ class MobileVikingsClient:
                     {
                         "refresh_token": self.refresh_token,
                         "grant_type": "refresh_token",
-                        "client_id": CLIENT_ID,
-                        "client_secret": CLIENT_SECRET,
+                        "client_id": actualClientId,
+                        actualClientSecretTag: actualClientSecretValue,
                     }
                 )
             else:
@@ -76,8 +93,8 @@ class MobileVikingsClient:
                         "username": self.username,
                         "password": self.password,
                         "grant_type": "password",
-                        "client_id": CLIENT_ID,
-                        "client_secret": CLIENT_SECRET,
+                        "client_id": actualClientId,
+                        actualClientSecretTag: actualClientSecretValue,
                     }
                 )
 
@@ -137,7 +154,10 @@ class MobileVikingsClient:
         if authenticate_request is False:
             await self.authenticate()
 
-        url = BASE_URL + endpoint
+        if self.mobilePlatform == MOBILE_VIKINGS:
+            url = BASE_URL + endpoint
+        else:
+            url = BASE_URL_JIMMOBILE + endpoint
         request_details = f"{method} request to: {url}"
 
         # Anonymize sensitive information like passwords
@@ -204,6 +224,9 @@ class MobileVikingsClient:
         dict or None: A dictionary containing loyalty points balance, or None if request fails.
 
         """
+        if self.mobilePlatform == JIM_MOBILE:
+            # not existing for Jim Mobile
+            return {'error': 'not existing for Jim Mobile'}
         return await self.handle_request("/loyalty-points/balance")
 
     async def get_product_details(self, product_id):

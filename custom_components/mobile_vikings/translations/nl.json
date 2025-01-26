@@ -12,11 +12,12 @@
     "step": {
       "connection_init": {
         "data": {
+          "mobilePlatform": "Mobiel platform",
           "password": "Wachtwoord",
           "username": "Gebruikersnaam"
         },
-        "description": "Stel uw Mobile Vikings-gebruikersaccount in",
-        "title": "Nieuw Mobile Vikings-account"
+        "description": "Stel uw Mobile Vikings of JimMobile gebruikersaccount in",
+        "title": "Nieuw Mobile Vikings / JimMobile account"
       }
     }
   },
@@ -89,6 +90,9 @@
       "product_info": {
         "name": "Productinformatie"
       },
+      "bundles_info": {
+        "name": "Prepaid bundel informatie"
+      },
       "remaining_days": {
         "name": "Resterende dagen"
       },
@@ -127,7 +131,7 @@
         "data": {
           "password": "Wachtwoord"
         },
-        "description": "Te doen wanneer u uw wachtwoord op 'Mobile Vikings' heeft gewijzigd",
+        "description": "Te doen wanneer u uw wachtwoord op 'Mobile Vikings' of 'JimMobile' heeft gewijzigd",
         "title": "Werk uw wachtwoord bij"
       }
     }

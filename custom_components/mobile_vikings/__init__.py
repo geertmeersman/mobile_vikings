@@ -1,4 +1,4 @@
-"""MobileVikings integration."""
+"""MobileVikings/JimMobile integration."""
 
 from __future__ import annotations
 
@@ -27,8 +27,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     client = MobileVikingsClient(
         hass=hass,
+        mobilePlatform=entry.data['mobilePlatform'],
         username=entry.data[CONF_USERNAME],
         password=entry.data[CONF_PASSWORD],
+
     )
 
     storage_dir = Path(f"{hass.config.path(STORAGE_DIR)}/{DOMAIN}")

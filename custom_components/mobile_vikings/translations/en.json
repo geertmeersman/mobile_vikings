@@ -12,11 +12,12 @@
     "step": {
       "connection_init": {
         "data": {
+          "mobilePlatform": "Mobile platform",
           "password": "Password",
           "username": "Username"
         },
-        "description": "Set up your Mobile Vikings user account",
-        "title": "New Mobile Vikings account"
+        "description": "Set up your Mobile Vikings or JimMobile user account",
+        "title": "New Mobile Vikings / JimMobile account"
       }
     }
   },
@@ -89,6 +90,9 @@
       "product_info": {
         "name": "Product info"
       },
+      "bundles_info": {
+        "name": "Prepaid bundles info"
+      },
       "remaining_days": {
         "name": "Remaining days"
       },
@@ -127,7 +131,7 @@
         "data": {
           "password": "Password"
         },
-        "description": "To do when you changed your password on 'Mobile Vikings'",
+        "description": "To do when you changed your password on 'Mobile Vikings' / 'JimMobile'",
         "title": "Update your password"
       }
     }
