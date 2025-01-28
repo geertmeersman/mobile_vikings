@@ -106,6 +106,7 @@ This integration will set up the following platforms.
 | `mobile_vikings` | Home Assistant component for Mobile Vikings BE services |
 
 ## Available Sensors
+Support for Mobile Vikings (MV) or Jim Mobile (JM)
 
 ### Account Details
 
