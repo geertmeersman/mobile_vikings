@@ -3,20 +3,20 @@
      align="right"
      style="width: 200px;margin-right: 10px;" />
 
-# Mobile Vikings for Home Assistant
+# Mobile Vikings & JimMobile mobile phone subscription information for Home Assistant
 
-A Home Assistant integration to monitor Mobile Vikings BE services
+A Home Assistant integration to monitor Mobile Vikings or Jim Mobile BE mobile phone subscription services
 
 ## Features
 
 - View **Customer Info** such as name and account details.
-- Track **Loyalty Points**: Available, blocked, and pending points.
-- Monitor **Invoices**: Paid invoices, unpaid invoices, and the next expiration date.
+- Track **Loyalty Points**: Available, blocked, and pending points. (only for Mobile Vikings)
+- Monitor **Invoices**: Paid invoices, unpaid invoices, and the next expiration date. (only for Mobile Vikings)
 - Access subscription details, including:
-  - **Data Usage**: Remaining data and percentage used.
+  - **Data Usage**: Remaining data and percentage used. (only for Mobile Vikings)
   - **Voice Balance**: Minutes usage details.
-  - **SMS Balance**: SMS usage details.
-  - **Out of Bundle Costs**.
+  - **SMS Balance**: SMS usage details. (only for Mobile Vikings)
+  - **Out of Bundle Costs**. (only for Mobile Vikings)
   - **Credit Balance**.
   - **Subscription Product Information**.
   - **SIM Alias**.
@@ -56,7 +56,7 @@ A Home Assistant integration to monitor Mobile Vikings BE services
 
 ## Table of Contents
 
-- [Mobile Vikings for Home Assistant](#mobile-vikings-for-home-assistant)
+- [Mobile Vikings and Jim Mobile for Home Assistant](#mobile-vikings--jimmobile-mobile-phone-subscription-information-for-home-assistant)
   - [Features](#features)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
@@ -105,35 +105,35 @@ This integration will set up the following platforms.
 
 ### Account Details
 
-| Sensor Key                 | Description              | Unit     |
-| -------------------------- | ------------------------ | -------- |
-| `customer_info`            | Customer's first name    | Text     |
-| `loyalty_points_available` | Available loyalty points | € (Euro) |
-| `loyalty_points_blocked`   | Blocked loyalty points   | € (Euro) |
-| `loyalty_points_pending`   | Pending loyalty points   | € (Euro) |
+| Sensor Key                 | Description              | Unit     | Support |
+| -------------------------- | ------------------------ | -------- | ------- |
+| `customer_info`            | Customer's first name    | Text     | MV & JM |
+| `loyalty_points_available` | Available loyalty points | € (Euro) | MV      |
+| `loyalty_points_blocked`   | Blocked loyalty points   | € (Euro) | MV      |
+| `loyalty_points_pending`   | Pending loyalty points   | € (Euro) | MV      |
 
 ### Invoices
 
-| Sensor Key                | Description                  | Unit      |
-| ------------------------- | ---------------------------- | --------- |
-| `paid_invoices`           | Total paid invoices          | Count     |
-| `unpaid_invoices`         | Unpaid invoices total amount | € (Euro)  |
-| `next_invoice_expiration` | Next invoice expiration date | Timestamp |
+| Sensor Key                | Description                  | Unit      | Support |
+| ------------------------- | ---------------------------- | --------- | ------- |
+| `paid_invoices`           | Total paid invoices          | Count     | MV      |
+| `unpaid_invoices`         | Unpaid invoices total amount | € (Euro)  | MV      |
+| `next_invoice_expiration` | Next invoice expiration date | Timestamp | MV      |
 
 ### Subscription Details
 
-| Sensor Key           | Description                    | Unit       |
-| -------------------- | ------------------------------ | ---------- |
-| `data_balance`       | Data usage percentage          | %          |
-| `data_remaining`     | Data remaining                 | GB         |
-| `remaining_days`     | Days left in billing cycle     | Days       |
-| `period_percentage`  | Billing cycle usage percentage | %          |
-| `voice_balance`      | Voice usage percentage         | %          |
-| `sms_balance`        | SMS usage percentage           | %          |
-| `out_of_bundle_cost` | Out-of-bundle cost             | € (Euro)   |
-| `credit`             | Available credit balance       | € (Euro)   |
-| `product_info`       | Subscription product details   | Text/Price |
-| `sim_alias`          | SIM alias                      | Text       |
+| Sensor Key           | Description                    | Unit       | Support |
+| -------------------- | ------------------------------ | ---------- | ------- |
+| `data_balance`       | Data usage percentage          | %          | MV      |
+| `data_remaining`     | Data remaining                 | GB         | MV      |
+| `remaining_days`     | Days left in billing cycle     | Days       | MV & JM |
+| `period_percentage`  | Billing cycle usage percentage | %          | MV & JM |
+| `voice_balance`      | Voice usage percentage         | %          | MV & JM |
+| `sms_balance`        | SMS usage percentage           | %          | MV      |
+| `out_of_bundle_cost` | Out-of-bundle cost             | € (Euro)   | MV & JM |
+| `credit`             | Available credit balance       | € (Euro)   | MV & JM |
+| `product_info`       | Subscription product details   | Text/Price | MV & JM |
+| `sim_alias`          | SIM alias                      | Text       | MV & JM |
 
 ---
 
@@ -161,8 +161,8 @@ Once you enable debug logging, you ideally need to make the error happen. Run yo
 
 ## Code origin
 
-The code of this Home Assistant integration has been written initially by analysing the calls made by the Mobile Vikings website.
+The code of this Home Assistant integration has been written initially by analysing the calls made by the Mobile Vikings and Jim Mobile website.
 
 The current version uses the MV Api as documented here: [https://docs.api.unleashed.be/](https://docs.api.unleashed.be/)
 
-I have no link with Mobile Vikings
+I have no link with Mobile Vikings or Jim Mobile
