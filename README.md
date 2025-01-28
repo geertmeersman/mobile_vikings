@@ -2,6 +2,10 @@
      alt="Mobile Vikings"
      align="right"
      style="width: 200px;margin-right: 10px;" />
+<img src="https://github.com/geertmeersman/mobile_vikings/raw/main/images/brand/jimmobile.png"
+     alt="Jim Mobile"
+     align="right"
+     style="width: 200px;margin-right: 10px;" />
 
 # Mobile Vikings & JimMobile mobile phone subscription information for Home Assistant
 
