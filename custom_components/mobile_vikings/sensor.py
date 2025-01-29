@@ -191,7 +191,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "data", "used_percentage"], default=0
+            data, ["balance_aggregated", "data", "used_percentage"], default=None
         ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "used_percentage"], default=0
@@ -220,7 +220,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "data", "remaining_gb"], default=0
+            data, ["balance_aggregated", "data", "remaining_gb"], default=None
         ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "remaining_gb"], default=0
@@ -248,7 +248,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "data", "remaining_days"], default=0
+            data, ["balance_aggregated", "data", "remaining_days"], default=None
         ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "remaining_days"], default=0
@@ -273,7 +273,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "data", "period_percentage"], default=0
+            data, ["balance_aggregated", "data", "period_percentage"], default=None
         ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "period_percentage"], default=0
@@ -300,7 +300,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "voice", "used_percentage"], default=0
+            data, ["balance_aggregated", "voice", "used_percentage"], default=None
         ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "used_percentage"], default=0
@@ -329,7 +329,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "voice", "period_percentage"], default=0
+            data, ["balance_aggregated", "voice", "period_percentage"], default=None
         ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "period_percentage"], default=0
@@ -355,7 +355,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "voice", "remaining_days"], default=0
+            data, ["balance_aggregated", "voice", "remaining_days"], default=None
         ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "remaining_days"], default=0
@@ -381,7 +381,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "sms", "used_percentage"], default=0
+            data, ["balance_aggregated", "sms", "used_percentage"], default=None
         ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "sms", "used_percentage"], default=0
@@ -410,7 +410,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
-            data, ["balance", "out_of_bundle_cost"], default=0
+            data, ["balance", "out_of_bundle_cost"], default=None
         ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance", "out_of_bundle_cost"], default=0
@@ -435,7 +435,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_credit"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: safe_get(data, ["balance", "credit"], default=0) is not None,
+        available_fn=lambda data: safe_get(data, ["balance", "credit"], default=None) is not None,
         value_fn=lambda data: safe_get(data, ["balance", "credit"], default=0),
         device_name_fn=lambda data: "Subscription",
         device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
@@ -457,7 +457,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_product_info"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: safe_get(data, ["product", "price"], default=0.0) is not None,
+        available_fn=lambda data: safe_get(data, ["product", "price"], default=None) is not None,
         value_fn=lambda data: safe_get(data, ["product", "price"], default=0.0),
         device_name_fn=lambda data: "Subscription",
         device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
@@ -480,7 +480,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_sim_alias"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: safe_get(data, ["sim", "alias"], default="") is not None,
+        available_fn=lambda data: safe_get(data, ["sim", "alias"], default=None) is not None,
         value_fn=lambda data: safe_get(data, ["sim", "alias"], default=""),
         device_name_fn=lambda data: "Subscription",
         device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),

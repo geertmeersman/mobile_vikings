@@ -54,10 +54,9 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_data_usage_alert"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: data.get("balance_aggregated", {})
-        .get("data", {}) is not None and data.get("balance_aggregated", {}).get("data", {})
-        .get("usage_alert")
-        is not None,
+        available_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "data", "usage_alert"], default=None
+        ),
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "usage_alert"], default=0
         ),
@@ -83,9 +82,9 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_voice_usage_alert"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: data.get("balance_aggregated", {})
-        .get("voice", {}) is not None and data.get("balance_aggregated", {}).get("voice", {})
-        .get("usage_alert")
+        available_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "voice", "usage_alert"], default=None
+        )
         is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "usage_alert"], default=0
@@ -112,10 +111,9 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_sms_usage_alert"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: data.get("balance_aggregated", {})
-        .get("sms", {}) is not None and data.get("balance_aggregated", {}).get("sms", {})
-        .get("usage_alert")
-        is not None,
+        available_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "sms", "usage_alert"], default=None
+        ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "sms", "usage_alert"], default=0
         ),
