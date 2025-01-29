@@ -13,7 +13,7 @@ from homeassistant.helpers.storage import STORAGE_DIR, Store
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .client import MobileVikingsClient
-from .const import COORDINATOR_UPDATE_INTERVAL, DOMAIN, PLATFORMS
+from .const import COORDINATOR_UPDATE_INTERVAL, DOMAIN, PLATFORMS, MOBILE_VIKINGS
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     client = MobileVikingsClient(
         hass=hass,
-        mobilePlatform=entry.data['mobilePlatform'],
+        mobilePlatform=entry.data.get('mobilePlatform', MOBILE_VIKINGS),  # Default to MOBILE_VIKINGS for backward compatibility
         username=entry.data[CONF_USERNAME],
         password=entry.data[CONF_PASSWORD],
 
