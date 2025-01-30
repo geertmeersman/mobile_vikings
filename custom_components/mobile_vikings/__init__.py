@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up MobileVikings from a config entry."""
+    """Set up MobileVikings / JimMobile from a config entry."""
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {}
 
     for platform in PLATFORMS:
@@ -27,7 +27,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     client = MobileVikingsClient(
         hass=hass,
-        mobilePlatform=entry.data.get('mobilePlatform', MOBILE_VIKINGS),  # Default to MOBILE_VIKINGS for backward compatibility
+        mobile_platform=entry.data.get('mobile_platform', MOBILE_VIKINGS),  # Default to MOBILE_VIKINGS for backward compatibility
         username=entry.data[CONF_USERNAME],
         password=entry.data[CONF_PASSWORD],
 

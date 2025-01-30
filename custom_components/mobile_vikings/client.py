@@ -30,7 +30,7 @@ class AuthenticationError(Exception):
 class MobileVikingsClient:
     """Asynchronous client for interacting with the Mobile Vikings API."""
 
-    def __init__(self, hass, username, password, mobilePlatform, tokens=None):
+    def __init__(self, hass, username, password, mobile_platform, tokens=None):
         """Initialize the MobileVikingsClient.
 
         Parameters
@@ -41,7 +41,7 @@ class MobileVikingsClient:
             The username for authenticating with the Mobile Vikings API.
         password : str
             The password for authenticating with the Mobile Vikings API.
-        mobilePlatform : str
+        mobile_platform : str
             The name of the mobile platform to connect to (Mobile Vikings or Jim Mobile).
         tokens : dict, optional
             A dictionary containing token information (refresh_token, access_token, expiry).
@@ -50,7 +50,7 @@ class MobileVikingsClient:
         self.hass = hass
         self.username = username
         self.password = password
-        self.mobilePlatform = mobilePlatform
+        self.mobile_platform = mobile_platform
         self.refresh_token = None
         self.access_token = None
         self.expires_in = None
@@ -70,9 +70,9 @@ class MobileVikingsClient:
 
     async def authenticate(self):
         """Authenticate with the Mobile Vikings / JimMobile API."""
-        actualClientId = CLIENT_ID_JIMMOBILE if self.mobilePlatform == JIM_MOBILE else CLIENT_ID
-        actualClientSecretTag = CLIENT_SECRET_TAG_JIMMOBILE if self.mobilePlatform == JIM_MOBILE else CLIENT_SECRET_TAG
-        actualClientSecretValue = CLIENT_SECRET_VALUE_JIMMOBILE if self.mobilePlatform == JIM_MOBILE else CLIENT_SECRET
+        actual_client_id = CLIENT_ID_JIMMOBILE if self.mobile_platform == JIM_MOBILE else CLIENT_ID
+        actual_client_secret_tag = CLIENT_SECRET_TAG_JIMMOBILE if self.mobile_platform == JIM_MOBILE else CLIENT_SECRET_TAG
+        actual_client_secret_value = CLIENT_SECRET_VALUE_JIMMOBILE if self.mobile_platform == JIM_MOBILE else CLIENT_SECRET
         if self._is_token_valid():
             self.client.headers["Authorization"] = f"Bearer {self.access_token}"
         else:
@@ -82,8 +82,8 @@ class MobileVikingsClient:
                     {
                         "refresh_token": self.refresh_token,
                         "grant_type": "refresh_token",
-                        "client_id": actualClientId,
-                        actualClientSecretTag: actualClientSecretValue,
+                        "client_id": actual_client_id,
+                        actual_client_secret_tag: actual_client_secret_value,
                     }
                 )
             else:
@@ -93,8 +93,8 @@ class MobileVikingsClient:
                         "username": self.username,
                         "password": self.password,
                         "grant_type": "password",
-                        "client_id": actualClientId,
-                        actualClientSecretTag: actualClientSecretValue,
+                        "client_id": actual_client_id,
+                        actual_client_secret_tag: actual_client_secret_value,
                     }
                 )
 
@@ -154,7 +154,7 @@ class MobileVikingsClient:
         if authenticate_request is False:
             await self.authenticate()
 
-        if self.mobilePlatform == MOBILE_VIKINGS:
+        if self.mobile_platform == MOBILE_VIKINGS:
             url = BASE_URL + endpoint
         else:
             url = BASE_URL_JIMMOBILE + endpoint
@@ -224,7 +224,7 @@ class MobileVikingsClient:
         dict or None: A dictionary containing loyalty points balance, or None if request fails.
 
         """
-        if self.mobilePlatform == JIM_MOBILE:
+        if self.mobile_platform == JIM_MOBILE:
             # not existing for Jim Mobile
             return {'error': 'not existing for Jim Mobile'}
         return await self.handle_request("/loyalty-points/balance")

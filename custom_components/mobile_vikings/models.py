@@ -11,7 +11,7 @@ class MobileVikingsConfigEntryData(TypedDict):
 
     username: str | None
     password: str | None
-    mobilePlatform: str | None
+    mobile_platform: str | None
 
 
 @dataclass

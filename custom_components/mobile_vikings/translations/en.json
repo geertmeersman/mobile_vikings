@@ -12,12 +12,12 @@
     "step": {
       "connection_init": {
         "data": {
-          "mobilePlatform": "Mobile platform",
+          "mobile_platform": "Mobile platform",
           "password": "Password",
           "username": "Username"
         },
-        "description": "Set up your Mobile Vikings or JimMobile user account",
-        "title": "New Mobile Vikings / JimMobile account"
+        "description": "Set up your Mobile Vikings or Jim Mobile user account",
+        "title": "New Mobile Vikings or Jim Mobile account"
       }
     }
   },
@@ -131,7 +131,7 @@
         "data": {
           "password": "Password"
         },
-        "description": "To do when you changed your password on 'Mobile Vikings' / 'JimMobile'",
+        "description": "To use when you changed your password on 'Mobile Vikings' or 'Jim Mobile'",
         "title": "Update your password"
       }
     }

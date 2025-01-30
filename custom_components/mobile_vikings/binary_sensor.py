@@ -145,7 +145,7 @@ async def async_setup_entry(
         "coordinator"
     ]
     entities: list[MobileVikingsBinarySensor] = []
-    mobilePlatform = coordinator.client.mobilePlatform
+    mobile_platform = coordinator.client.mobile_platform
 
 
     for subscription_id, subscription_data in coordinator.data.get(
@@ -153,8 +153,8 @@ async def async_setup_entry(
     ).items():
         # Add static sensors from SUBSCRIPTION_SENSOR_TYPES
         for sensor_type in SUBSCRIPTION_SENSOR_TYPES:
-            if not sensor_type.mobile_platforms or mobilePlatform not in sensor_type.mobile_platforms:
-                _LOGGER.debug(f"Skipping {sensor_type.key}-{sensor_type.translation_key} for mobile platform {mobilePlatform}")
+            if not sensor_type.mobile_platforms or mobile_platform not in sensor_type.mobile_platforms:
+                _LOGGER.debug(f"Skipping {sensor_type.key}-{sensor_type.translation_key} for mobile platform {mobile_platform}")
                 continue
             _LOGGER.debug(
                 f"Searching for {sensor_type.key}-{sensor_type.translation_key}"

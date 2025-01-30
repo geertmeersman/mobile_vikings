@@ -38,7 +38,7 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
         super().__init__(coordinator)
         self.idx = idx
         self.entity_description = description
-        self.mobilePlatform = coordinator.client.mobilePlatform
+        self.mobile_platform = coordinator.client.mobile_platform
         self._identifier = f"{description.key}"
         self._attr_device_info = DeviceInfo(
             identifiers={
@@ -49,8 +49,8 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
             },
             name=self.entity_description.device_name_fn(self.item),
             translation_key=slugify(self.entity_description.device_name_fn(self.item)),
-            manufacturer=NAME if self.mobilePlatform == MOBILE_VIKINGS else JIM_MOBILE,
-            configuration_url=WEBSITE if self.mobilePlatform == MOBILE_VIKINGS else WEBSITE_JIMMOBILE,
+            manufacturer=NAME if self.mobile_platform == MOBILE_VIKINGS else JIM_MOBILE,
+            configuration_url=WEBSITE if self.mobile_platform == MOBILE_VIKINGS else WEBSITE_JIMMOBILE,
             entry_type=DeviceEntryType.SERVICE,
             model=self.entity_description.model_fn(self.item),
             sw_version=VERSION,

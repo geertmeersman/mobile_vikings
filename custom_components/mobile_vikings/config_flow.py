@@ -30,7 +30,7 @@ _LOGGER = logging.getLogger(__name__)
 DEFAULT_ENTRY_DATA = MobileVikingsConfigEntryData(
     username=None,
     password=None,
-    mobilePlatform=None
+    mobile_platform=None
 )
 
 
@@ -58,7 +58,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
             hass=self.hass,
             username=user_input[CONF_USERNAME],
             password=user_input[CONF_PASSWORD],
-            mobilePlatform=user_input['mobilePlatform']
+            mobile_platform=user_input['mobile_platform']
         )
 
         profile = await client.get_customer_info()
@@ -77,7 +77,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
             if not test["errors"]:
                 self.new_title = user_input[CONF_USERNAME]
                 self.new_entry_data |= user_input
-                if user_input['mobilePlatform'] == JIM_MOBILE:
+                if user_input['mobile_platform'] == JIM_MOBILE:
                     await self.async_set_unique_id(f"{DOMAIN}_{JIM_MOBILE}_{user_input[CONF_USERNAME]}")
                 else:
                     await self.async_set_unique_id(f"{DOMAIN}_{user_input[CONF_USERNAME]}")
@@ -86,7 +86,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
                 return self.finish_flow()
             errors = test["errors"]
         fields = {
-            vol.Required('mobilePlatform'): SelectSelector(
+            vol.Required('mobile_platform'): SelectSelector(
                 SelectSelectorConfig(
                     options=[MOBILE_VIKINGS, JIM_MOBILE],
                     mode=SelectSelectorMode.DROPDOWN

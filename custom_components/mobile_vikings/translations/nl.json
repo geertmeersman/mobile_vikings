@@ -12,12 +12,12 @@
     "step": {
       "connection_init": {
         "data": {
-          "mobilePlatform": "Mobiel platform",
+          "mobile_platform": "Mobiel platform",
           "password": "Wachtwoord",
           "username": "Gebruikersnaam"
         },
         "description": "Stel uw Mobile Vikings of JimMobile gebruikersaccount in",
-        "title": "Nieuw Mobile Vikings / JimMobile account"
+        "title": "Nieuw Mobile Vikings of JimMobile account"
       }
     }
   },
@@ -131,7 +131,7 @@
         "data": {
           "password": "Wachtwoord"
         },
-        "description": "Te doen wanneer u uw wachtwoord op 'Mobile Vikings' of 'JimMobile' heeft gewijzigd",
+        "description": "Te gebruiken wanneer u uw wachtwoord op 'Mobile Vikings' of 'Jim Mobile' heeft gewijzigd",
         "title": "Werk uw wachtwoord bij"
       }
     }
