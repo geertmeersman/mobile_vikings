@@ -6,15 +6,15 @@ import logging
 from homeassistant.helpers.httpx_client import get_async_client
 
 from .const import (
-    BASE_URL, 
-    BASE_URL_JIMMOBILE, 
-    CLIENT_ID, 
-    CLIENT_ID_JIMMOBILE, 
-    CLIENT_SECRET, 
-    CLIENT_SECRET_TAG, 
-    CLIENT_SECRET_TAG_JIMMOBILE, 
-    CLIENT_SECRET_VALUE_JIMMOBILE, 
-    MOBILE_VIKINGS, 
+    BASE_URL,
+    BASE_URL_JIMMOBILE,
+    CLIENT_ID,
+    CLIENT_ID_JIMMOBILE,
+    CLIENT_SECRET,
+    CLIENT_SECRET_TAG,
+    CLIENT_SECRET_TAG_JIMMOBILE,
+    CLIENT_SECRET_VALUE_JIMMOBILE,
+    MOBILE_VIKINGS,
     JIM_MOBILE
 )
 
