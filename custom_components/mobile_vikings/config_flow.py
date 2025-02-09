@@ -13,8 +13,8 @@ from homeassistant.helpers.selector import (
     TextSelector,
     TextSelectorConfig,
     TextSelectorType,
-    SelectSelector, 
-    SelectSelectorConfig, 
+    SelectSelector,
+    SelectSelectorConfig,
     SelectSelectorMode
 )
 from homeassistant.helpers.typing import UNDEFINED
