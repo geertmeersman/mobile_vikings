@@ -19,7 +19,7 @@ from homeassistant.helpers.typing import StateType
 from homeassistant.util import slugify
 
 from . import MobileVikingsDataUpdateCoordinator
-from .const import DOMAIN, MOBILE_VIKINGS, JIM_MOBILE
+from .const import DOMAIN, MOBILE_VIKINGS
 from .entity import MobileVikingsEntity
 from .utils import safe_get
 
