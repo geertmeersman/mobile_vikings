@@ -19,7 +19,7 @@ from homeassistant.helpers.typing import StateType
 from homeassistant.util import slugify
 
 from . import MobileVikingsDataUpdateCoordinator
-from .const import DOMAIN
+from .const import DOMAIN, MOBILE_VIKINGS
 from .entity import MobileVikingsEntity
 from .utils import safe_get
 
@@ -42,6 +42,7 @@ class MobileVikingsBinarySensorDescription(SensorEntityDescription):
     subscription_types: tuple[str, ...] | None = (
         None  # Optional list of subscription types
     )
+    mobile_platforms: tuple[str, ...] | None = None
 
 
 SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
@@ -53,10 +54,9 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_data_usage_alert"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: data.get("balance_aggregated", {})
-        .get("data", {})
-        .get("usage_alert")
-        is not None,
+        available_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "data", "usage_alert"], default=None
+        ),
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "usage_alert"], default=0
         ),
@@ -72,6 +72,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         ),
         device_class=BinarySensorDeviceClass.SAFETY,
         icon="mdi:alarm-light",
+        mobile_platforms=(MOBILE_VIKINGS),
     ),
     MobileVikingsBinarySensorDescription(
         key="subscriptions",
@@ -81,9 +82,9 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_voice_usage_alert"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: data.get("balance_aggregated", {})
-        .get("voice", {})
-        .get("usage_alert")
+        available_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "voice", "usage_alert"], default=None
+        )
         is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "usage_alert"], default=0
@@ -100,6 +101,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         ),
         device_class=BinarySensorDeviceClass.SAFETY,
         icon="mdi:alarm-light",
+        mobile_platforms=(MOBILE_VIKINGS),
     ),
     MobileVikingsBinarySensorDescription(
         key="subscriptions",
@@ -109,10 +111,9 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_sms_usage_alert"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: data.get("balance_aggregated", {})
-        .get("sms", {})
-        .get("usage_alert")
-        is not None,
+        available_fn=lambda data: safe_get(
+            data, ["balance_aggregated", "sms", "usage_alert"], default=None
+        ) is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "sms", "usage_alert"], default=0
         ),
@@ -128,6 +129,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         ),
         device_class=BinarySensorDeviceClass.SAFETY,
         icon="mdi:alarm-light",
+        mobile_platforms=(MOBILE_VIKINGS),
     ),
 )
 
@@ -143,12 +145,17 @@ async def async_setup_entry(
         "coordinator"
     ]
     entities: list[MobileVikingsBinarySensor] = []
+    mobile_platform = coordinator.client.mobile_platform
+
 
     for subscription_id, subscription_data in coordinator.data.get(
         "subscriptions", []
     ).items():
         # Add static sensors from SUBSCRIPTION_SENSOR_TYPES
         for sensor_type in SUBSCRIPTION_SENSOR_TYPES:
+            if not sensor_type.mobile_platforms or mobile_platform not in sensor_type.mobile_platforms:
+                _LOGGER.debug(f"Skipping {sensor_type.key}-{sensor_type.translation_key} for mobile platform {mobile_platform}")
+                continue
             _LOGGER.debug(
                 f"Searching for {sensor_type.key}-{sensor_type.translation_key}"
             )
