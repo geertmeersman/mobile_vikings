@@ -16,8 +16,8 @@
           "password": "Password",
           "username": "Username"
         },
-        "description": "Set up your Mobile Vikings or Jim Mobile user account",
-        "title": "New Mobile Vikings or Jim Mobile account"
+        "description": "Set up your Mobile Vikings or JIM Mobile user account",
+        "title": "New Mobile Vikings or JIM Mobile account"
       }
     }
   },
@@ -131,7 +131,7 @@
         "data": {
           "password": "Password"
         },
-        "description": "To use when you changed your password on 'Mobile Vikings' or 'Jim Mobile'",
+        "description": "To use when you changed your password on 'Mobile Vikings' or 'JIM Mobile'",
         "title": "Update your password"
       }
     }

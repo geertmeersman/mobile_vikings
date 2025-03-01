@@ -16,8 +16,8 @@
           "password": "Wachtwoord",
           "username": "Gebruikersnaam"
         },
-        "description": "Stel uw Mobile Vikings of JimMobile gebruikersaccount in",
-        "title": "Nieuw Mobile Vikings of JimMobile account"
+        "description": "Stel uw Mobile Vikings of JIM Mobile gebruikersaccount in",
+        "title": "Nieuw Mobile Vikings of JIM Mobile account"
       }
     }
   },
@@ -131,7 +131,7 @@
         "data": {
           "password": "Wachtwoord"
         },
-        "description": "Te gebruiken wanneer u uw wachtwoord op 'Mobile Vikings' of 'Jim Mobile' heeft gewijzigd",
+        "description": "Te gebruiken wanneer u uw wachtwoord op 'Mobile Vikings' of 'JIM Mobile' heeft gewijzigd",
         "title": "Werk uw wachtwoord bij"
       }
     }
