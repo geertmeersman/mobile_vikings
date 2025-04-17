@@ -1,5 +1,14 @@
 # Changelog
 
+## [v2.0.0](https://github.com/geertmeersman/mobile_vikings/tree/v2.0.0) (2025-04-17)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.1.0...v2.0.0)
+
+**Merged pull requests:**
+
+- build\(deps\): bump ruff from 0.11.0 to 0.11.5 [\#196](https://github.com/geertmeersman/mobile_vikings/pull/196) ([dependabot[bot]](https://github.com/apps/dependabot))
+- feat: JIM Mobile support [\#185](https://github.com/geertmeersman/mobile_vikings/pull/185) ([myTselection](https://github.com/myTselection))
+
 ## [v1.1.0](https://github.com/geertmeersman/mobile_vikings/tree/v1.1.0) (2025-03-24)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.0.6...v1.1.0)
