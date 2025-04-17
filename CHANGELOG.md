@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.0.2](https://github.com/geertmeersman/mobile_vikings/tree/v2.0.2) (2025-04-17)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.0.1...v2.0.2)
+
+**Merged pull requests:**
+
+- docs: JIM Mobile additions [\#198](https://github.com/geertmeersman/mobile_vikings/pull/198) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v2.0.1](https://github.com/geertmeersman/mobile_vikings/tree/v2.0.1) (2025-04-17)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.0.0...v2.0.1)
