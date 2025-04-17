@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.0.1](https://github.com/geertmeersman/mobile_vikings/tree/v2.0.1) (2025-04-17)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.0.0...v2.0.1)
+
+**Merged pull requests:**
+
+- fix: binary sensor data usage alert fixed after JIMMobile merge [\#197](https://github.com/geertmeersman/mobile_vikings/pull/197) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v2.0.0](https://github.com/geertmeersman/mobile_vikings/tree/v2.0.0) (2025-04-17)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v1.1.0...v2.0.0)
