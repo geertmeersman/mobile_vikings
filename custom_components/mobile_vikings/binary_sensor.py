@@ -56,7 +56,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "usage_alert"], default=None
-        ),
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "usage_alert"], default=0
         ),
@@ -113,7 +114,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "sms", "usage_alert"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "sms", "usage_alert"], default=0
         ),
@@ -147,14 +149,18 @@ async def async_setup_entry(
     entities: list[MobileVikingsBinarySensor] = []
     mobile_platform = coordinator.client.mobile_platform
 
-
     for subscription_id, subscription_data in coordinator.data.get(
         "subscriptions", []
     ).items():
         # Add static sensors from SUBSCRIPTION_SENSOR_TYPES
         for sensor_type in SUBSCRIPTION_SENSOR_TYPES:
-            if not sensor_type.mobile_platforms or mobile_platform not in sensor_type.mobile_platforms:
-                _LOGGER.debug(f"Skipping {sensor_type.key}-{sensor_type.translation_key} for mobile platform {mobile_platform}")
+            if (
+                not sensor_type.mobile_platforms
+                or mobile_platform not in sensor_type.mobile_platforms
+            ):
+                _LOGGER.debug(
+                    f"Skipping {sensor_type.key}-{sensor_type.translation_key} for mobile platform {mobile_platform}"
+                )
                 continue
             _LOGGER.debug(
                 f"Searching for {sensor_type.key}-{sensor_type.translation_key}"
