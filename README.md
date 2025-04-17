@@ -3,13 +3,13 @@
      align="right"
      style="width: 200px;margin-right: 10px;" />
 <img src="https://github.com/geertmeersman/mobile_vikings/raw/main/images/brand/jimmobile.png"
-     alt="Jim Mobile"
+     alt="JIM Mobile"
      align="right"
-     style="width: 200px;margin-right: 10px;" />
+     style="width: 60px;margin-right: 10px;" />
 
-# Mobile Vikings & JimMobile mobile phone subscription information for Home Assistant
+# Mobile Vikings & JIM Mobile mobile phone subscription information for Home Assistant
 
-A Home Assistant integration to monitor Mobile Vikings or Jim Mobile BE mobile phone subscription services
+A Home Assistant integration to monitor Mobile Vikings or JIM Mobile BE mobile phone subscription services
 
 ## Features
 
@@ -60,7 +60,7 @@ A Home Assistant integration to monitor Mobile Vikings or Jim Mobile BE mobile p
 
 ## Table of Contents
 
-- [Mobile Vikings and Jim Mobile for Home Assistant](#mobile-vikings--jimmobile-mobile-phone-subscription-information-for-home-assistant)
+- [Mobile Vikings and JIM Mobile for Home Assistant](#mobile-vikings--jimmobile-mobile-phone-subscription-information-for-home-assistant)
   - [Features](#features)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
@@ -101,12 +101,12 @@ A Home Assistant integration to monitor Mobile Vikings or Jim Mobile BE mobile p
 
 This integration will set up the following platforms.
 
-| Platform         | Description                                             |
-| ---------------- | ------------------------------------------------------- |
-| `mobile_vikings` | Home Assistant component for Mobile Vikings BE services |
+| Platform         | Description                                                         |
+| ---------------- | ------------------------------------------------------------------- |
+| `mobile_vikings` | Home Assistant component for Mobile Vikings and JIM Mobile services |
 
 ## Available Sensors
-Support for Mobile Vikings (MV) or Jim Mobile (JM)
+Support for Mobile Vikings (MV) or JIM Mobile (JM)
 
 ### Account Details
 
@@ -166,7 +166,7 @@ Once you enable debug logging, you ideally need to make the error happen. Run yo
 
 ## Code origin
 
-The code of this Home Assistant integration has been written initially by analysing the calls made by the Mobile Vikings and Jim Mobile website.
+The code of this Home Assistant integration has been written initially by analysing the calls made by the Mobile Vikings and JIM Mobile website.
 
 The current version uses the MV Api as documented here: [https://docs.api.unleashed.be/](https://docs.api.unleashed.be/)
 
