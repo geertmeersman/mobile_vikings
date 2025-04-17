@@ -1,4 +1,4 @@
-"""MobileVikings integration."""
+"""MobileVikings/JimMobile integration."""
 
 from __future__ import annotations
 
@@ -13,13 +13,13 @@ from homeassistant.helpers.storage import STORAGE_DIR, Store
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .client import MobileVikingsClient
-from .const import COORDINATOR_UPDATE_INTERVAL, DOMAIN, PLATFORMS
+from .const import COORDINATOR_UPDATE_INTERVAL, DOMAIN, PLATFORMS, MOBILE_VIKINGS
 
 _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up MobileVikings from a config entry."""
+    """Set up MobileVikings / JimMobile from a config entry."""
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {}
 
     for platform in PLATFORMS:
@@ -27,8 +27,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     client = MobileVikingsClient(
         hass=hass,
+        mobile_platform=entry.data.get('mobile_platform', MOBILE_VIKINGS),  # Default to MOBILE_VIKINGS for backward compatibility
         username=entry.data[CONF_USERNAME],
         password=entry.data[CONF_PASSWORD],
+
     )
 
     storage_dir = Path(f"{hass.config.path(STORAGE_DIR)}/{DOMAIN}")
