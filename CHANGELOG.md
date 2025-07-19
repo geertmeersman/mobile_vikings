@@ -1,5 +1,21 @@
 # Changelog
 
+## [v2.1.0](https://github.com/geertmeersman/mobile_vikings/tree/v2.1.0) (2025-07-19)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.0.2...v2.1.0)
+
+**Merged pull requests:**
+
+- feat: Additional details \("category", "valid\_from", "valid\_until"\) for periods [\#213](https://github.com/geertmeersman/mobile_vikings/pull/213) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.12.1 to 0.12.3 [\#212](https://github.com/geertmeersman/mobile_vikings/pull/212) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.12.0 to 0.12.1 [\#211](https://github.com/geertmeersman/mobile_vikings/pull/211) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.11.13 to 0.12.0 [\#210](https://github.com/geertmeersman/mobile_vikings/pull/210) ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix: reduce to 1 commit when releasing [\#209](https://github.com/geertmeersman/mobile_vikings/pull/209) ([geertmeersman](https://github.com/geertmeersman))
+- fix: sync dev-current workflow trigger [\#208](https://github.com/geertmeersman/mobile_vikings/pull/208) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.11.12 to 0.11.13 [\#207](https://github.com/geertmeersman/mobile_vikings/pull/207) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.11.5 to 0.11.12 [\#206](https://github.com/geertmeersman/mobile_vikings/pull/206) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): update pip requirement from \<25.1,\>=8.0.3 to \>=8.0.3,\<25.2 [\#201](https://github.com/geertmeersman/mobile_vikings/pull/201) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.0.2](https://github.com/geertmeersman/mobile_vikings/tree/v2.0.2) (2025-04-17)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.0.1...v2.0.2)
