@@ -14,8 +14,8 @@ from .const import (
     CLIENT_SECRET_TAG,
     CLIENT_SECRET_TAG_JIMMOBILE,
     CLIENT_SECRET_VALUE_JIMMOBILE,
+    JIM_MOBILE,
     MOBILE_VIKINGS,
-    JIM_MOBILE
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -70,9 +70,19 @@ class MobileVikingsClient:
 
     async def authenticate(self):
         """Authenticate with the Mobile Vikings / JimMobile API."""
-        actual_client_id = CLIENT_ID_JIMMOBILE if self.mobile_platform == JIM_MOBILE else CLIENT_ID
-        actual_client_secret_tag = CLIENT_SECRET_TAG_JIMMOBILE if self.mobile_platform == JIM_MOBILE else CLIENT_SECRET_TAG
-        actual_client_secret_value = CLIENT_SECRET_VALUE_JIMMOBILE if self.mobile_platform == JIM_MOBILE else CLIENT_SECRET
+        actual_client_id = (
+            CLIENT_ID_JIMMOBILE if self.mobile_platform == JIM_MOBILE else CLIENT_ID
+        )
+        actual_client_secret_tag = (
+            CLIENT_SECRET_TAG_JIMMOBILE
+            if self.mobile_platform == JIM_MOBILE
+            else CLIENT_SECRET_TAG
+        )
+        actual_client_secret_value = (
+            CLIENT_SECRET_VALUE_JIMMOBILE
+            if self.mobile_platform == JIM_MOBILE
+            else CLIENT_SECRET
+        )
         if self._is_token_valid():
             self.client.headers["Authorization"] = f"Bearer {self.access_token}"
         else:
@@ -226,7 +236,7 @@ class MobileVikingsClient:
         """
         if self.mobile_platform == JIM_MOBILE:
             # not existing for Jim Mobile
-            return {'error': 'not existing for Jim Mobile'}
+            return {"error": "not existing for Jim Mobile"}
         return await self.handle_request("/loyalty-points/balance")
 
     async def get_product_details(self, product_id):
@@ -360,6 +370,9 @@ class MobileVikingsClient:
                     ),  # Validity period in days
                     "period_percentage": round(period_percentage, 2),
                     "usage_percentage": round(usage_percentage, 2),
+                    "category": bundle["category"],
+                    "valid_from": bundle["valid_from"],
+                    "valid_until": bundle["valid_until"],
                     "remaining_gb": round(
                         (bundle["total"] - bundle["used"]) / (1024**3), 2
                     ),  # Remaining in GB
