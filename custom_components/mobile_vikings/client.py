@@ -373,6 +373,7 @@ class MobileVikingsClient:
                     "category": bundle["category"],
                     "valid_from": bundle["valid_from"],
                     "valid_until": bundle["valid_until"],
+                    "total_gb": round(bundle["total"] / (1024**3), 2),  # Total in GB
                     "remaining_gb": round(
                         (bundle["total"] - bundle["used"]) / (1024**3), 2
                     ),  # Remaining in GB
