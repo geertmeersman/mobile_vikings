@@ -1,5 +1,14 @@
 # Changelog
 
+## [v2.1.1](https://github.com/geertmeersman/mobile_vikings/tree/v2.1.1) (2025-07-25)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.1.0...v2.1.1)
+
+**Merged pull requests:**
+
+- chore: total bundle size in gigabytes is now available for each bundle period. [\#215](https://github.com/geertmeersman/mobile_vikings/pull/215) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.12.3 to 0.12.4 [\#214](https://github.com/geertmeersman/mobile_vikings/pull/214) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.1.0](https://github.com/geertmeersman/mobile_vikings/tree/v2.1.0) (2025-07-19)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.0.2...v2.1.0)
