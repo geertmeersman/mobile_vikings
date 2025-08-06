@@ -1,5 +1,16 @@
 # Changelog
 
+## [v3.0.0](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.0) (2025-08-06)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.1.1...v3.0.0)
+
+**Merged pull requests:**
+
+- chore: Pass config\_entry explicitly to DataUpdateCoordinator to avoid C… [\#219](https://github.com/geertmeersman/mobile_vikings/pull/219) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.12.4 to 0.12.7 [\#218](https://github.com/geertmeersman/mobile_vikings/pull/218) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump hugo19941994/delete-draft-releases from 1.0.1 to 2.0.0 [\#217](https://github.com/geertmeersman/mobile_vikings/pull/217) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): update pip requirement from \<25.2,\>=8.0.3 to \>=8.0.3,\<25.3 [\#216](https://github.com/geertmeersman/mobile_vikings/pull/216) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.1.1](https://github.com/geertmeersman/mobile_vikings/tree/v2.1.1) (2025-07-25)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.1.0...v2.1.1)
