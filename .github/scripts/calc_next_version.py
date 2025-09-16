@@ -115,7 +115,6 @@ def determine_bump(prs):
 
     for pr in prs:
         labels = [label["name"].lower() for label in pr.get("labels", [])]
-        print(labels)
         if "major" in labels:
             return "major"
         if "minor" in labels and bump != "major":
