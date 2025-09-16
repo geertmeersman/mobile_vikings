@@ -38,7 +38,6 @@ jobs:
       - name: 📝 Generate changelog from merged PRs
         id: changelog
         run: |
-          python .github/scripts/generate_changelog.py dev-current
           CHANGELOG=$(python .github/scripts/generate_changelog.py dev-current)
           echo "CHANGELOG<<EOF" >> "$GITHUB_OUTPUT"
           echo "$CHANGELOG" >> "$GITHUB_OUTPUT"
