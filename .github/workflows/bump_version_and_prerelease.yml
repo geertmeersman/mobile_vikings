@@ -31,8 +31,7 @@ jobs:
         id: next-version
         run: |
           pip install requests
-          python .github/scripts/calc_next_beta_version.py
-          NEXT_VERSION=$(python .github/scripts/calc_next_beta_version.py)
+          NEXT_VERSION=$(python .github/scripts/calc_next_version.py)
           echo "Next beta version: $NEXT_VERSION"
           echo "NEW_VERSION=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
 

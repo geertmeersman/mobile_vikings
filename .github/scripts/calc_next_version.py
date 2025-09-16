@@ -93,6 +93,10 @@ compare_info = get_commits_since(latest_tag, ref)
 commits = compare_info["commits"]
 commit_count = compare_info["total_commits"]
 
+if commit_count == 0:
+    print(latest_tag)
+    sys.exit(0)
+
 prs = get_prs_from_commits(commits)
 bump = determine_bump(prs)
 
