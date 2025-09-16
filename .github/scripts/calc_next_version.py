@@ -19,7 +19,10 @@ if not GITHUB_TOKEN:
 repository = os.environ["GITHUB_REPOSITORY"]
 owner, repo = repository.split("/")
 
-headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+headers = {
+    "Authorization": f"token {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github+json",
+}
 
 # --- Helpers -----------------------------------------------------------------
 
@@ -48,13 +51,14 @@ def get_prs_from_commits(commits):
     for commit in commits:
         sha = commit["sha"]
         url = f"https://api.github.com/repos/{owner}/{repo}/commits/{sha}/pulls"
-        resp = requests.get(
-            url,
-            headers={**headers, "Accept": "application/vnd.github.groot-preview+json"},
-            timeout=10,
-        )
+        resp = requests.get(url, headers=headers, timeout=10)
         if resp.status_code == 200:
             prs.extend(resp.json())
+        elif resp.status_code == 404:
+            # No PRs linked to this commit; continue
+            continue
+        else:
+            resp.raise_for_status()
     # Deduplicate by PR number
     unique = {pr["number"]: pr for pr in prs}
     return list(unique.values())
@@ -62,8 +66,12 @@ def get_prs_from_commits(commits):
 
 def is_dependabot(pr):
     """Return True if PR was authored by Dependabot."""
-    user = pr.get("user", {}).get("login", "").lower()
-    return "dependabot" in user
+    user = pr.get("user", {}) or {}
+    login = (user.get("login") or "").lower()
+    utype = user.get("type")
+    return utype == "Bot" and (
+        login == "dependabot[bot]" or login.startswith("dependabot")
+    )
 
 
 def determine_bump(prs):
