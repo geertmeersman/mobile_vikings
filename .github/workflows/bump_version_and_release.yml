@@ -39,7 +39,8 @@ jobs:
           NEXT_VERSION=$(python .github/scripts/calc_next_version.py)
           echo "Next version: ${NEXT_VERSION}"
           [[ -n "${NEXT_VERSION}" ]] || { echo "Empty NEXT_VERSION"; exit 1; }
-          [[ "${NEXT_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z\.-]+)?$ ]] || { echo "Invalid semver: ${NEXT_VERSION}"; exit 1; }
+          [[ "${NEXT_VERSION}" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z\.-]+)?$ ]] || { echo "Invalid semver: ${NEXT_VERSION}"; exit 1; }
+
           echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: 🔄 Update version in 'VERSION' and 'manifest.json'

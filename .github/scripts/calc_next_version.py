@@ -53,22 +53,27 @@ def get_commits_since(tag, ref):
 
 
 def get_prs_from_commits(commits):
-    """Return list of PRs linked to given commits."""
-    prs = []
+    """Return list of PR issue objects (with labels) linked to given commits."""
+    pr_numbers = set()
     for commit in commits:
         sha = commit["sha"]
         url = f"https://api.github.com/repos/{owner}/{repo}/commits/{sha}/pulls"
         resp = requests.get(url, headers=headers, timeout=10)
         if resp.status_code == 200:
-            prs.extend(resp.json())
+            pr_numbers.update(pr["number"] for pr in resp.json())
         elif resp.status_code == 404:
             # No PRs linked to this commit; continue
             continue
         else:
             resp.raise_for_status()
-    # Deduplicate by PR number
-    unique = {pr["number"]: pr for pr in prs}
-    return list(unique.values())
+    # Fetch issue objects to get labels
+    enriched = []
+    for num in pr_numbers:
+        issue_url = f"https://api.github.com/repos/{owner}/{repo}/issues/{num}"
+        i_resp = requests.get(issue_url, headers=headers, timeout=10)
+        i_resp.raise_for_status()
+        enriched.append(i_resp.json())
+    return enriched
 
 
 def is_dependabot(pr):
