@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python -m pip install --no-deps requests==2.32.3
-          TARGET_REF=dev-current NEXT_VERSION=$(python .github/scripts/calc_next_version.py)
+          NEXT_VERSION="$(TARGET_REF=dev-current python .github/scripts/calc_next_version.py)"
           echo "Next beta version: $NEXT_VERSION"
           echo "NEW_VERSION=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
 
@@ -50,8 +50,11 @@ jobs:
           NEXT_VERSION: ${{ steps.next-version.outputs.NEW_VERSION }}
           GITHUB_REPO: ${{ github.event.repository.name }}
         run: |
-          echo $NEXT_VERSION > VERSION
-          sed -i 's/"version": ".*"/"version": "'$NEXT_VERSION'"/g' custom_components/$GITHUB_REPO/manifest.json
+          echo "$NEXT_VERSION" > VERSION
+          tmp="$(mktemp)"
+          jq --arg v "$NEXT_VERSION" '.version = $v' \
+            "custom_components/$GITHUB_REPO/manifest.json" > "$tmp" \
+            && mv "$tmp" "custom_components/$GITHUB_REPO/manifest.json"
           cat custom_components/$GITHUB_REPO/manifest.json
 
       - name: 🚀 Commit version bump

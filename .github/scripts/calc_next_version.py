@@ -16,35 +16,54 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 if not GITHUB_TOKEN:
     sys.exit("ERROR: GITHUB_TOKEN is required")
 
-repository = os.environ["GITHUB_REPOSITORY"]
-owner, repo = repository.split("/")
+repository = os.environ.get("GITHUB_REPOSITORY")
+if not repository:
+    sys.exit("ERROR: GITHUB_REPOSITORY is required")
+owner, repo = repository.split("/", 1)
 
-headers = {
-    "Authorization": f"token {GITHUB_TOKEN}",
-    "Accept": "application/vnd.github+json",
-}
+session = requests.Session()
+session.headers.update(
+    {
+        "Authorization": f"token {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json",
+        "User-Agent": f"{owner}-{repo}-semver-script",
+    }
+)
 
 # --- Helpers -----------------------------------------------------------------
 
 
 def get_latest_stable_release():
-    """Return the latest stable release tag (ignoring pre-releases)."""
-    url = f"https://api.github.com/repos/{owner}/{repo}/releases"
-    releases = requests.get(url, headers=headers, timeout=10).json()
-    for rel in releases:
-        if not rel["prerelease"]:
-            return rel["tag_name"]
-    return "v0.0.0"
+    """Return the latest stable release tag (ignores pre-releases and drafts)."""
+    try:
+        latest_url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
+        resp = session.get(latest_url, timeout=10)
+        if resp.status_code == 404:
+            return "v0.0.0"
+        resp.raise_for_status()
+        data = resp.json()
+        if not data.get("prerelease") and not data.get("draft"):
+            return data["tag_name"]
+        # Fallback: scan list for first non-prerelease, non-draft
+        url = f"https://api.github.com/repos/{owner}/{repo}/releases?per_page=100"
+        r = session.get(url, timeout=10)
+        r.raise_for_status()
+        for rel in r.json():
+            if not rel.get("prerelease") and not rel.get("draft"):
+                return rel["tag_name"]
+        return "v0.0.0"
+    except requests.RequestException as e:
+        raise RuntimeError(f"Failed to resolve latest stable release: {e}") from e
 
 
 def get_commits_since(tag, ref):
     """Return compare info (commits, total_commits) since tag -> ref."""
     url = f"https://api.github.com/repos/{owner}/{repo}/compare/{tag}...{ref}"
-    resp = requests.get(url, headers=headers, timeout=10)
+    resp = session.get(url, timeout=10)
     if resp.status_code == 404 or tag == "v0.0.0":
         # Fallback: no base tag -> approximate using recent commits on ref
-        commits_url = f"https://api.github.com/repos/{owner}/{repo}/commits?sha={ref}&per_page=250"
-        c_resp = requests.get(commits_url, headers=headers, timeout=10)
+        commits_url = f"https://api.github.com/repos/{owner}/{repo}/commits?sha={ref}&per_page=100"
+        c_resp = session.get(commits_url, timeout=10)
         c_resp.raise_for_status()
         commits = c_resp.json()
         return {"commits": commits, "total_commits": len(commits)}
@@ -58,7 +77,7 @@ def get_prs_from_commits(commits):
     for commit in commits:
         sha = commit["sha"]
         url = f"https://api.github.com/repos/{owner}/{repo}/commits/{sha}/pulls"
-        resp = requests.get(url, headers=headers, timeout=10)
+        resp = session.get(url, timeout=10)
         if resp.status_code == 200:
             pr_numbers.update(pr["number"] for pr in resp.json())
         elif resp.status_code == 404:
@@ -70,7 +89,7 @@ def get_prs_from_commits(commits):
     enriched = []
     for num in pr_numbers:
         issue_url = f"https://api.github.com/repos/{owner}/{repo}/issues/{num}"
-        i_resp = requests.get(issue_url, headers=headers, timeout=10)
+        i_resp = session.get(issue_url, timeout=10)
         i_resp.raise_for_status()
         enriched.append(i_resp.json())
     return enriched
@@ -96,6 +115,7 @@ def determine_bump(prs):
 
     for pr in prs:
         labels = [label["name"].lower() for label in pr.get("labels", [])]
+        print(labels)
         if "major" in labels:
             return "major"
         if "minor" in labels and bump != "major":
@@ -119,9 +139,10 @@ commits = compare_info["commits"]
 commit_count = compare_info["total_commits"]
 if commit_count > len(commits):
     print(
-        f"Warning: compare API truncated commits ({len(commits)}/{commit_count}); SemVer bump may be underestimated.",
+        f"Error: compare API truncated commits ({len(commits)}/{commit_count}); refusing to compute an unsafe SemVer.",
         file=sys.stderr,
     )
+    sys.exit(2)
 
 if commit_count == 0:
     print(latest_tag)
