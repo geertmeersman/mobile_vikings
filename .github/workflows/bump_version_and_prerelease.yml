@@ -29,9 +29,11 @@ jobs:
 
       - name: 🔢 Calculate next beta version
         id: next-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pip install requests
-          NEXT_VERSION=$(python .github/scripts/calc_next_version.py)
+          python -m pip install --no-deps requests==2.32.3
+          TARGET_REF=dev-current NEXT_VERSION=$(python .github/scripts/calc_next_version.py)
           echo "Next beta version: $NEXT_VERSION"
           echo "NEW_VERSION=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
 

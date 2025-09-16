@@ -86,7 +86,12 @@ def determine_bump(prs):
 
 # --- Main --------------------------------------------------------------------
 
-ref = os.environ["GITHUB_REF"].split("/")[-1]  # branch or tag name
+ref = (
+    os.environ.get("TARGET_REF")
+    or os.environ.get("REF")
+    or os.environ.get("GITHUB_REF_NAME")
+    or os.environ["GITHUB_REF"].split("/")[-1]
+)  # branch or tag name
 
 latest_tag = get_latest_stable_release()
 compare_info = get_commits_since(latest_tag, ref)
