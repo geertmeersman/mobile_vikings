@@ -41,6 +41,13 @@ def get_commits_since(tag, ref):
     """Return compare info (commits, total_commits) since tag -> ref."""
     url = f"https://api.github.com/repos/{owner}/{repo}/compare/{tag}...{ref}"
     resp = requests.get(url, headers=headers, timeout=10)
+    if resp.status_code == 404 or tag == "v0.0.0":
+        # Fallback: no base tag -> approximate using recent commits on ref
+        commits_url = f"https://api.github.com/repos/{owner}/{repo}/commits?sha={ref}&per_page=250"
+        c_resp = requests.get(commits_url, headers=headers, timeout=10)
+        c_resp.raise_for_status()
+        commits = c_resp.json()
+        return {"commits": commits, "total_commits": len(commits)}
     resp.raise_for_status()
     return resp.json()
 
@@ -105,6 +112,11 @@ latest_tag = get_latest_stable_release()
 compare_info = get_commits_since(latest_tag, ref)
 commits = compare_info["commits"]
 commit_count = compare_info["total_commits"]
+if commit_count > len(commits):
+    print(
+        f"Warning: compare API truncated commits ({len(commits)}/{commit_count}); SemVer bump may be underestimated.",
+        file=sys.stderr,
+    )
 
 if commit_count == 0:
     print(latest_tag)
