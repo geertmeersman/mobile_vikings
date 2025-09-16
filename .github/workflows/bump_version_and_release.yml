@@ -59,16 +59,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 📝 Draft and publish release
-        uses: release-drafter/release-drafter@v6
-        id: release_drafter
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          publish: true
-          tag: ${{ steps.calc_version.outputs.next_version }}
-          name: ${{ steps.calc_version.outputs.next_version }}
-
       - name: ✏️ Generate release changelog
         uses: heinrichreimer/github-changelog-generator-action@v2.4
         with:
@@ -96,6 +86,16 @@ jobs:
         with:
           name: release-artifact
           path: "${{ github.event.repository.name }}.zip"
+
+      - name: 📝 Draft and publish release
+        uses: release-drafter/release-drafter@v6
+        id: release_drafter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          publish: true
+          tag: ${{ steps.calc_version.outputs.next_version }}
+          name: ${{ steps.calc_version.outputs.next_version }}
 
       - name: 📝 Update release with zip file
         run: |

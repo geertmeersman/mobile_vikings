@@ -64,6 +64,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: 📦 Create zip file
+        run: |
+          cd custom_components/${{ github.event.repository.name }}
+          zip -r "${{ github.event.repository.name }}-beta-${{ steps.next-version.outputs.NEW_VERSION }}.zip" .
+          mv "${{ github.event.repository.name }}-beta-${{ steps.next-version.outputs.NEW_VERSION }}.zip" ../..
+
+      - name: 📎 Upload zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifact
+          path: "${{ github.event.repository.name }}-beta-${{ steps.next-version.outputs.NEW_VERSION }}.zip"
+
       - name: 📝 Publish beta release
         uses: release-drafter/release-drafter@v6
         id: release_published
@@ -77,18 +89,6 @@ jobs:
           tag: ${{ steps.next-version.outputs.NEW_VERSION }}
           name: "Beta ${{ steps.next-version.outputs.NEW_VERSION }}"
           footer: "${{ steps.changelog.outputs.CHANGELOG }}"
-
-      - name: 📦 Create zip file
-        run: |
-          cd custom_components/${{ github.event.repository.name }}
-          zip -r "${{ github.event.repository.name }}-beta-${{ steps.next-version.outputs.NEW_VERSION }}.zip" .
-          mv "${{ github.event.repository.name }}-beta-${{ steps.next-version.outputs.NEW_VERSION }}.zip" ../..
-
-      - name: 📎 Upload zip artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-artifact
-          path: "${{ github.event.repository.name }}-beta-${{ steps.next-version.outputs.NEW_VERSION }}.zip"
 
       - name: 📝 Update release with zip file
         run: |
