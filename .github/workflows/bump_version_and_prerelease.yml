@@ -75,7 +75,7 @@ jobs:
           commitish: dev-current
           tag: ${{ steps.next-version.outputs.NEW_VERSION }}
           name: "Beta ${{ steps.next-version.outputs.NEW_VERSION }}"
-          footer: "${{ steps.next-version.outputs.CHANGELOG }}"
+          footer: "${{ steps.changelog.outputs.CHANGELOG }}"
 
       - name: 📦 Create zip file
         run: |

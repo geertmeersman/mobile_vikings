@@ -117,4 +117,4 @@ jobs:
           NEXT_VERSION: ${{ steps.calc_version.outputs.next_version }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: "New release published: https://github.com/{{ EVENT_PAYLOAD.repository.full_name }}/releases/tag/{{NEXT_VERSION}}"
+          args: "New release published: https://github.com/{{ EVENT_PAYLOAD.repository.full_name }}/releases/tag/{{ NEXT_VERSION }}"
