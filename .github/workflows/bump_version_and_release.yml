@@ -32,7 +32,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Install dependencies
-          python -m pip install requests
+          python -m pip install --no-deps requests==2.32.3
 
           # Run script to calculate next version based on PR labels
           NEXT_VERSION=$(python .github/scripts/calc_next_version.py)
