@@ -1,55 +1,68 @@
 name: Release - Bump and Release
-on: [workflow_dispatch]
+
+on:
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  create_release_draft:
-    name: Create the release draft
+  release:
+    name: Create and publish release based on PR labels
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
+      pull-requests: read
+
     steps:
-      - name: ⤵️　Checkout code
+      - name: ⤵️ Checkout code
         uses: actions/checkout@v5
         with:
-          ref: ${{ github.ref }}
+          fetch-depth: 0
 
-      - name: 🗑　Delete drafts
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: 🔢 Calculate next release version
+        id: calc_version
+        run: |
+          # Install dependencies
+          python -m pip install requests
+
+          # Run script to calculate next version based on PR labels
+          NEXT_VERSION=$(python .github/scripts/calc_next_version.py)
+          echo "Next version: $NEXT_VERSION"
+          echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: 🔄 Update version in 'VERSION' and 'manifest.json'
+        env:
+          NEXT_VERSION: ${{ steps.calc_version.outputs.next_version }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+        run: |
+          echo $NEXT_VERSION > VERSION
+          echo "** Manifest before replace **"
+          cat custom_components/$GITHUB_REPO/manifest.json
+          sed -i 's/"version": ".*"/"version": "'$NEXT_VERSION'"/g' custom_components/$GITHUB_REPO/manifest.json
+          echo "** Manifest after replace **"
+          cat custom_components/$GITHUB_REPO/manifest.json
+
+      - name: 🗑 Delete draft releases
         uses: hugo19941994/delete-draft-releases@v2.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 📝　Draft release
+      - name: 📝 Draft and publish release
         uses: release-drafter/release-drafter@v6
         id: release_drafter
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 🔄　Update version in 'VERSION' and 'manifest.json' and push changes
-        env:
-          tag_name: ${{ steps.release_drafter.outputs.tag_name }}
-          GITHUB_REPO: ${{ github.event.repository.name }}
-        run: |
-          echo "** Manifest before replace **"
-          cat custom_components/$GITHUB_REPO/manifest.json
-          sed -i 's/"version": ".*"/"version": "'$tag_name'"/g' custom_components/$GITHUB_REPO/manifest.json
-          echo "** Manifest after replace **"
-          cat custom_components/$GITHUB_REPO/manifest.json
-          echo $tag_name > VERSION
-
-      - name: 📝　Publish release
-        uses: release-drafter/release-drafter@v6
-        id: release_published
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           publish: true
 
-      - name: "✏️　Generate release changelog"
+      - name: ✏️ Generate release changelog
         uses: heinrichreimer/github-changelog-generator-action@v2.4
         with:
           token: ${{ secrets.GH_PAT }}
@@ -60,10 +73,10 @@ jobs:
           unreleased: false
           addSections: '{"documentation":{"prefix":"**Documentation:**","labels":["documentation"]}}'
 
-      - name: ✅　Commit release notes and bump version
+      - name: ✅ Commit release notes and bump version
         uses: EndBug/add-and-commit@v9
         with:
-          message: Commit release notes and bump version ${{ steps.release_drafter.outputs.tag_name }}
+          message: "Commit release notes and bump version ${{ steps.calc_version.outputs.next_version }}"
 
       - name: 📦 Create zip file
         run: |
@@ -71,7 +84,7 @@ jobs:
           zip -r "${{ github.event.repository.name }}.zip" .
           mv "${{ github.event.repository.name }}.zip" ../..
 
-      - name: 📎 Upload zip file to release
+      - name: 📎 Upload zip artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-artifact
@@ -79,28 +92,25 @@ jobs:
 
       - name: 📝 Update release with zip file
         run: |
-          gh release upload ${{ steps.release_drafter.outputs.tag_name }} "${{ github.event.repository.name }}.zip"
+          gh release upload ${{ steps.calc_version.outputs.next_version }} "${{ github.event.repository.name }}.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🚮 Remove pre-releases
         run: |
           gh release list --json tagName,isPrerelease -q '.[] | select(.isPrerelease == true) | .tagName' | while read -r tag_name; do
-            echo "Deleting pre-release with tag: $tag_name"
-            # Delete the release
+            echo "Deleting pre-release: $tag_name"
             gh release delete "$tag_name" --yes
-            # Delete the Git tag
-            echo "Deleting Git tag: $tag_name"
             git push origin --delete "$tag_name" || echo "Failed to delete tag $tag_name from remote"
             git tag -d "$tag_name" || echo "Failed to delete tag $tag_name locally"
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🚀　Discord notification
-        env:
-          tag_name: ${{ steps.release_drafter.outputs.tag_name }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: 🚀 Discord notification
         uses: Ilshidur/action-discord@master
+        env:
+          NEXT_VERSION: ${{ steps.calc_version.outputs.next_version }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: "New release published: https://github.com/{{ EVENT_PAYLOAD.repository.full_name }}/releases/tag/{{tag_name}}"
+          args: "New release published: https://github.com/{{ EVENT_PAYLOAD.repository.full_name }}/releases/tag/{{NEXT_VERSION}}"

@@ -1,4 +1,5 @@
 name: PR - Assign and check labels
+
 on:
   pull_request:
     types:
@@ -19,7 +20,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - name: ⤵️　Checkout code
+      - name: ⤵️ Checkout code
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
@@ -37,30 +38,56 @@ jobs:
       - name: Determine SemVer level
         id: semver_level
         run: |
-          labels=$(python .github/scripts/pr_extract_labels.py)
-          echo Labels: $labels
-          echo "labels=$labels" >> "$GITHUB_OUTPUT"
+          result=$(python .github/scripts/pr_extract_labels.py)
+          echo "Result: $result"
+          semver=$(echo "$result" | jq -r .semver)
+          types=$(echo "$result" | jq -c .types)
+          echo "semver=$semver" >> "$GITHUB_OUTPUT"
+          echo "types=$types" >> "$GITHUB_OUTPUT"
 
       - name: Delete commit messages file
-        run: |
-          rm COMMIT_MESSAGES
+        run: rm COMMIT_MESSAGES
 
-      - name: Assign SemVer label
+      - name: Assign SemVer label (remove old first)
         uses: actions/github-script@v8
         with:
           script: |
-            github.rest.issues.addLabels({
-              issue_number: context.issue.number,
+            const semverLabels = ["major", "minor", "patch"];
+            const prNumber = context.issue.number;
+
+            // Get current labels on the PR
+            const { data: currentLabels } = await github.rest.issues.listLabelsOnIssue({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ${{ steps.semver_level.outputs.labels }}
+              issue_number: prNumber
             });
+
+            // Remove existing SemVer labels
+            for (const label of currentLabels) {
+              if (semverLabels.includes(label.name)) {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  name: label.name
+                });
+              }
+            }
+
+            // Add the new SemVer label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              labels: [ "${{ steps.semver_level.outputs.semver }}" ]
+            });
+
   check_semver_labels:
-    name: Check Semver labels in PR
+    name: Check SemVer labels in PR
     needs: assign_labels
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
     steps:
-      - name: Check for Semver labels
+      - name: Check for SemVer labels
         uses: danielchabr/pr-labels-checker@v3.3
         with:
           hasSome: major,minor,patch
