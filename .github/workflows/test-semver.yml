@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Calculate next version
         id: semver
@@ -19,4 +19,4 @@ jobs:
           branch: main
 
       - name: Print next version
-        run: echo "Next calculated version: ${{ steps.semver.outputs.next }}"
+        run: echo "Next calculated version ${{ steps.semver.outputs.next }}"
