@@ -1,73 +1,70 @@
-name: Release - Bump and Release
-
-on:
-  workflow_dispatch:
+name: Release - Bump and Release 🚀
+on: [workflow_dispatch]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   release:
-    name: Create and publish release based on PR labels
+    name: Create and publish release
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: read
 
     steps:
-      - name: ⤵️ Checkout code
+      - name: ⤵️　Checkout code
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+          ref: ${{ github.ref }}
 
-      - name: 🐍 Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: 3.11
-
-      - name: 🔢 Calculate next release version
-        id: calc_version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          # Install dependencies
-          python -m pip install --no-deps requests==2.32.3
-
-          # Run script to calculate next version based on PR labels
-          NEXT_VERSION=$(python .github/scripts/calc_next_version.py)
-          echo "Next version: ${NEXT_VERSION}"
-          [[ -n "${NEXT_VERSION}" ]] || { echo "Empty NEXT_VERSION"; exit 1; }
-          [[ "${NEXT_VERSION}" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z\.-]+)?$ ]] || { echo "Invalid semver: ${NEXT_VERSION}"; exit 1; }
-
-          echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: 🔄 Update version in 'VERSION' and 'manifest.json'
-        env:
-          NEXT_VERSION: ${{ steps.calc_version.outputs.next_version }}
-          GITHUB_REPO: ${{ github.event.repository.name }}
-        run: |
-          set -euo pipefail
-          echo "${NEXT_VERSION}" > VERSION
-          echo "** Manifest before replace **"
-          cat "custom_components/${GITHUB_REPO}/manifest.json"
-          tmp="$(mktemp)"
-          jq --arg v "$NEXT_VERSION" '.version = $v' \
-            "custom_components/${GITHUB_REPO}/manifest.json" > "$tmp" \
-            && mv "$tmp" "custom_components/${GITHUB_REPO}/manifest.json"
-          echo "** Manifest after replace **"
-          cat custom_components/$GITHUB_REPO/manifest.json
-
-      - name: 🗑 Delete draft releases
+      - name: 🗑　Delete drafts
         uses: hugo19941994/delete-draft-releases@v2.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: ✏️ Generate release changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.4
+      - name: 🔢 Calculate next semantic version
+        id: semver
+        uses: ietf-tools/semver-action@v1
         with:
-          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+
+      - name: 🧾 Display version info
+        run: |
+          echo "Current version: ${{ steps.semver.outputs.current }}"
+          echo "Next version: ${{ steps.semver.outputs.next }}"
+
+      - name: 🔄　Update version in 'VERSION' and 'manifest.json' and push changes
+        env:
+          tag_name: ${{ steps.semver.outputs.next }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+        run: |
+          echo "** Manifest before replace **"
+          cat custom_components/$GITHUB_REPO/manifest.json
+          sed -i 's/"version": ".*"/"version": "'$tag_name'"/g' custom_components/$GITHUB_REPO/manifest.json
+          echo "** Manifest after replace **"
+          cat custom_components/$GITHUB_REPO/manifest.json
+          echo $tag_name > VERSION
+
+      - name: 📝　Publish release
+        uses: release-drafter/release-drafter@v6
+        id: release_published
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: Release ${{ steps.semver.outputs.next }}
+          tag: ${{ steps.semver.outputs.next }}
+          publish: true
+
+      - name: "✏️　Generate release changelog"
+        uses: janheinrichmerker/action-github-changelog-generator@v2.4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          output: CHANGELOG.md
           issues: true
           issuesWoLabels: true
           pullRequests: true
@@ -75,10 +72,12 @@ jobs:
           unreleased: false
           addSections: '{"documentation":{"prefix":"**Documentation:**","labels":["documentation"]}}'
 
-      - name: ✅ Commit release notes and bump version
+      - name: ✅　Commit release notes and bump version
         uses: EndBug/add-and-commit@v9
         with:
-          message: "Commit release notes and bump version ${{ steps.calc_version.outputs.next_version }}"
+          add: "VERSION CHANGELOG.md custom_components/${{ github.event.repository.name }}/manifest.json"
+          message: "chore(release): changelog & bump version to ${{ steps.semver.outputs.next }}"
+          push: true
 
       - name: 📦 Create zip file
         run: |
@@ -86,44 +85,29 @@ jobs:
           zip -r "${{ github.event.repository.name }}.zip" .
           mv "${{ github.event.repository.name }}.zip" ../..
 
-      - name: 📎 Upload zip artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-artifact
-          path: "${{ github.event.repository.name }}.zip"
-
-      - name: 📝 Draft and publish release
-        uses: release-drafter/release-drafter@v6
-        id: release_drafter
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          publish: true
-          tag: ${{ steps.calc_version.outputs.next_version }}
-          name: ${{ steps.calc_version.outputs.next_version }}
-
-      - name: 📝 Update release with zip file
+      - name: 📎 Upload zip to release
         run: |
-          gh release upload ${{ steps.calc_version.outputs.next_version }} "${{ github.event.repository.name }}.zip"
+          gh release upload "${{ steps.semver.outputs.next }}" "${{ github.event.repository.name }}.zip"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
 
       - name: 🚮 Remove pre-releases
-        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           gh release list --json tagName,isPrerelease -q '.[] | select(.isPrerelease == true) | .tagName' | while read -r tag_name; do
-            echo "Deleting pre-release: $tag_name"
+            echo "Deleting pre-release with tag: $tag_name"
+            # Delete the release
             gh release delete "$tag_name" --yes
+            # Delete the Git tag
+            echo "Deleting Git tag: $tag_name"
             git push origin --delete "$tag_name" || echo "Failed to delete tag $tag_name from remote"
             git tag -d "$tag_name" || echo "Failed to delete tag $tag_name locally"
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🚀 Discord notification
+      - name: 🚀 Send Discord notification
         uses: Ilshidur/action-discord@master
         env:
-          NEXT_VERSION: ${{ steps.calc_version.outputs.next_version }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: "New release published: https://github.com/{{ EVENT_PAYLOAD.repository.full_name }}/releases/tag/{{ NEXT_VERSION }}"
+          args: "🎉 New release published: https://github.com/${{ github.repository }}/releases/tag/${{ steps.semver.outputs.next }}"
