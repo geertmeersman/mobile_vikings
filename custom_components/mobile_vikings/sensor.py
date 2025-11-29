@@ -545,7 +545,7 @@ async def async_setup_entry(
             entities.append(MobileVikingsSensor(coordinator, sensor_type, entry, None))
 
     for subscription_id, subscription_data in coordinator.data.get(
-        "subscriptions", []
+        "subscriptions", {}
     ).items():
         # Add static sensors from SUBSCRIPTION_SENSOR_TYPES
         for sensor_type in SUBSCRIPTION_SENSOR_TYPES:

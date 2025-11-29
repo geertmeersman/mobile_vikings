@@ -150,7 +150,7 @@ async def async_setup_entry(
     mobile_platform = coordinator.client.mobile_platform
 
     for subscription_id, subscription_data in coordinator.data.get(
-        "subscriptions", []
+        "subscriptions", {}
     ).items():
         # Add static sensors from SUBSCRIPTION_SENSOR_TYPES
         for sensor_type in SUBSCRIPTION_SENSOR_TYPES:
