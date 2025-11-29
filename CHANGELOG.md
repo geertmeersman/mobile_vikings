@@ -1,5 +1,40 @@
 # Changelog
 
+## [v3.0.1](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.1) (2025-11-29)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.0...v3.0.1)
+
+**Closed issues:**
+
+- Error while setting up mobile\_vikings platform for sensor: 'list' object has no attribute 'items' [\#244](https://github.com/geertmeersman/mobile_vikings/issues/244)
+
+**Merged pull requests:**
+
+- fix \#244, to handle empty responses [\#245](https://github.com/geertmeersman/mobile_vikings/pull/245) ([myTselection](https://github.com/myTselection))
+- build\(deps\): bump actions/checkout from 5 to 6 [\#243](https://github.com/geertmeersman/mobile_vikings/pull/243) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/upload-artifact from 4 to 5 [\#242](https://github.com/geertmeersman/mobile_vikings/pull/242) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore: archived ruff-actions replaced [\#241](https://github.com/geertmeersman/mobile_vikings/pull/241) ([geertmeersman](https://github.com/geertmeersman))
+- fix: Update fetch-depth to enable full history for semantic versioning [\#240](https://github.com/geertmeersman/mobile_vikings/pull/240) ([geertmeersman](https://github.com/geertmeersman))
+- chore\(release\): improved release workflow [\#239](https://github.com/geertmeersman/mobile_vikings/pull/239) ([geertmeersman](https://github.com/geertmeersman))
+- chore: test semver calculation [\#238](https://github.com/geertmeersman/mobile_vikings/pull/238) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump github/codeql-action from 3 to 4 [\#237](https://github.com/geertmeersman/mobile_vikings/pull/237) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.13.3 to 0.14.0 [\#236](https://github.com/geertmeersman/mobile_vikings/pull/236) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.13.2 to 0.13.3 [\#235](https://github.com/geertmeersman/mobile_vikings/pull/235) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.13.1 to 0.13.2 [\#234](https://github.com/geertmeersman/mobile_vikings/pull/234) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.13.0 to 0.13.1 [\#233](https://github.com/geertmeersman/mobile_vikings/pull/233) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/setup-python from 5 to 6 [\#232](https://github.com/geertmeersman/mobile_vikings/pull/232) ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix: semver calculation excluding dependabot [\#230](https://github.com/geertmeersman/mobile_vikings/pull/230) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump ruff from 0.12.12 to 0.13.0 [\#229](https://github.com/geertmeersman/mobile_vikings/pull/229) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.12.11 to 0.12.12 [\#228](https://github.com/geertmeersman/mobile_vikings/pull/228) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/github-script from 7 to 8 [\#227](https://github.com/geertmeersman/mobile_vikings/pull/227) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/stale from 9 to 10 [\#226](https://github.com/geertmeersman/mobile_vikings/pull/226) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/setup-python from 5 to 6 [\#225](https://github.com/geertmeersman/mobile_vikings/pull/225) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.12.10 to 0.12.11 [\#224](https://github.com/geertmeersman/mobile_vikings/pull/224) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.12.9 to 0.12.10 [\#223](https://github.com/geertmeersman/mobile_vikings/pull/223) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.12.8 to 0.12.9 [\#222](https://github.com/geertmeersman/mobile_vikings/pull/222) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump ruff from 0.12.7 to 0.12.8 [\#221](https://github.com/geertmeersman/mobile_vikings/pull/221) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/checkout from 4 to 5 [\#220](https://github.com/geertmeersman/mobile_vikings/pull/220) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v3.0.0](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.0) (2025-08-06)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v2.1.1...v3.0.0)
