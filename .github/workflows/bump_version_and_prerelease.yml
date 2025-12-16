@@ -74,7 +74,7 @@ jobs:
           mv "${{ github.event.repository.name }}-beta-${{ steps.next-version.outputs.NEW_VERSION }}.zip" ../..
 
       - name: 📎 Upload zip artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: release-artifact
           path: "${{ github.event.repository.name }}-beta-${{ steps.next-version.outputs.NEW_VERSION }}.zip"
