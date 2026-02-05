@@ -203,8 +203,12 @@ class MobileVikingsBinarySensor(MobileVikingsEntity, BinarySensorEntity):
             entity_id_prefix = description.entity_id_prefix_fn(self.item)
         else:
             entity_id_prefix = entry.title
+        if entity_id_prefix and set(entity_id_prefix) == {"_"}:
+            entity_id_prefix = ""
+        if entity_id_prefix:
+            entity_id_prefix = f"_{entity_id_prefix}"
         self.idx = idx
-        self.entity_id = f"binary_sensor.{DOMAIN}_{slugify(entity_id_prefix)}_{description.unique_id_fn(self.item)}"
+        self.entity_id = f"binary_sensor.{DOMAIN}{slugify(entity_id_prefix)}_{description.unique_id_fn(self.item)}"
         self._value: StateType = None
 
     @property
