@@ -22,7 +22,7 @@ from homeassistant.helpers.typing import StateType
 from homeassistant.util import slugify
 
 from . import MobileVikingsDataUpdateCoordinator
-from .const import DOMAIN, MOBILE_VIKINGS, JIM_MOBILE
+from .const import DOMAIN, JIM_MOBILE, MOBILE_VIKINGS
 from .entity import MobileVikingsEntity
 from .utils import safe_get, to_title_case_with_spaces
 
@@ -67,7 +67,8 @@ SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         translation_key="loyalty_points_available",
         unique_id_fn=lambda data: "loyalty_points_available",
         icon="mdi:currency-eur",
-        available_fn=lambda data: data is not None and data.get("available") is not None,
+        available_fn=lambda data: data is not None
+        and data.get("available") is not None,
         value_fn=lambda data: 0 if data is None else data.get("available", 0),
         device_name_fn=lambda data: "Loyalty Points",
         device_identifier_fn=lambda data: "Loyalty Points",
@@ -192,7 +193,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "used_percentage"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "used_percentage"], default=0
         ),
@@ -221,7 +223,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "remaining_gb"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "remaining_gb"], default=0
         ),
@@ -249,7 +252,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "remaining_days"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "remaining_days"], default=0
         ),
@@ -274,7 +278,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "period_percentage"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "data", "period_percentage"], default=0
         ),
@@ -301,7 +306,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "used_percentage"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "used_percentage"], default=0
         ),
@@ -330,7 +336,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "period_percentage"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "period_percentage"], default=0
         ),
@@ -356,7 +363,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "remaining_days"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "voice", "remaining_days"], default=0
         ),
@@ -382,7 +390,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance_aggregated", "sms", "used_percentage"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance_aggregated", "sms", "used_percentage"], default=0
         ),
@@ -411,7 +420,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data: safe_get(
             data, ["balance", "out_of_bundle_cost"], default=None
-        ) is not None,
+        )
+        is not None,
         value_fn=lambda data: safe_get(
             data, ["balance", "out_of_bundle_cost"], default=0
         ),
@@ -435,7 +445,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_credit"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: safe_get(data, ["balance", "credit"], default=None) is not None,
+        available_fn=lambda data: safe_get(data, ["balance", "credit"], default=None)
+        is not None,
         value_fn=lambda data: safe_get(data, ["balance", "credit"], default=0),
         device_name_fn=lambda data: "Subscription",
         device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
@@ -457,7 +468,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_product_info"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: safe_get(data, ["product", "price"], default=None) is not None,
+        available_fn=lambda data: safe_get(data, ["product", "price"], default=None)
+        is not None,
         value_fn=lambda data: safe_get(data, ["product", "price"], default=0.0),
         device_name_fn=lambda data: "Subscription",
         device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
@@ -480,7 +492,8 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
             (data.get("sim") or {}).get("msisdn", "") + "_sim_alias"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: safe_get(data, ["sim", "alias"], default=None) is not None,
+        available_fn=lambda data: safe_get(data, ["sim", "alias"], default=None)
+        is not None,
         value_fn=lambda data: safe_get(data, ["sim", "alias"], default=""),
         device_name_fn=lambda data: "Subscription",
         device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
@@ -538,7 +551,9 @@ async def async_setup_entry(
     # Add static sensors from SENSOR_TYPES
     for sensor_type in SENSOR_TYPES:
         if mobile_platform not in sensor_type.mobile_platforms:
-            _LOGGER.debug(f"Skipping {sensor_type.key}-{sensor_type.translation_key} for mobile platform {mobile_platform}")
+            _LOGGER.debug(
+                f"Skipping {sensor_type.key}-{sensor_type.translation_key} for mobile platform {mobile_platform}"
+            )
             continue
         _LOGGER.debug(f"Searching for {sensor_type.key}-{sensor_type.translation_key}")
         if sensor_type.key in coordinator.data:
@@ -550,7 +565,9 @@ async def async_setup_entry(
         # Add static sensors from SUBSCRIPTION_SENSOR_TYPES
         for sensor_type in SUBSCRIPTION_SENSOR_TYPES:
             if mobile_platform not in sensor_type.mobile_platforms:
-                _LOGGER.debug(f"Skipping {sensor_type.key}-{sensor_type.translation_key} for mobile platform {mobile_platform}")
+                _LOGGER.debug(
+                    f"Skipping {sensor_type.key}-{sensor_type.translation_key} for mobile platform {mobile_platform}"
+                )
                 continue
             _LOGGER.debug(
                 f"Searching for {sensor_type.key}-{sensor_type.translation_key}"
@@ -593,8 +610,12 @@ class MobileVikingsSensor(MobileVikingsEntity, RestoreSensor, SensorEntity):
             entity_id_prefix = description.entity_id_prefix_fn(self.item)
         else:
             entity_id_prefix = entry.title
+        if entity_id_prefix and set(entity_id_prefix) == {"_"}:
+            entity_id_prefix = ""
+        if entity_id_prefix:
+            entity_id_prefix = f"_{entity_id_prefix}"
         self.idx = idx
-        self.entity_id = f"sensor.{DOMAIN}_{slugify(entity_id_prefix)}_{description.unique_id_fn(self.item)}"
+        self.entity_id = f"sensor.{DOMAIN}{slugify(entity_id_prefix)}_{description.unique_id_fn(self.item)}"
         self._value: StateType = None
 
     @property
