@@ -1,5 +1,19 @@
 # Changelog
 
+## [v3.0.2](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.2) (2026-02-05)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.1...v3.0.2)
+
+**Closed issues:**
+
+- Since HA 2026.2 there is no more subscription information [\#247](https://github.com/geertmeersman/mobile_vikings/issues/247)
+- Add roaming data bundle information [\#231](https://github.com/geertmeersman/mobile_vikings/issues/231)
+
+**Merged pull requests:**
+
+- fix: entity\_id prefix not accepted since 2026.2, fixes \#247 [\#248](https://github.com/geertmeersman/mobile_vikings/pull/248) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump actions/upload-artifact from 5 to 6 [\#246](https://github.com/geertmeersman/mobile_vikings/pull/246) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v3.0.1](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.1) (2025-11-29)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.0...v3.0.1)
