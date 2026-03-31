@@ -63,7 +63,7 @@ jobs:
           message: "Bump version to ${{ steps.next-version.outputs.NEW_VERSION }}"
 
       - name: 🗑 Delete draft releases
-        uses: hugo19941994/delete-draft-releases@v2.0.0
+        uses: hugo19941994/delete-draft-releases@v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
