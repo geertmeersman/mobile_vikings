@@ -249,193 +249,98 @@ class MobileVikingsClient:
         """
         return await self.handle_request(f"/products/{product_id}")
 
+    def enrich_bundle(self, bundle, sim_info):
+        """Add derived properties to a bundle for easy sensor creation."""
+        now = datetime.now(timezone.utc)
+        total = bundle.get("total", 0)
+        used = bundle.get("used", 0)
+        rlah_total = bundle.get("rlah_total", 0)
+        rlah_used = bundle.get("rlah_used", 0)
+        roam_row_total = bundle.get("roam_row_total", 0)
+        roam_row_used = bundle.get("roam_row_used", 0)
+
+        valid_from = datetime.strptime(bundle["valid_from"], "%Y-%m-%dT%H:%M:%S%z")
+        valid_until = datetime.strptime(bundle["valid_until"], "%Y-%m-%dT%H:%M:%S%z")
+        validity_seconds = (valid_until - valid_from).total_seconds()
+        elapsed_seconds = (now - valid_from).total_seconds()
+
+        bundle["used_percentage"] = round((used / total) * 100, 2) if total > 0 else 0
+        bundle["period_percentage"] = round(
+            max(0, min((elapsed_seconds / validity_seconds) * 100, 100)), 2
+        )
+        bundle["remaining_days"] = max((valid_until - now).days, 0)
+        bundle["unlimited"] = total <= 0
+        bundle["msisdn"] = sim_info.get("msisdn")
+        bundle["alias"] = sim_info.get("alias")
+        if bundle["type"] != "data":
+            return bundle
+
+        bundle["remaining_gb"] = round(max(total - used, 0) / (1024**3), 2)
+        bundle["rlah_used_percentage"] = (
+            round((rlah_used / rlah_total) * 100, 2) if rlah_total > 0 else 0
+        )
+        bundle["rlah_remaining_gb"] = round(
+            max(rlah_total - rlah_used, 0) / (1024**3), 2
+        )
+        bundle["roam_row_used_percentage"] = (
+            round((roam_row_used / roam_row_total) * 100, 2)
+            if roam_row_total > 0
+            else 0
+        )
+        bundle["roam_row_remaining_gb"] = round(
+            max(roam_row_total - roam_row_used, 0) / (1024**3), 2
+        )
+
+        return bundle
+
+    def build_bundle_key(self, bundle: dict) -> str:
+        """Return a composite key for a bundle like data_default, sms_loyalty."""
+        bundle_type = bundle.get("type", "unknown")
+        bundle_category = bundle.get("category", "unknown")
+        return f"{bundle_type}_{bundle_category}"
+
     async def get_subscriptions(self):
-        """Fetch subscriptions from the Mobile Vikings API.
+        """Fetch subscriptions and enrich each bundle individually."""
+        subscriptions_raw = await self.handle_request("/subscriptions")
+        subscriptions = {}
 
-        Returns
-        -------
-        dict
-            A dictionary containing subscription information.
-
-        """
-        subscriptions = await self.handle_request("/subscriptions")
-        return_sub = {}
-        for subscription in subscriptions:
+        for subscription in subscriptions_raw:
             subscription_id = subscription.get("id")
+
+            # Fixed internet
             if subscription.get("type") == "fixed-internet":
                 subscription["modem_settings"] = await self.handle_request(
                     f"/subscriptions/{subscription_id}/modem/settings"
                 )
             else:
-                # Check if the 'sim' field exists and 'msisdn' is not empty
                 sim_info = subscription.get("sim", {})
                 if sim_info.get("msisdn"):
                     try:
                         balance = await self.handle_request(
                             f"/subscriptions/{subscription_id}/balance"
                         )
+                        # usage = await self.handle_request(f"/subscriptions/{subscription_id}/usage-summary")
+                        # subscription["usage"] = usage
+                        bundles = balance.get("bundles", [])
                         subscription["balance"] = balance
-                        subscription["balance_aggregated"] = (
-                            self.aggregate_bundles_by_type(balance)
-                        )
+                        # Remove "product" if present
+                        subscription["balance"].pop("product", None)
+                        subscription["balance"]["bundles"] = {
+                            self.build_bundle_key(b): self.enrich_bundle(b, sim_info)
+                            for b in bundles
+                        }
                     except Exception as e:
                         _LOGGER.debug(
-                            f"Failed to retrieve balance for subscription {subscription_id}: {e}"
+                            f"Failed to fetch balance for {subscription_id}: {e}"
                         )
-                        # Continue without setting the balance if there's an error
+
+            # Product details
             subscription["product"] = await self.get_product_details(
                 subscription.get("product_id")
             )
-            return_sub[subscription_id] = subscription
-        return return_sub
+            subscriptions[subscription_id] = subscription
 
-    def aggregate_bundles_by_type(self, balance):
-        """Aggregate bundles by their type, including usage, validity, and period details in days and GB."""
-        # Parse the current time and make it timezone-aware
-        current_time = datetime.now(timezone.utc)
-
-        # Initialize the dictionary that will hold the aggregated bundles for each type
-        aggregated_bundles = {"data": None, "voice": None, "sms": None}
-
-        if "bundles" not in balance:
-            raise KeyError("The 'balance' dictionary must contain a 'bundles' key")
-
-        # Aggregate bundles by type
-        for bundle in balance["bundles"]:
-            bundle_type = bundle.get("type")
-            if not bundle_type:
-                raise KeyError("Each bundle must have a 'type' field.")
-
-            # Only process data, voice, and sms bundles
-            if bundle_type not in aggregated_bundles:
-                continue
-
-            # If this is the first bundle of this type, initialize the aggregated structure
-            if aggregated_bundles[bundle_type] is None:
-                aggregated_bundles[bundle_type] = {
-                    "type": bundle_type,
-                    "valid_from": bundle["valid_from"],
-                    "valid_until": bundle["valid_until"],
-                    "total": 0,
-                    "used": 0,
-                    "remaining": 0,
-                    "unlimited": False,  # Default to False
-                    "periods": [],  # Store individual periods for weighted calculations
-                }
-
-            # Parse bundle validity dates
-            bundle_valid_from = datetime.strptime(
-                bundle["valid_from"], "%Y-%m-%dT%H:%M:%S%z"
-            )
-            bundle_valid_until = datetime.strptime(
-                bundle["valid_until"], "%Y-%m-%dT%H:%M:%S%z"
-            )
-
-            # Update valid_from and valid_until to reflect the overall range
-            aggregated_valid_from = datetime.strptime(
-                aggregated_bundles[bundle_type]["valid_from"], "%Y-%m-%dT%H:%M:%S%z"
-            )
-            aggregated_valid_until = datetime.strptime(
-                aggregated_bundles[bundle_type]["valid_until"], "%Y-%m-%dT%H:%M:%S%z"
-            )
-
-            if bundle_valid_from < aggregated_valid_from:
-                aggregated_bundles[bundle_type]["valid_from"] = bundle["valid_from"]
-
-            if bundle_valid_until > aggregated_valid_until:
-                aggregated_bundles[bundle_type]["valid_until"] = bundle["valid_until"]
-
-            # Calculate validity period in days
-            validity_period_seconds = (
-                bundle_valid_until - bundle_valid_from
-            ).total_seconds()
-            validity_period_days = validity_period_seconds / 86400  # Convert to days
-
-            # Calculate elapsed time and period percentage
-            elapsed_time_seconds = (current_time - bundle_valid_from).total_seconds()
-            period_percentage = max(
-                0, min((elapsed_time_seconds / validity_period_seconds) * 100, 100)
-            )
-
-            # Calculate usage percentage for this period
-            usage_percentage = (
-                (bundle["used"] / bundle["total"]) * 100 if bundle["total"] > 0 else 0
-            )
-
-            # Add this period's details to the list
-            aggregated_bundles[bundle_type]["periods"].append(
-                {
-                    "validity_period_days": round(
-                        validity_period_days, 2
-                    ),  # Validity period in days
-                    "period_percentage": round(period_percentage, 2),
-                    "usage_percentage": round(usage_percentage, 2),
-                    "category": bundle["category"],
-                    "valid_from": bundle["valid_from"],
-                    "valid_until": bundle["valid_until"],
-                    "total_gb": round(bundle["total"] / (1024**3), 2),  # Total in GB
-                    "remaining_gb": round(
-                        (bundle["total"] - bundle["used"]) / (1024**3), 2
-                    ),  # Remaining in GB
-                    "weight": validity_period_seconds,  # Weight by period duration
-                }
-            )
-
-            # Aggregate totals, used, and remaining
-            if not aggregated_bundles[bundle_type]["unlimited"]:
-                if bundle["total"] == 0:
-                    # Mark as unlimited only if not already set
-                    aggregated_bundles[bundle_type]["unlimited"] = True
-                    aggregated_bundles[bundle_type]["total"] = 0
-                    aggregated_bundles[bundle_type]["used"] = 0
-                    aggregated_bundles[bundle_type]["remaining"] = 0
-                else:
-                    # Sum up values for this type
-                    aggregated_bundles[bundle_type]["total"] += bundle["total"]
-                    aggregated_bundles[bundle_type]["used"] += bundle["used"]
-                    aggregated_bundles[bundle_type]["remaining"] += (
-                        bundle["total"] - bundle["used"]
-                    )
-
-        # Calculate additional values for each aggregated bundle
-        for bundle in aggregated_bundles.values():
-            if bundle is not None:
-                total = bundle["total"]
-                used = bundle["used"]
-                remaining = bundle["remaining"]
-
-                # Calculate used percentage
-                bundle["used_percentage"] = (used / total) * 100 if total > 0 else 0
-                bundle["used_percentage"] = round(bundle["used_percentage"], 2)
-
-                # Convert totals and remaining to GB
-                bundle["total_gb"] = round(
-                    total / (1024**3), 2
-                )  # Convert from bytes to GB
-                bundle["used_gb"] = round(used / (1024**3), 2)
-                bundle["remaining_gb"] = round(remaining / (1024**3), 2)
-
-                # Calculate weighted period progress percentage
-                total_weight = sum(period["weight"] for period in bundle["periods"])
-                combined_period_percentage = sum(
-                    (period["period_percentage"] * period["weight"]) / total_weight
-                    for period in bundle["periods"]
-                )
-                bundle["period_percentage"] = round(combined_period_percentage, 2)
-
-                # Calculate remaining days
-                valid_until = datetime.strptime(
-                    bundle["valid_until"], "%Y-%m-%dT%H:%M:%S%z"
-                )
-                remaining_days = (valid_until - current_time).days
-                bundle["remaining_days"] = max(remaining_days, 0)
-
-                # Compare used_percentage with period_percentage and add usage_alert
-                bundle["usage_alert"] = (
-                    bundle["used_percentage"] > bundle["period_percentage"]
-                )
-
-        return aggregated_bundles
+        return subscriptions
 
     async def get_unpaid_invoices(self):
         """Fetch unpaid invoices from the Mobile Vikings API."""
