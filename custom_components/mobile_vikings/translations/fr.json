@@ -51,6 +51,9 @@
       }
     },
     "sensor": {
+      "bundles_info": {
+        "name": "Infos bundle prepaid"
+      },
       "credit": {
         "name": "Cr\u00e9dit"
       },
@@ -58,10 +61,10 @@
         "name": "Infos"
       },
       "data_balance": {
-        "name": "Solde de donn\u00e9es"
+        "name": "Solde de donn\u00e9es ({category})"
       },
       "data_remaining": {
-        "name": "Donn\u00e9es restantes"
+        "name": "Donn\u00e9es restantes ({category})"
       },
       "loyalty_points_available": {
         "name": "Disponible"
@@ -85,28 +88,25 @@
         "name": "Factures pay\u00e9es"
       },
       "period_percentage": {
-        "name": "Pourcentage de p\u00e9riode"
+        "name": "Pourcentage de p\u00e9riode ({category})"
       },
       "product_info": {
         "name": "Infos produit"
       },
-      "bundles_info": {
-        "name": "Infos bundle prepaid"
-      },
       "remaining_days": {
-        "name": "Jours restants"
+        "name": "Jours restants ({category})"
       },
       "sim_alias": {
         "name": "Alias SIM"
       },
       "sms_balance": {
-        "name": "Solde de SMS"
+        "name": "Solde de SMS ({category})"
       },
       "unpaid_invoices": {
         "name": "Factures impay\u00e9es"
       },
       "voice_balance": {
-        "name": "Solde de voix"
+        "name": "Solde de voix ({category})"
       }
     }
   },

@@ -50,16 +50,34 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         key="subscriptions",
         subscription_types=("postpaid", "prepaid", "data-only"),
         translation_key="data_usage_alert",
-        unique_id_fn=lambda data: (
+        unique_id_fn=lambda data, _: (
             (data.get("sim") or {}).get("msisdn", "") + "_data_usage_alert"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "data", "usage_alert"], default=None
+        available_fn=lambda data, _: any(
+            bundle.get("type") == "data"
+            for bundle in data.get("balance", {}).get("bundles", {}).values()
+        ),
+        value_fn=lambda data, _: (
+            data_bundles := [
+                bundle
+                for bundle_id, bundle in data.get("balance", {})
+                .get("bundles", {})
+                .items()
+                if bundle.get("type") == "data"
+            ]
         )
-        is not None,
-        value_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "data", "usage_alert"], default=0
+        and len(data_bundles) > 0
+        and all(
+            safe_get(data, ["balance", "bundles", bundle_id, "used_percentage"], 0)
+            > (
+                safe_get(
+                    data, ["balance", "bundles", bundle_id, "period_percentage"], 0
+                )
+                + 20
+            )
+            for bundle_id, bundle in data.get("balance", {}).get("bundles", {}).items()
+            if bundle.get("type") == "data"
         ),
         device_name_fn=lambda data: "Subscription",
         device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
@@ -68,27 +86,51 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         + safe_get(
             data, ["product", "descriptions", "title"], default="Unknown Product"
         ),
-        attributes_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "data"], default={}
-        ),
-        device_class=BinarySensorDeviceClass.SAFETY,
+        attributes_fn=lambda data, _: {
+            "bundles": {
+                bundle_id: {
+                    "category": bundle.get("category"),
+                    "used_percentage": bundle.get("used_percentage"),
+                    "period_percentage": bundle.get("period_percentage"),
+                    "alarm_triggered": (
+                        bundle.get("used_percentage", 0)
+                        > (bundle.get("period_percentage", 0) + 20)
+                    ),
+                }
+                for bundle_id, bundle in data.get("balance", {})
+                .get("bundles", {})
+                .items()
+                if bundle.get("type") == "data"
+            }
+        },
+        device_class=BinarySensorDeviceClass.PROBLEM,
         icon="mdi:alarm-light",
-        mobile_platforms=(MOBILE_VIKINGS),
+        mobile_platforms=(MOBILE_VIKINGS,),
     ),
     MobileVikingsBinarySensorDescription(
         key="subscriptions",
         subscription_types=("postpaid", "prepaid"),
         translation_key="voice_usage_alert",
-        unique_id_fn=lambda data: (
+        unique_id_fn=lambda data, _: (
             (data.get("sim") or {}).get("msisdn", "") + "_voice_usage_alert"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "voice", "usage_alert"], default=None
-        )
-        is not None,
-        value_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "voice", "usage_alert"], default=0
+        available_fn=lambda data, _: any(
+            bundle.get("type") == "voice"
+            for bundle in data.get("balance", {}).get("bundles", {}).values()
+        ),
+        value_fn=lambda data, _: any(
+            (
+                safe_get(data, ["balance", "bundles", bundle_id, "used_percentage"], 0)
+                > (
+                    safe_get(
+                        data, ["balance", "bundles", bundle_id, "period_percentage"], 0
+                    )
+                    + 20
+                )
+            )
+            for bundle_id, bundle in data.get("balance", {}).get("bundles", {}).items()
+            if bundle.get("type") == "voice" and not bundle.get("unlimited", False)
         ),
         device_name_fn=lambda data: "Subscription",
         device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
@@ -97,27 +139,56 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         + safe_get(
             data, ["product", "descriptions", "title"], default="Unknown Product"
         ),
-        attributes_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "voice"], default={}
-        ),
-        device_class=BinarySensorDeviceClass.SAFETY,
+        attributes_fn=lambda data, _: {
+            "bundles": {
+                bundle_id: {
+                    "category": bundle.get("category"),
+                    "used_percentage": bundle.get("used_percentage"),
+                    "period_percentage": bundle.get("period_percentage"),
+                    "unlimited": bundle.get("unlimited", False),
+                    "alarm_triggered": (
+                        (
+                            bundle.get("used_percentage", 0)
+                            > (bundle.get("period_percentage", 0) + 20)
+                        )
+                        if not bundle.get("unlimited", False)
+                        else False
+                    ),
+                }
+                for bundle_id, bundle in data.get("balance", {})
+                .get("bundles", {})
+                .items()
+                if bundle.get("type") == "voice"
+            }
+        },
+        device_class=BinarySensorDeviceClass.PROBLEM,
         icon="mdi:alarm-light",
-        mobile_platforms=(MOBILE_VIKINGS),
+        mobile_platforms=(MOBILE_VIKINGS,),
     ),
     MobileVikingsBinarySensorDescription(
         key="subscriptions",
         subscription_types=("postpaid", "prepaid"),
         translation_key="sms_usage_alert",
-        unique_id_fn=lambda data: (
+        unique_id_fn=lambda data, _: (
             (data.get("sim") or {}).get("msisdn", "") + "_sms_usage_alert"
         ),
         entity_id_prefix_fn=lambda data: "",
-        available_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "sms", "usage_alert"], default=None
-        )
-        is not None,
-        value_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "sms", "usage_alert"], default=0
+        available_fn=lambda data, _: any(
+            bundle.get("type") == "sms"
+            for bundle in data.get("balance", {}).get("bundles", {}).values()
+        ),
+        value_fn=lambda data, _: any(
+            (
+                safe_get(data, ["balance", "bundles", bundle_id, "used_percentage"], 0)
+                > (
+                    safe_get(
+                        data, ["balance", "bundles", bundle_id, "period_percentage"], 0
+                    )
+                    + 20
+                )
+            )
+            for bundle_id, bundle in data.get("balance", {}).get("bundles", {}).items()
+            if bundle.get("type") == "sms" and not bundle.get("unlimited", False)
         ),
         device_name_fn=lambda data: "Subscription",
         device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
@@ -126,12 +197,31 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         + safe_get(
             data, ["product", "descriptions", "title"], default="Unknown Product"
         ),
-        attributes_fn=lambda data: safe_get(
-            data, ["balance_aggregated", "sms"], default={}
-        ),
-        device_class=BinarySensorDeviceClass.SAFETY,
+        attributes_fn=lambda data, _: {
+            "bundles": {
+                bundle_id: {
+                    "category": bundle.get("category"),
+                    "used_percentage": bundle.get("used_percentage"),
+                    "period_percentage": bundle.get("period_percentage"),
+                    "unlimited": bundle.get("unlimited", False),
+                    "alarm_triggered": (
+                        (
+                            bundle.get("used_percentage", 0)
+                            > (bundle.get("period_percentage", 0) + 20)
+                        )
+                        if not bundle.get("unlimited", False)
+                        else False
+                    ),
+                }
+                for bundle_id, bundle in data.get("balance", {})
+                .get("bundles", {})
+                .items()
+                if bundle.get("type") == "sms"
+            }
+        },
+        device_class=BinarySensorDeviceClass.PROBLEM,
         icon="mdi:alarm-light",
-        mobile_platforms=(MOBILE_VIKINGS),
+        mobile_platforms=(MOBILE_VIKINGS,),
     ),
 )
 
@@ -150,7 +240,7 @@ async def async_setup_entry(
     mobile_platform = coordinator.client.mobile_platform
 
     for subscription_id, subscription_data in coordinator.data.get(
-        "subscriptions", {}
+        "subscriptions", []
     ).items():
         # Add static sensors from SUBSCRIPTION_SENSOR_TYPES
         for sensor_type in SUBSCRIPTION_SENSOR_TYPES:
@@ -195,7 +285,7 @@ class MobileVikingsBinarySensor(MobileVikingsEntity, BinarySensorEntity):
         idx: int,
     ) -> None:
         """Set entity ID."""
-        super().__init__(coordinator, description, idx)
+        super().__init__(coordinator, description, idx, None)
         # Use the prefix from the description if provided, otherwise use the configuration title
         if hasattr(description, "entity_id_prefix_fn") and callable(
             description.entity_id_prefix_fn
@@ -203,19 +293,18 @@ class MobileVikingsBinarySensor(MobileVikingsEntity, BinarySensorEntity):
             entity_id_prefix = description.entity_id_prefix_fn(self.item)
         else:
             entity_id_prefix = entry.title
-        if entity_id_prefix and set(entity_id_prefix) == {"_"}:
-            entity_id_prefix = ""
-        if entity_id_prefix:
-            entity_id_prefix = f"_{entity_id_prefix}"
         self.idx = idx
-        self.entity_id = f"binary_sensor.{DOMAIN}{slugify(entity_id_prefix)}_{description.unique_id_fn(self.item)}"
+
+        # Clean up entity ID construction to avoid double underscores
+        prefix_part = f"_{slugify(entity_id_prefix)}" if entity_id_prefix else ""
+        self.entity_id = f"binary_sensor.{DOMAIN}{prefix_part}_{description.unique_id_fn(self.item, None)}"
         self._value: StateType = None
 
     @property
     def is_on(self) -> bool | None:
         """Return true if the binary sensor is on."""
         if self.entity_description.value_fn:
-            return bool(self.entity_description.value_fn(self.item))
+            return bool(self.entity_description.value_fn(self.item, None))
         return self._attr_is_on
 
     @property
@@ -228,7 +317,7 @@ class MobileVikingsBinarySensor(MobileVikingsEntity, BinarySensorEntity):
         }
         if (
             self.entity_description.attributes_fn
-            and self.entity_description.attributes_fn(self.item) is not None
+            and self.entity_description.attributes_fn(self.item, None) is not None
         ):
-            return attributes | self.entity_description.attributes_fn(self.item)
+            return attributes | self.entity_description.attributes_fn(self.item, None)
         return attributes
