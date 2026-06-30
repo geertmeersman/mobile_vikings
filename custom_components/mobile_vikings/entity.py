@@ -12,7 +12,16 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import slugify
 
 from . import MobileVikingsDataUpdateCoordinator
-from .const import ATTRIBUTION, DOMAIN, NAME, VERSION, WEBSITE, WEBSITE_JIMMOBILE, MOBILE_VIKINGS, JIM_MOBILE
+from .const import (
+    ATTRIBUTION,
+    DOMAIN,
+    JIM_MOBILE,
+    MOBILE_VIKINGS,
+    NAME,
+    VERSION,
+    WEBSITE,
+    WEBSITE_JIMMOBILE,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -33,10 +42,12 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
         coordinator: MobileVikingsDataUpdateCoordinator,
         description: EntityDescription,
         idx: int,
+        bundle_id: str,
     ) -> None:
         """Initialize MobileVikings entities."""
         super().__init__(coordinator)
         self.idx = idx
+        self.bundle_id = bundle_id
         self.entity_description = description
         self.mobile_platform = coordinator.client.mobile_platform
         self._identifier = f"{description.key}"
@@ -50,12 +61,14 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
             name=self.entity_description.device_name_fn(self.item),
             translation_key=slugify(self.entity_description.device_name_fn(self.item)),
             manufacturer=NAME if self.mobile_platform == MOBILE_VIKINGS else JIM_MOBILE,
-            configuration_url=WEBSITE if self.mobile_platform == MOBILE_VIKINGS else WEBSITE_JIMMOBILE,
+            configuration_url=(
+                WEBSITE if self.mobile_platform == MOBILE_VIKINGS else WEBSITE_JIMMOBILE
+            ),
             entry_type=DeviceEntryType.SERVICE,
             model=self.entity_description.model_fn(self.item),
             sw_version=VERSION,
         )
-        self._attr_unique_id = f"{coordinator.config_entry.entry_id}_{self.entity_description.unique_id_fn(self.item)}"
+        self._attr_unique_id = f"{coordinator.config_entry.entry_id}_{self.entity_description.unique_id_fn(self.item, self.bundle_id)}"
         self.last_synced = datetime.now()
         _LOGGER.debug(f"[MobileVikingsEntity|init] {self._attr_unique_id}")
 
@@ -85,7 +98,9 @@ class MobileVikingsEntity(CoordinatorEntity[MobileVikingsDataUpdateCoordinator])
     @property
     def available(self) -> bool:
         """Return if the entity is available."""
-        return super().available and self.entity_description.available_fn(self.item)
+        return super().available and self.entity_description.available_fn(
+            self.item, self.bundle_id
+        )
 
     async def async_update(self) -> None:
         """Update the entity.  Only used by the generic entity update service."""
