@@ -1,5 +1,21 @@
 # Changelog
 
+## [v3.0.3](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.3) (2026-06-30)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.2...v3.0.3)
+
+**Merged pull requests:**
+
+- build\(workflows\): update concurrency settings to include pull request number [\#257](https://github.com/geertmeersman/mobile_vikings/pull/257) ([geertmeersman](https://github.com/geertmeersman))
+- refactor: bundle-aware sensor details & balance and alert labels now show the bundle category [\#256](https://github.com/geertmeersman/mobile_vikings/pull/256) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump actions/checkout from 6 to 7 [\#255](https://github.com/geertmeersman/mobile_vikings/pull/255) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/dependency-review-action from 4 to 5 [\#254](https://github.com/geertmeersman/mobile_vikings/pull/254) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/github-script from 8 to 9 [\#253](https://github.com/geertmeersman/mobile_vikings/pull/253) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump hugo19941994/delete-draft-releases from 2.0.0 to 3.0.0 [\#252](https://github.com/geertmeersman/mobile_vikings/pull/252) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump EndBug/add-and-commit from 9 to 10 [\#251](https://github.com/geertmeersman/mobile_vikings/pull/251) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump release-drafter/release-drafter from 6 to 7 [\#250](https://github.com/geertmeersman/mobile_vikings/pull/250) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/upload-artifact from 6 to 7 [\#249](https://github.com/geertmeersman/mobile_vikings/pull/249) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v3.0.2](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.2) (2026-02-05)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.1...v3.0.2)
