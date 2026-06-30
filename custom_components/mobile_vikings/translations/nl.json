@@ -51,6 +51,9 @@
       }
     },
     "sensor": {
+      "bundles_info": {
+        "name": "Prepaid bundel informatie"
+      },
       "credit": {
         "name": "Krediet"
       },
@@ -58,10 +61,10 @@
         "name": "Info"
       },
       "data_balance": {
-        "name": "Data-tegoed"
+        "name": "Data-tegoed ({category})"
       },
       "data_remaining": {
-        "name": "Data resterend"
+        "name": "Data resterend ({category})"
       },
       "loyalty_points_available": {
         "name": "Beschikbaar"
@@ -85,28 +88,25 @@
         "name": "Betaalde facturen"
       },
       "period_percentage": {
-        "name": "Periodepercentage"
+        "name": "Periodepercentage ({category})"
       },
       "product_info": {
         "name": "Productinformatie"
       },
-      "bundles_info": {
-        "name": "Prepaid bundel informatie"
-      },
       "remaining_days": {
-        "name": "Resterende dagen"
+        "name": "Resterende dagen ({category})"
       },
       "sim_alias": {
         "name": "SIM-alias"
       },
       "sms_balance": {
-        "name": "SMS-tegoed"
+        "name": "SMS-tegoed ({category})"
       },
       "unpaid_invoices": {
         "name": "Onbetaalde facturen"
       },
       "voice_balance": {
-        "name": "Beltegoed"
+        "name": "Beltegoed ({category})"
       }
     }
   },

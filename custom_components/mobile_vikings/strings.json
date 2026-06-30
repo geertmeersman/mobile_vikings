@@ -51,6 +51,9 @@
       }
     },
     "sensor": {
+      "bundles_info": {
+        "name": "Prepaid bundles info"
+      },
       "credit": {
         "name": "Credit"
       },
@@ -58,10 +61,10 @@
         "name": "Info"
       },
       "data_balance": {
-        "name": "Data balance"
+        "name": "Data balance ({category})"
       },
       "data_remaining": {
-        "name": "Data remaining"
+        "name": "Data remaining ({category})"
       },
       "loyalty_points_available": {
         "name": "Available"
@@ -85,28 +88,25 @@
         "name": "Paid invoices"
       },
       "period_percentage": {
-        "name": "Period percentage"
+        "name": "Period percentage ({category})"
       },
       "product_info": {
         "name": "Product info"
       },
-      "bundles_info": {
-        "name": "Prepaid bundles info"
-      },
       "remaining_days": {
-        "name": "Remaining days"
+        "name": "Remaining days ({category})"
       },
       "sim_alias": {
         "name": "SIM alias"
       },
       "sms_balance": {
-        "name": "SMS balance"
+        "name": "SMS balance ({category})"
       },
       "unpaid_invoices": {
         "name": "Unpaid invoices"
       },
       "voice_balance": {
-        "name": "Voice balance"
+        "name": "Voice balance ({category})"
       }
     }
   },
