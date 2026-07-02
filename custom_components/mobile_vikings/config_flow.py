@@ -10,27 +10,25 @@ from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowHandler, FlowResult
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.selector import (
+    SelectSelector,
+    SelectSelectorConfig,
+    SelectSelectorMode,
     TextSelector,
     TextSelectorConfig,
     TextSelectorType,
-    SelectSelector,
-    SelectSelectorConfig,
-    SelectSelectorMode
 )
 from homeassistant.helpers.typing import UNDEFINED
 import voluptuous as vol
 
 from .client import MobileVikingsClient
-from .const import DOMAIN, NAME, MOBILE_VIKINGS, JIM_MOBILE
+from .const import DOMAIN, JIM_MOBILE, MOBILE_VIKINGS, NAME
 from .exceptions import BadCredentialsException, MobileVikingsServiceException
 from .models import MobileVikingsConfigEntryData
 
 _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_ENTRY_DATA = MobileVikingsConfigEntryData(
-    username=None,
-    password=None,
-    mobile_platform=None
+    username=None, password=None, mobile_platform=None
 )
 
 
@@ -58,7 +56,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
             hass=self.hass,
             username=user_input[CONF_USERNAME],
             password=user_input[CONF_PASSWORD],
-            mobile_platform=user_input['mobile_platform']
+            mobile_platform=user_input["mobile_platform"],
         )
 
         profile = await client.get_customer_info()
@@ -77,19 +75,23 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
             if not test["errors"]:
                 self.new_title = user_input[CONF_USERNAME]
                 self.new_entry_data |= user_input
-                if user_input['mobile_platform'] == JIM_MOBILE:
-                    await self.async_set_unique_id(f"{DOMAIN}_{JIM_MOBILE}_{user_input[CONF_USERNAME]}")
+                if user_input["mobile_platform"] == JIM_MOBILE:
+                    await self.async_set_unique_id(
+                        f"{DOMAIN}_{JIM_MOBILE}_{user_input[CONF_USERNAME]}"
+                    )
                 else:
-                    await self.async_set_unique_id(f"{DOMAIN}_{user_input[CONF_USERNAME]}")
+                    await self.async_set_unique_id(
+                        f"{DOMAIN}_{user_input[CONF_USERNAME]}"
+                    )
                 self._abort_if_unique_id_configured()
                 _LOGGER.debug(f"New account {self.new_title} added")
                 return self.finish_flow()
             errors = test["errors"]
         fields = {
-            vol.Required('mobile_platform'): SelectSelector(
+            vol.Required("mobile_platform"): SelectSelector(
                 SelectSelectorConfig(
                     options=[MOBILE_VIKINGS, JIM_MOBILE],
-                    mode=SelectSelectorMode.DROPDOWN
+                    mode=SelectSelectorMode.DROPDOWN,
                 )
             ),
             vol.Required(CONF_USERNAME): TextSelector(
