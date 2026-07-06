@@ -1,5 +1,15 @@
 # Changelog
 
+## [v3.0.5](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.5) (2026-07-06)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.4...v3.0.5)
+
+**Merged pull requests:**
+
+- refactor: convert bundles to a dictionary for better access and handling [\#261](https://github.com/geertmeersman/mobile_vikings/pull/261) ([geertmeersman](https://github.com/geertmeersman))
+- refactor: clean up imports and streamline default entry data initiali… [\#260](https://github.com/geertmeersman/mobile_vikings/pull/260) ([geertmeersman](https://github.com/geertmeersman))
+- chore: update funding configuration and remove unused files [\#259](https://github.com/geertmeersman/mobile_vikings/pull/259) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v3.0.4](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.4) (2026-06-30)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.3...v3.0.4)
@@ -30,7 +40,6 @@
 
 **Closed issues:**
 
-- Since HA 2026.2 there is no more subscription information [\#247](https://github.com/geertmeersman/mobile_vikings/issues/247)
 - Add roaming data bundle information [\#231](https://github.com/geertmeersman/mobile_vikings/issues/231)
 
 **Merged pull requests:**
