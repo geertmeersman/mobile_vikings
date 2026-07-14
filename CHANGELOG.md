@@ -1,5 +1,17 @@
 # Changelog
 
+## [v3.1.0](https://github.com/geertmeersman/mobile_vikings/tree/v3.1.0) (2026-07-14)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.5...v3.1.0)
+
+**Closed issues:**
+
+- Since HA 2026.2 there is no more subscription information [\#247](https://github.com/geertmeersman/mobile_vikings/issues/247)
+
+**Merged pull requests:**
+
+- feat: add English translations for Mobile Vikings integration [\#262](https://github.com/geertmeersman/mobile_vikings/pull/262) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v3.0.5](https://github.com/geertmeersman/mobile_vikings/tree/v3.0.5) (2026-07-06)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.4...v3.0.5)
