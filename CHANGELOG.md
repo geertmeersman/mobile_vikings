@@ -1,5 +1,13 @@
 # Changelog
 
+## [v3.2.1](https://github.com/geertmeersman/mobile_vikings/tree/v3.2.1) (2026-08-19)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.2.0...v3.2.1)
+
+**Merged pull requests:**
+
+- fix: update threshold for bundle usage percentage in binary sensor logic [\#270](https://github.com/geertmeersman/mobile_vikings/pull/270) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v3.2.0](https://github.com/geertmeersman/mobile_vikings/tree/v3.2.0) (2026-08-19)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.1.0...v3.2.0)
