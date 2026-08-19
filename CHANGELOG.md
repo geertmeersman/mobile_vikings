@@ -1,5 +1,19 @@
 # Changelog
 
+## [v3.2.0](https://github.com/geertmeersman/mobile_vikings/tree/v3.2.0) (2026-08-19)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.1.0...v3.2.0)
+
+**Merged pull requests:**
+
+- docs: update README to include per-bundle sensors and usage alerts for voice and SMS [\#269](https://github.com/geertmeersman/mobile_vikings/pull/269) ([geertmeersman](https://github.com/geertmeersman))
+- feat: enhance binary and sensor entities with new bundle types and alerts for RLAH - Roam Like At Home [\#268](https://github.com/geertmeersman/mobile_vikings/pull/268) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump github/codeql-action from 4.37.6 to 4.37.7 [\#267](https://github.com/geertmeersman/mobile_vikings/pull/267) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump EndBug/add-and-commit from 10 to 11 [\#266](https://github.com/geertmeersman/mobile_vikings/pull/266) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump github/codeql-action from 4.37.4 to 4.37.6 [\#265](https://github.com/geertmeersman/mobile_vikings/pull/265) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump github/codeql-action from 4 to 4.37.4 [\#264](https://github.com/geertmeersman/mobile_vikings/pull/264) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump actions/stale from 10 to 11 [\#263](https://github.com/geertmeersman/mobile_vikings/pull/263) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v3.1.0](https://github.com/geertmeersman/mobile_vikings/tree/v3.1.0) (2026-07-14)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.5...v3.1.0)
@@ -63,13 +77,8 @@
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.0.0...v3.0.1)
 
-**Closed issues:**
-
-- Error while setting up mobile\_vikings platform for sensor: 'list' object has no attribute 'items' [\#244](https://github.com/geertmeersman/mobile_vikings/issues/244)
-
 **Merged pull requests:**
 
-- fix \#244, to handle empty responses [\#245](https://github.com/geertmeersman/mobile_vikings/pull/245) ([myTselection](https://github.com/myTselection))
 - build\(deps\): bump actions/checkout from 5 to 6 [\#243](https://github.com/geertmeersman/mobile_vikings/pull/243) ([dependabot[bot]](https://github.com/apps/dependabot))
 - build\(deps\): bump actions/upload-artifact from 4 to 5 [\#242](https://github.com/geertmeersman/mobile_vikings/pull/242) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore: archived ruff-actions replaced [\#241](https://github.com/geertmeersman/mobile_vikings/pull/241) ([geertmeersman](https://github.com/geertmeersman))
@@ -153,7 +162,6 @@
 **Merged pull requests:**
 
 - build\(deps\): bump ruff from 0.11.0 to 0.11.5 [\#196](https://github.com/geertmeersman/mobile_vikings/pull/196) ([dependabot[bot]](https://github.com/apps/dependabot))
-- feat: JIM Mobile support [\#185](https://github.com/geertmeersman/mobile_vikings/pull/185) ([myTselection](https://github.com/myTselection))
 
 ## [v1.1.0](https://github.com/geertmeersman/mobile_vikings/tree/v1.1.0) (2025-03-24)
 
