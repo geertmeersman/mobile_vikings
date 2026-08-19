@@ -223,14 +223,7 @@ BUNDLE_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
             safe_get(
                 data, ["balance", "bundles", bundle_id, "used_percentage"], default=0
             )
-            > (
-                safe_get(
-                    data,
-                    ["balance", "bundles", bundle_id, "period_percentage"],
-                    default=0,
-                )
-                + 20
-            )
+            > 80
         )
         and not safe_get(
             data, ["balance", "bundles", bundle_id, "unlimited"], default=False
