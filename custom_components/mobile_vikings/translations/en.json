@@ -41,7 +41,13 @@
   "entity": {
     "binary_sensor": {
       "data_usage_alert": {
+        "name": "Data usage alert ({category})"
+      },
+      "data_usage_alert_all": {
         "name": "Data usage alert"
+      },
+      "rlah_usage_alert": {
+        "name": "RLAH usage alert ({category})"
       },
       "sms_usage_alert": {
         "name": "SMS usage alert"
@@ -95,6 +101,12 @@
       },
       "remaining_days": {
         "name": "Remaining days ({category})"
+      },
+      "rlah_balance": {
+        "name": "RLAH balance ({category})"
+      },
+      "rlah_remaining": {
+        "name": "RLAH remaining ({category})"
       },
       "sim_alias": {
         "name": "SIM alias"

@@ -575,6 +575,85 @@ BUNDLE_SENSOR_TYPES: tuple[MobileVikingsSensorDescription, ...] = (
     ),
     MobileVikingsSensorDescription(
         key="subscriptions",
+        bundle_type="data",
+        bundle_category="all",
+        translation_key="rlah_balance",
+        subscription_types=("postpaid", "prepaid", "data-only"),
+        unique_id_fn=lambda data, bundle_id: (
+            (data.get("sim") or {}).get("msisdn", "")
+            + f"_{bundle_id}_rlah_used_percentage"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data, bundle_id: safe_get(
+            data, ["balance", "bundles", bundle_id, "rlah_total"], default=0
+        )
+        > 0
+        and safe_get(data, ["balance", "bundles", bundle_id, "category"], default="")
+        != "loyalty",
+        value_fn=lambda data, bundle_id: safe_get(
+            data, ["balance", "bundles", bundle_id, "rlah_used_percentage"], default=0
+        ),
+        device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        attributes_fn=lambda data, bundle_id: safe_get(
+            data, ["balance", "bundles", bundle_id], default=None
+        ),
+        translation_placeholders_fn=lambda data, bundle_id: {
+            "category": safe_get(
+                data, ["balance", "bundles", bundle_id, "category"], default=""
+            )
+        },
+        native_unit_of_measurement=PERCENTAGE,
+        suggested_display_precision=0,
+        icon="mdi:earth",
+        mobile_platforms=(MOBILE_VIKINGS),
+    ),
+    MobileVikingsSensorDescription(
+        key="subscriptions",
+        bundle_type="data",
+        bundle_category="all",
+        translation_key="rlah_remaining",
+        subscription_types=("postpaid", "prepaid", "data-only"),
+        unique_id_fn=lambda data, bundle_id: (
+            (data.get("sim") or {}).get("msisdn", "") + f"_{bundle_id}_rlah_remaining"
+        ),
+        entity_id_prefix_fn=lambda data: "",
+        available_fn=lambda data, bundle_id: safe_get(
+            data, ["balance", "bundles", bundle_id, "rlah_total"], default=0
+        )
+        > 0
+        and safe_get(data, ["balance", "bundles", bundle_id, "category"], default="")
+        != "loyalty",
+        value_fn=lambda data, bundle_id: safe_get(
+            data, ["balance", "bundles", bundle_id, "rlah_remaining_gb"], default=0
+        ),
+        device_name_fn=lambda data: "Subscription",
+        device_identifier_fn=lambda data: "Subscription " + data.get("id", ""),
+        model_fn=lambda data: (data.get("sim") or {}).get("msisdn", "")
+        + " - "
+        + safe_get(
+            data, ["product", "descriptions", "title"], default="Unknown Product"
+        ),
+        attributes_fn=lambda data, bundle_id: safe_get(
+            data, ["balance", "bundles", bundle_id], default=None
+        ),
+        translation_placeholders_fn=lambda data, bundle_id: {
+            "category": safe_get(
+                data, ["balance", "bundles", bundle_id, "category"], default=""
+            )
+        },
+        native_unit_of_measurement=UnitOfInformation.GIGABYTES,
+        suggested_display_precision=1,
+        icon="mdi:earth",
+        mobile_platforms=(MOBILE_VIKINGS),
+    ),
+    MobileVikingsSensorDescription(
+        key="subscriptions",
         bundle_type="sms",
         bundle_category="all",
         translation_key="sms_balance",
@@ -659,12 +738,7 @@ async def async_setup_entry(
                         )
                     )
 
-        bundles = subscription_data.get("balance", {}).get("bundles", {})
-        if isinstance(bundles, list):
-            bundles = {
-                f"{b.get('type', 'unknown')}_{b.get('category', 'unknown')}": b
-                for b in bundles
-            }
+        bundles = subscription_data.get("balance", {}).get("bundles", [])
         for bundle_id, bundle in bundles.items():
             bundle_type = bundle.get("type")
             for sensor_type in BUNDLE_SENSOR_TYPES:
