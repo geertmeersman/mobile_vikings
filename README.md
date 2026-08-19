@@ -17,13 +17,19 @@ A Home Assistant integration to monitor Mobile Vikings or JIM Mobile BE mobile p
 - Track **Loyalty Points**: Available, blocked, and pending points. (only for Mobile Vikings)
 - Monitor **Invoices**: Paid invoices, unpaid invoices, and the next expiration date. (only for Mobile Vikings)
 - Access subscription details, including:
-  - **Data Usage**: Remaining data and percentage used. (only for Mobile Vikings)
-  - **Voice Balance**: Minutes usage details.
-  - **SMS Balance**: SMS usage details. (only for Mobile Vikings)
+  - **Data Usage**: Remaining data and percentage used, with per-bundle sensors. (only for Mobile Vikings)
+  - **Voice Balance**: Minutes usage details, with per-bundle sensors.
+  - **SMS Balance**: SMS usage details, with per-bundle sensors. (only for Mobile Vikings)
   - **Out of Bundle Costs**. (only for Mobile Vikings)
   - **Credit Balance**.
   - **Subscription Product Information**.
   - **SIM Alias**.
+  - **RLAH (Roam Like At Home) Balance**: Per-bundle RLAH data usage percentage and remaining GB. (only for Mobile Vikings)
+- Usage alert binary sensors per bundle and at subscription level, including:
+  - **Data Usage Alert** (per-bundle and across all bundles): triggers when data used exceeds period percentage by more than 20%. (only for Mobile Vikings)
+  - **Voice Usage Alert**: triggers when any voice bundle used exceeds period percentage by more than 20%. (only for Mobile Vikings)
+  - **SMS Usage Alert**: triggers when any SMS bundle used exceeds period percentage by more than 20%. (only for Mobile Vikings)
+  - **RLAH Usage Alert** (per-bundle): triggers when RLAH usage exceeds 80%. (only for Mobile Vikings)
 
 ---
 
@@ -70,6 +76,7 @@ A Home Assistant integration to monitor Mobile Vikings or JIM Mobile BE mobile p
     - [Account Details](#account-details)
     - [Invoices](#invoices)
     - [Subscription Details](#subscription-details)
+    - [Usage Alerts (Binary Sensors)](#usage-alerts-binary-sensors)
   - [Contributions are welcome!](#contributions-are-welcome)
   - [Troubleshooting](#troubleshooting)
     - [Enable debug logging](#enable-debug-logging)
@@ -127,18 +134,32 @@ Support for Mobile Vikings (MV) or JIM Mobile (JM)
 
 ### Subscription Details
 
-| Sensor Key           | Description                    | Unit       | Support |
-| -------------------- | ------------------------------ | ---------- | ------- |
-| `data_balance`       | Data usage percentage          | %          | MV      |
-| `data_remaining`     | Data remaining                 | GB         | MV      |
-| `remaining_days`     | Days left in billing cycle     | Days       | MV & JM |
-| `period_percentage`  | Billing cycle usage percentage | %          | MV & JM |
-| `voice_balance`      | Voice usage percentage         | %          | MV & JM |
-| `sms_balance`        | SMS usage percentage           | %          | MV      |
-| `out_of_bundle_cost` | Out-of-bundle cost             | € (Euro)   | MV & JM |
-| `credit`             | Available credit balance       | € (Euro)   | MV & JM |
-| `product_info`       | Subscription product details   | Text/Price | MV & JM |
-| `sim_alias`          | SIM alias                      | Text       | MV & JM |
+Sensors marked as per-bundle are created once per bundle within a subscription.
+
+| Sensor Key           | Description                    | Scope      | Unit       | Support |
+| -------------------- | ------------------------------ | ---------- | ---------- | ------- |
+| `data_balance`       | Data usage percentage          | Per bundle | %          | MV      |
+| `data_remaining`     | Data remaining                 | Per bundle | GB         | MV      |
+| `remaining_days`     | Days left in billing cycle     | Per bundle | Days       | MV & JM |
+| `period_percentage`  | Billing cycle usage percentage | Per bundle | %          | MV & JM |
+| `voice_balance`      | Voice usage percentage         | Per bundle | %          | MV & JM |
+| `sms_balance`        | SMS usage percentage           | Per bundle | %          | MV      |
+| `rlah_balance`       | RLAH data usage percentage     | Per bundle | %          | MV      |
+| `rlah_remaining`     | RLAH remaining data            | Per bundle | GB         | MV      |
+| `out_of_bundle_cost` | Out-of-bundle cost             | Subscription | € (Euro) | MV & JM |
+| `credit`             | Available credit balance       | Subscription | € (Euro) | MV & JM |
+| `product_info`       | Subscription product details   | Subscription | Text/Price | MV & JM |
+| `sim_alias`          | SIM alias                      | Subscription | Text     | MV & JM |
+
+### Usage Alerts (Binary Sensors)
+
+| Sensor Key             | Description                                   | Scope        | Trigger condition                     | Support |
+| ---------------------- | --------------------------------------------- | ------------ | ------------------------------------- | ------- |
+| `data_usage_alert`     | Data usage alert                              | Per bundle   | Used % > period % + 20               | MV      |
+| `data_usage_alert_all` | Alert when all data bundles are over-used     | Subscription | All bundles: used % > period % + 20  | MV      |
+| `voice_usage_alert`    | Voice usage alert                             | Subscription | Any voice bundle: used % > period % + 20 | MV  |
+| `sms_usage_alert`      | SMS usage alert                               | Subscription | Any SMS bundle: used % > period % + 20   | MV  |
+| `rlah_usage_alert`     | RLAH (Roam Like At Home) usage alert          | Per bundle   | RLAH used % > 80                      | MV      |
 
 ---
 
