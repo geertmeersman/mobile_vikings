@@ -56,7 +56,7 @@ SUBSCRIPTION_SENSOR_TYPES: tuple[MobileVikingsBinarySensorDescription, ...] = (
         ),
         entity_id_prefix_fn=lambda data: "",
         available_fn=lambda data, _: any(
-            bundle.get("type") == "data"
+            bundle.get("type") == "data" and not bundle.get("unlimited", False)
             for bundle in data.get("balance", {}).get("bundles", {}).values()
         ),
         value_fn=lambda data, _: all(

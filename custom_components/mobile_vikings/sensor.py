@@ -738,7 +738,7 @@ async def async_setup_entry(
                         )
                     )
 
-        bundles = subscription_data.get("balance", {}).get("bundles", [])
+        bundles = subscription_data.get("balance", {}).get("bundles", {})
         for bundle_id, bundle in bundles.items():
             bundle_type = bundle.get("type")
             for sensor_type in BUNDLE_SENSOR_TYPES:
