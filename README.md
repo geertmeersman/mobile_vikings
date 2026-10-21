@@ -58,6 +58,7 @@ A Home Assistant integration to monitor Mobile Vikings or JIM Mobile BE mobile p
 [![manifest version](https://img.shields.io/github/manifest-json/v/geertmeersman/mobile_vikings/master?filename=custom_components%2Fmobile_vikings%2Fmanifest.json)](https://github.com/geertmeersman/mobile_vikings)
 [![github release](https://img.shields.io/github/v/release/geertmeersman/mobile_vikings?logo=github)](https://github.com/geertmeersman/mobile_vikings/releases)
 [![github release date](https://img.shields.io/github/release-date/geertmeersman/mobile_vikings)](https://github.com/geertmeersman/mobile_vikings/releases)
+[![Downloads (latest release)](https://img.shields.io/github/downloads/geertmeersman/mobile_vikings/latest/total)](https://github.com/geertmeersman/mobile_vikings/releases/latest)
 [![github last-commit](https://img.shields.io/github/last-commit/geertmeersman/mobile_vikings)](https://github.com/geertmeersman/mobile_vikings/commits)
 [![github contributors](https://img.shields.io/github/contributors/geertmeersman/mobile_vikings)](https://github.com/geertmeersman/mobile_vikings/graphs/contributors)
 [![github commit activity](https://img.shields.io/github/commit-activity/y/geertmeersman/mobile_vikings?logo=github)](https://github.com/geertmeersman/mobile_vikings/commits/main)
