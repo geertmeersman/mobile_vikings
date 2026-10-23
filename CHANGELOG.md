@@ -1,5 +1,29 @@
 # Changelog
 
+## [v3.2.2](https://github.com/geertmeersman/mobile_vikings/tree/v3.2.2) (2026-10-23)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.2.1...v3.2.2)
+
+**Merged pull requests:**
+
+- fix: let release-drafter determine version via semver-increment, remove semver-action [\#288](https://github.com/geertmeersman/mobile_vikings/pull/288) ([geertmeersman](https://github.com/geertmeersman))
+- fix: add Release prefix to release name template [\#287](https://github.com/geertmeersman/mobile_vikings/pull/287) ([geertmeersman](https://github.com/geertmeersman))
+- fix: migrate release-drafter to new format, remove deprecated version-resolver [\#286](https://github.com/geertmeersman/mobile_vikings/pull/286) ([geertmeersman](https://github.com/geertmeersman))
+- fix: add semver-increment patch to Maintenance and Documentation categories [\#285](https://github.com/geertmeersman/mobile_vikings/pull/285) ([geertmeersman](https://github.com/geertmeersman))
+- chore: only trigger release drafter on custom\_components changes [\#283](https://github.com/geertmeersman/mobile_vikings/pull/283) ([geertmeersman](https://github.com/geertmeersman))
+- chore: update release drafter template, remove beta release and dev-current workflows [\#282](https://github.com/geertmeersman/mobile_vikings/pull/282) ([geertmeersman](https://github.com/geertmeersman))
+- feat: add workflow to auto-label PRs without custom\_components changes as skip-changelog [\#281](https://github.com/geertmeersman/mobile_vikings/pull/281) ([geertmeersman](https://github.com/geertmeersman))
+- docs: add downloads \(latest release\) badge to README [\#280](https://github.com/geertmeersman/mobile_vikings/pull/280) ([geertmeersman](https://github.com/geertmeersman))
+- chore: add local brand assets [\#279](https://github.com/geertmeersman/mobile_vikings/pull/279) ([geertmeersman](https://github.com/geertmeersman))
+- chore: add semver fallback for missing tags in release workflows [\#278](https://github.com/geertmeersman/mobile_vikings/pull/278) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump github/codeql-action from 4.38.3 to 4.39.0 [\#277](https://github.com/geertmeersman/mobile_vikings/pull/277) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump github/codeql-action from 4.38.2 to 4.38.3 [\#276](https://github.com/geertmeersman/mobile_vikings/pull/276) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump github/codeql-action from 4.38.1 to 4.38.2 [\#275](https://github.com/geertmeersman/mobile_vikings/pull/275) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump github/codeql-action from 4.38.0 to 4.38.1 [\#274](https://github.com/geertmeersman/mobile_vikings/pull/274) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump github/codeql-action from 4.37.9 to 4.38.0 [\#273](https://github.com/geertmeersman/mobile_vikings/pull/273) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump github/codeql-action from 4.37.8 to 4.37.9 [\#272](https://github.com/geertmeersman/mobile_vikings/pull/272) ([dependabot[bot]](https://github.com/apps/dependabot))
+- build\(deps\): bump github/codeql-action from 4.37.7 to 4.37.8 [\#271](https://github.com/geertmeersman/mobile_vikings/pull/271) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v3.2.1](https://github.com/geertmeersman/mobile_vikings/tree/v3.2.1) (2026-08-19)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.2.0...v3.2.1)
