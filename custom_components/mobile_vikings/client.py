@@ -17,6 +17,7 @@ from .const import (
     JIM_MOBILE,
     MOBILE_VIKINGS,
 )
+from .exceptions import MFAEnabledException, MFARequiredException
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,7 +31,9 @@ class AuthenticationError(Exception):
 class MobileVikingsClient:
     """Asynchronous client for interacting with the Mobile Vikings API."""
 
-    def __init__(self, hass, username, password, mobile_platform, tokens=None):
+    def __init__(
+        self, hass, username, password, mobile_platform, tokens=None, mfa_token=None
+    ):
         """Initialize the MobileVikingsClient.
 
         Parameters
@@ -45,6 +48,8 @@ class MobileVikingsClient:
             The name of the mobile platform to connect to (Mobile Vikings or Jim Mobile).
         tokens : dict, optional
             A dictionary containing token information (refresh_token, access_token, expiry).
+        mfa_token : str, optional
+            The MFA token received after a password grant when MFA is required.
 
         """
         self.hass = hass
@@ -55,6 +60,7 @@ class MobileVikingsClient:
         self.access_token = None
         self.expires_in = None
         self.access_token_expiry = None
+        self.mfa_token = mfa_token
         self.client = get_async_client(self.hass)
 
         if tokens:
@@ -126,6 +132,36 @@ class MobileVikingsClient:
             and datetime.now() < self.access_token_expiry
         )
 
+    async def submit_mfa(self, otp_code: str) -> dict:
+        """Submit an MFA OTP code to complete authentication."""
+        actual_client_id = (
+            CLIENT_ID_JIMMOBILE if self.mobile_platform == JIM_MOBILE else CLIENT_ID
+        )
+        actual_client_secret_tag = (
+            CLIENT_SECRET_TAG_JIMMOBILE
+            if self.mobile_platform == JIM_MOBILE
+            else CLIENT_SECRET_TAG
+        )
+        actual_client_secret_value = (
+            CLIENT_SECRET_VALUE_JIMMOBILE
+            if self.mobile_platform == JIM_MOBILE
+            else CLIENT_SECRET
+        )
+        await self._request_token(
+            {
+                "mfa_token": self.mfa_token,
+                "otp": otp_code,
+                "grant_type": "mfa",
+                "client_id": actual_client_id,
+                actual_client_secret_tag: actual_client_secret_value,
+            }
+        )
+        return {
+            "refresh_token": self.refresh_token,
+            "access_token": self.access_token,
+            "expires_in": self.expires_in,
+        }
+
     async def _request_token(self, payload):
         """Request an access token with the given payload."""
         response = await self.handle_request(
@@ -141,6 +177,10 @@ class MobileVikingsClient:
             )
             self.refresh_token = data.get("refresh_token")
         elif response.status_code == 400 and payload.get("grant_type") == "password":
+            if data.get("error") == "mfa_required":
+                raise MFARequiredException(data["mfa_token"])
+            if data.get("error") == "invalid_grant":
+                raise MFAEnabledException()
             raise AuthenticationError(
                 f"Invalid grant_type - {data.get('error_description')}"
             )

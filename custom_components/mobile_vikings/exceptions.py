@@ -19,6 +19,21 @@ class BadCredentialsException(Exception):
     pass
 
 
+class MFAEnabledException(Exception):
+    """Raised when MFA is enabled and not supported."""
+
+    pass
+
+
+class MFARequiredException(Exception):
+    """Raised when MFA is required to complete authentication."""
+
+    def __init__(self, mfa_token: str) -> None:
+        """Initialize with the MFA token from the API."""
+        super().__init__("MFA required")
+        self.mfa_token = mfa_token
+
+
 class NotAuthenticatedException(Exception):
     """Raised when session is invalid."""
 
