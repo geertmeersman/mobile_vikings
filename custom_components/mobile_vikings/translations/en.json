@@ -6,6 +6,7 @@
     "error": {
       "cannot_connect": "Failed to connect",
       "invalid_auth": "Invalid authentication",
+      "mfa_enabled": "MFA is enabled on your account. Please disable MFA to use this integration.",
       "service_error": "Service unavailable",
       "unknown": "Unexpected error"
     },
@@ -18,6 +19,13 @@
         },
         "description": "Set up your Mobile Vikings or JIM Mobile user account",
         "title": "New Mobile Vikings or JIM Mobile account"
+      },
+      "mfa": {
+        "data": {
+          "otp_code": "One-time code"
+        },
+        "description": "Enter the one-time code from your authenticator app",
+        "title": "Two-factor authentication"
       }
     }
   },
@@ -129,6 +137,7 @@
     "error": {
       "cannot_connect": "Failed to connect",
       "invalid_auth": "Invalid authentication",
+      "mfa_enabled": "MFA is enabled on your account. Please disable MFA to use this integration.",
       "service_error": "Service unavailable",
       "unknown": "Unexpected error"
     },

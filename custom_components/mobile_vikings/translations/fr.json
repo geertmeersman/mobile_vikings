@@ -6,6 +6,7 @@
     "error": {
       "cannot_connect": "\u00c9chec de la connexion",
       "invalid_auth": "Authentification invalide",
+      "mfa_enabled": "MFA est activ\u00e9 sur votre compte. Veuillez d\u00e9sactiver MFA pour utiliser cette int\u00e9gration.",
       "service_error": "Service indisponible",
       "unknown": "Erreur inattendue"
     },
@@ -18,6 +19,13 @@
         },
         "description": "Configurez votre compte utilisateur Mobile Vikings ou JIM Mobile",
         "title": "Nouveau compte Mobile Vikings ou JIM Mobile"
+      },
+      "mfa": {
+        "data": {
+          "otp_code": "Code unique"
+        },
+        "description": "Entrez le code unique de votre application d'authentification",
+        "title": "Authentification \u00e0 deux facteurs"
       }
     }
   },
@@ -129,6 +137,7 @@
     "error": {
       "cannot_connect": "\u00c9chec de la connexion",
       "invalid_auth": "Authentification invalide",
+      "mfa_enabled": "MFA est activ\u00e9 sur votre compte. Veuillez d\u00e9sactiver MFA pour utiliser cette int\u00e9gration.",
       "service_error": "Service indisponible",
       "unknown": "Erreur inattendue"
     },

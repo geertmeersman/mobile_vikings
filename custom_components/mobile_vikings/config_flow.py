@@ -22,7 +22,12 @@ import voluptuous as vol
 
 from .client import MobileVikingsClient
 from .const import DOMAIN, JIM_MOBILE, MOBILE_VIKINGS, NAME
-from .exceptions import BadCredentialsException, MobileVikingsServiceException
+from .exceptions import (
+    BadCredentialsException,
+    MFAEnabledException,
+    MFARequiredException,
+    MobileVikingsServiceException,
+)
 from .models import MobileVikingsConfigEntryData
 
 _LOGGER = logging.getLogger(__name__)
@@ -40,6 +45,7 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
         self.initial_data = initial_data
         self.new_entry_data = MobileVikingsConfigEntryData()
         self.new_title: str | None = None
+        self._mfa_client: MobileVikingsClient | None = None
 
     @abstractmethod
     def finish_flow(self) -> FlowResult:
@@ -63,6 +69,34 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
 
         return profile
 
+    async def async_step_mfa(self, user_input: dict | None = None) -> FlowResult:
+        """Handle MFA code entry."""
+        errors: dict = {}
+
+        if user_input is not None:
+            try:
+                tokens = await self._mfa_client.submit_mfa(user_input["otp_code"])
+                await self._mfa_client.get_customer_info()
+                self.new_title = self.new_entry_data.get(CONF_USERNAME)
+                self.new_entry_data |= {"tokens": tokens}
+                _LOGGER.debug(f"MFA login successful for {self.new_title}")
+                return self.finish_flow()
+            except Exception as exception:
+                errors["base"] = "invalid_auth"
+                _LOGGER.debug(f"[async_step_mfa] {exception}")
+
+        return self.async_show_form(
+            step_id="mfa",
+            data_schema=vol.Schema(
+                {
+                    vol.Required("otp_code"): TextSelector(
+                        TextSelectorConfig(type=TextSelectorType.TEXT)
+                    )
+                }
+            ),
+            errors=errors,
+        )
+
     async def async_step_connection_init(
         self, user_input: dict | None = None
     ) -> FlowResult:
@@ -71,7 +105,22 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
 
         if user_input is not None:
             user_input = self.new_data() | user_input
-            test = await self.test_connection(user_input)
+            try:
+                test = await self.test_connection(user_input)
+            except MFARequiredException as exc:
+                self._mfa_client = MobileVikingsClient(
+                    hass=self.hass,
+                    username=user_input[CONF_USERNAME],
+                    password=user_input[CONF_PASSWORD],
+                    mobile_platform=user_input["mobile_platform"],
+                    mfa_token=exc.mfa_token,
+                )
+                self.new_entry_data |= MobileVikingsConfigEntryData(
+                    username=user_input[CONF_USERNAME],
+                    password=user_input[CONF_PASSWORD],
+                    mobile_platform=user_input["mobile_platform"],
+                )
+                return await self.async_step_mfa()
             if not test["errors"]:
                 self.new_title = user_input[CONF_USERNAME]
                 self.new_entry_data |= user_input
@@ -118,6 +167,10 @@ class MobileVikingsCommonFlow(ABC, FlowHandler):
             user_input = self.new_data() | user_input
             try:
                 profile = await self.async_validate_input(user_input)
+            except MFARequiredException:
+                raise
+            except MFAEnabledException:
+                errors["base"] = "mfa_enabled"
             except AssertionError as exception:
                 errors["base"] = "cannot_connect"
                 _LOGGER.debug(f"[test_connection|login] AssertionError {exception}")
