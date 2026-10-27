@@ -6,7 +6,7 @@
     "error": {
       "cannot_connect": "Verbinding mislukt",
       "invalid_auth": "Ongeldige authenticatie",
-      "mfa_enabled": "MFA is ingeschakeld op uw account. Schakel MFA uit om deze integratie te gebruiken.",
+      "mfa_enabled": "MFA wordt nog niet ondersteund door de Mobile Vikings API. Schakel MFA uit op uw account om deze integratie te gebruiken.",
       "service_error": "Dienst niet beschikbaar",
       "unknown": "Onverwachte fout"
     },
@@ -19,13 +19,6 @@
         },
         "description": "Stel uw Mobile Vikings of JIM Mobile gebruikersaccount in",
         "title": "Nieuw Mobile Vikings of JIM Mobile account"
-      },
-      "mfa": {
-        "data": {
-          "otp_code": "Eenmalige code"
-        },
-        "description": "Voer de eenmalige code in van uw authenticator-app",
-        "title": "Tweestapsverificatie"
       }
     }
   },
@@ -137,7 +130,7 @@
     "error": {
       "cannot_connect": "Verbinding mislukt",
       "invalid_auth": "Ongeldige authenticatie",
-      "mfa_enabled": "MFA is ingeschakeld op uw account. Schakel MFA uit om deze integratie te gebruiken.",
+      "mfa_enabled": "MFA wordt nog niet ondersteund door de Mobile Vikings API. Schakel MFA uit op uw account om deze integratie te gebruiken.",
       "service_error": "Dienst niet beschikbaar",
       "unknown": "Onverwachte fout"
     },
