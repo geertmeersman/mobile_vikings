@@ -1,5 +1,22 @@
 # Changelog
 
+## [v3.3.0](https://github.com/geertmeersman/mobile_vikings/tree/v3.3.0) (2026-10-27)
+
+[Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.2.2...v3.3.0)
+
+**Closed issues:**
+
+- 2FA [\#292](https://github.com/geertmeersman/mobile_vikings/issues/292)
+- Download error [\#291](https://github.com/geertmeersman/mobile_vikings/issues/291)
+
+**Merged pull requests:**
+
+- fix: MFA not yet supported by Mobile Vikings API [\#295](https://github.com/geertmeersman/mobile_vikings/pull/295) ([geertmeersman](https://github.com/geertmeersman))
+- build\(deps\): bump github/codeql-action from 4.39.0 to 4.39.1 [\#294](https://github.com/geertmeersman/mobile_vikings/pull/294) ([dependabot[bot]](https://github.com/apps/dependabot))
+- feat: add MFA support to config flow [\#293](https://github.com/geertmeersman/mobile_vikings/pull/293) ([geertmeersman](https://github.com/geertmeersman))
+- fix: add maintainer badges and full changelog link to release template [\#290](https://github.com/geertmeersman/mobile_vikings/pull/290) ([geertmeersman](https://github.com/geertmeersman))
+- fix: get version from draft release instead of semver-action [\#289](https://github.com/geertmeersman/mobile_vikings/pull/289) ([geertmeersman](https://github.com/geertmeersman))
+
 ## [v3.2.2](https://github.com/geertmeersman/mobile_vikings/tree/v3.2.2) (2026-10-23)
 
 [Full Changelog](https://github.com/geertmeersman/mobile_vikings/compare/v3.2.1...v3.2.2)
