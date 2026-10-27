@@ -8,12 +8,14 @@ from pathlib import Path
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.helpers.storage import STORAGE_DIR, Store
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .client import MobileVikingsClient
 from .const import COORDINATOR_UPDATE_INTERVAL, DOMAIN, MOBILE_VIKINGS, PLATFORMS
+from .exceptions import MFAEnabledException
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -152,15 +154,17 @@ class MobileVikingsDataUpdateCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self) -> dict | None:
         """Update data."""
-        if self._debug:
-            await self.get_data()
-            if self.data:
-                _LOGGER.debug(f"Returned items: {self.data}")
-
         try:
             await self.get_data()
+        except MFAEnabledException as exc:
+            raise ConfigEntryAuthFailed(
+                "MFA is not yet supported by the Mobile Vikings API. Please disable MFA on your account."
+            ) from exc
         except Exception as exception:
             _LOGGER.warning(f"Exception {exception}")
+
+        if self._debug and self.data:
+            _LOGGER.debug(f"Returned items: {self.data}")
 
         if len(self.data) > 0:
             return self.data

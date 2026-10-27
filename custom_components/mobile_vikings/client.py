@@ -176,18 +176,16 @@ class MobileVikingsClient:
                 seconds=self.expires_in
             )
             self.refresh_token = data.get("refresh_token")
-        elif response.status_code == 400 and payload.get("grant_type") == "password":
+        elif response.status_code == 400:
             if data.get("error") == "mfa_required":
                 raise MFARequiredException(data["mfa_token"])
-            if data.get("error") == "invalid_grant":
+            if data.get("error") in ("invalid_grant", "mfa_required"):
                 raise MFAEnabledException()
             raise AuthenticationError(
                 f"Invalid grant_type - {data.get('error_description')}"
             )
-        elif (
-            response.status_code == 401 and payload.get("grant_type") == "refresh_token"
-        ):
-            raise AuthenticationError(f"Unauthorized - {data.get('error_description')}")
+        elif response.status_code == 401:
+            raise MFAEnabledException()
         else:
             raise AuthenticationError("Failed to authenticate")
 
@@ -409,16 +407,22 @@ class MobileVikingsClient:
         """
         try:
             customer_info = await self.get_customer_info()
+        except MFAEnabledException:
+            raise
         except Exception as e:
             customer_info = {"error": str(e)}
 
         try:
             loyalty_points_balance = await self.get_loyalty_points_balance()
+        except MFAEnabledException:
+            raise
         except Exception as e:
             loyalty_points_balance = {"error": str(e)}
 
         try:
             subscriptions = await self.get_subscriptions()
+        except MFAEnabledException:
+            raise
         except Exception as e:
             subscriptions = {"error": str(e)}
 
