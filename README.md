@@ -69,7 +69,7 @@ A Home Assistant integration to monitor Mobile Vikings or JIM Mobile BE mobile p
   - [Features](#features)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
-    - [Using HACS (recommended)](#using-hacs-recommended)
+    - [Using the Home Assistant Marketplace (recommended)](#using-the-home-assistant-marketplace-recommended)
     - [Manual](#manual)
   - [Available Sensors](#available-sensors)
     - [Account Details](#account-details)
