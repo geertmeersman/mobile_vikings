@@ -85,15 +85,15 @@ A Home Assistant integration to monitor Mobile Vikings or JIM Mobile BE mobile p
 
 ## Installation
 
-### Using [HACS](https://hacs.xyz/) (recommended)
+### Using the [Home Assistant Marketplace](https://www.home-assistant.io/integrations/marketplace/) (recommended)
 
 **Click on this button:**
 
-[![Open your Home Assistant instance and open the repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg?style=flat-square)](https://my.home-assistant.io/redirect/hacs_repository/?owner=geertmeersman&repository=mobile_vikings&category=integration)
+[![Open your Home Assistant instance and open the repository inside the Home Assistant Marketplace.](https://my.home-assistant.io/badges/hacs_repository.svg?style=flat-square)](https://my.home-assistant.io/redirect/hacs_repository/?owner=geertmeersman&repository=mobile_vikings&category=integration)
 
 **or follow these steps:**
 
-1. Simply search for `Mobile Vikings` in HACS and install it easily.
+1. Simply search for `Mobile Vikings` in the Home Assistant Marketplace and install it easily.
 2. Restart Home Assistant
 3. Add the 'Mobile Vikings' integration via HA Settings > 'Devices and Services' > 'Integrations'
 4. Provide your Mobile Vikings username and password
